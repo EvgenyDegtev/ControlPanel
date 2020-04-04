@@ -16,6 +16,6 @@ namespace ControlPanel.Models
 
         public DbSet<Purchase> Purchases { get; set; }
 
-
+        public DbSet<Agent> Agents { get; set; }
     }
 }

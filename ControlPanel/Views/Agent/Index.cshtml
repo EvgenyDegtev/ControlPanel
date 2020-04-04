@@ -1,0 +1,37 @@
+﻿
+@{
+	//ViewBag.Title = "Index";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width-device-width" />
+	<title>Control Panel Agent</title>
+</head>
+<body>
+	<div>
+		<h3>Книги</h3>
+		<table>
+			<tr>
+				<td><p>Название</p></td>
+				<td><p>Автор</p></td>
+				<td><p>Цена</p></td>
+			</tr>
+			@foreach (var book in ViewBag.Books)
+			{
+				<tr>
+					<td><p>@book.Name</p></td>
+					<td><p>@book.Author</p></td>
+					<td><p>@book.Price</p></td>
+					<td><p><a href="/Home/Buy/@book.Id">Покупка</a></p></td>
+				</tr>
+			}
+		</table>
+	</div>
+</body>
+
+
+</html>
+
