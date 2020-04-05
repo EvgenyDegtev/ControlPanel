@@ -127,6 +127,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AgentController.cs" />
+    <Compile Include="Controllers\GroupController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -139,11 +140,16 @@
     <Compile Include="Migrations\202004041729291_Add Agent.Designer.cs">
       <DependentUpon>202004041729291_Add Agent.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202004051817205_Add Group.cs" />
+    <Compile Include="Migrations\202004051817205_Add Group.Designer.cs">
+      <DependentUpon>202004051817205_Add Group.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Agent.cs" />
     <Compile Include="Models\Book.cs" />
     <Compile Include="Models\DataBaseContext.cs" />
     <Compile Include="Models\DataBaseInitializer.cs" />
+    <Compile Include="Models\Group.cs" />
     <Compile Include="Models\Purchase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -187,6 +193,11 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Buy.cshtml" />
     <Content Include="Views\Agent\Index.cshtml" />
+    <Content Include="Views\Group\Create.cshtml" />
+    <Content Include="Views\Group\Delete.cshtml" />
+    <Content Include="Views\Group\Details.cshtml" />
+    <Content Include="Views\Group\Edit.cshtml" />
+    <Content Include="Views\Group\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -210,6 +221,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202004041729291_Add Agent.resx">
       <DependentUpon>202004041729291_Add Agent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004051817205_Add Group.resx">
+      <DependentUpon>202004051817205_Add Group.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
