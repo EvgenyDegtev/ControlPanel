@@ -12,12 +12,13 @@
 </head>
 <body>
 	<div>
-		<h3>Книги</h3>
-		<table>
+		<h3>Книги qqqq</h3>
+		<table class="table table-striped table-bordered table-hover table-condensed">
 			<tr>
 				<td><p>Название</p></td>
 				<td><p>Автор</p></td>
 				<td><p>Цена</p></td>
+				<td><p>Купить</p></td>
 			</tr>
 			@foreach (var book in ViewBag.Books)
 			{
@@ -30,6 +31,9 @@
 			}
 		</table>
 	</div>
+
+	@Scripts.Render("~/bundles/jquery")
+	@Scripts.Render("~/bundles/bootstrap")
 </body>
 
 
