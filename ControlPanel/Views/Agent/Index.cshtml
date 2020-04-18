@@ -7,12 +7,15 @@
 <body>
 	<div>
 		<h3>Книги qqqq</h3>
-		<table class="table table-striped table-bordered table-hover table-condensed">
+		<p>
+			@Html.ActionLink("Create NEW", "Create")
+		</p>
+		<table class="table table-hover">
 			<tr>
-				<td><p>Название</p></td>
-				<td><p>Автор</p></td>
-				<td><p>Цена</p></td>
-				<td><p>Купить</p></td>
+				<th><p>Название</p></th>
+				<th><p>Автор</p></th>
+				<th><p>Цена</p></th>
+				<th></th>
 			</tr>
 			@foreach (var book in ViewBag.Books)
 			{

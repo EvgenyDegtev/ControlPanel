@@ -18,5 +18,23 @@ namespace ControlPanel.Controllers
             ViewBag.Books = books;
             return View();
         }
+
+        [HttpGet]
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Create ([Bind(Include ="Id,Name,Login,Algorithm,IsAlgorithmAllowServiceLevel,WorkloadMaxContactsCount,IsActive")] Agent agent)
+        {
+            if(ModelState.IsValid)
+            {
+                db.Agents.Add(agent);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(agent);
+        }
     }
 }

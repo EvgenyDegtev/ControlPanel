@@ -8,11 +8,12 @@
 <body>
 	<div>
 		<h3>Книги</h3>
-		<table>
+		<table class="table table-hover">
 			<tr>
-				<td><p>Название</p></td>
-				<td><p>Автор</p></td>
-				<td><p>Цена</p></td>				
+				<th><p>Название</p></th>
+				<th><p>Автор</p></th>
+				<th><p>Цена</p></th>
+				<th></th>
 			</tr>
 			@foreach (var book in ViewBag.Books)
 			{
