@@ -14,9 +14,7 @@ namespace ControlPanel.Controllers
         // GET: Agent
         public ActionResult Index()
         {
-            IEnumerable<Book> books = db.Books;
-            ViewBag.Books = books;
-            return View();
+            return View(db.Agents.ToList());
         }
 
         [HttpGet]
