@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Data.Entity;
 using ControlPanel.Models;
+using System.Net;
 
 namespace ControlPanel.Controllers
 {
@@ -33,6 +34,30 @@ namespace ControlPanel.Controllers
                 return RedirectToAction("Index");
             }
             return View(agent);
+        }
+
+        [HttpGet]
+        public ActionResult Delete(int? id)
+        {
+            if(id==null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Agent agent = db.Agents.Find(id);
+            if(agent==null)
+            {
+                return HttpNotFound();
+            }
+            return View(agent);
+
+        }
+        [HttpPost]
+        public ActionResult Delete (int id)
+        {
+            Agent agent = db.Agents.Find(id);
+            db.Agents.Remove(agent);
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
     }
 }
