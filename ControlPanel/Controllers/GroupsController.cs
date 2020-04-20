@@ -10,7 +10,7 @@ using ControlPanel.Models;
 
 namespace ControlPanel.Controllers
 {
-    public class GroupController : Controller
+    public class GroupsController : Controller
     {
         private DataBaseContext db = new DataBaseContext();
 

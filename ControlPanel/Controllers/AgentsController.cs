@@ -9,7 +9,7 @@ using System.Net;
 
 namespace ControlPanel.Controllers
 {
-    public class AgentController : Controller
+    public class AgentsController : Controller
     {
         DataBaseContext db = new DataBaseContext();
         // GET: Agent
