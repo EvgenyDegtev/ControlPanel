@@ -129,6 +129,8 @@
     <Compile Include="Controllers\AgentController.cs" />
     <Compile Include="Controllers\GroupController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\RouteController.cs" />
+    <Compile Include="Controllers\SkillController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -144,6 +146,14 @@
     <Compile Include="Migrations\202004051817205_Add Group.Designer.cs">
       <DependentUpon>202004051817205_Add Group.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202004202045537_AddSkillBaseVersion.cs" />
+    <Compile Include="Migrations\202004202045537_AddSkillBaseVersion.Designer.cs">
+      <DependentUpon>202004202045537_AddSkillBaseVersion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202004202100323_AddRouteBaseVersion.cs" />
+    <Compile Include="Migrations\202004202100323_AddRouteBaseVersion.Designer.cs">
+      <DependentUpon>202004202100323_AddRouteBaseVersion.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Agent.cs" />
     <Compile Include="Models\Book.cs" />
@@ -151,6 +161,8 @@
     <Compile Include="Models\DataBaseInitializer.cs" />
     <Compile Include="Models\Group.cs" />
     <Compile Include="Models\Purchase.cs" />
+    <Compile Include="Models\Route.cs" />
+    <Compile Include="Models\Skill.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -199,6 +211,16 @@
     <Content Include="Views\Agent\Create.cshtml" />
     <Content Include="Views\Agent\Delete.cshtml" />
     <Content Include="Views\Agent\Edit.cshtml" />
+    <Content Include="Views\Route\Create.cshtml" />
+    <Content Include="Views\Route\Delete.cshtml" />
+    <Content Include="Views\Route\Details.cshtml" />
+    <Content Include="Views\Route\Edit.cshtml" />
+    <Content Include="Views\Route\Index.cshtml" />
+    <Content Include="Views\Skill\Create.cshtml" />
+    <Content Include="Views\Skill\Delete.cshtml" />
+    <Content Include="Views\Skill\Details.cshtml" />
+    <Content Include="Views\Skill\Edit.cshtml" />
+    <Content Include="Views\Skill\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -225,6 +247,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202004051817205_Add Group.resx">
       <DependentUpon>202004051817205_Add Group.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004202045537_AddSkillBaseVersion.resx">
+      <DependentUpon>202004202045537_AddSkillBaseVersion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004202100323_AddRouteBaseVersion.resx">
+      <DependentUpon>202004202100323_AddRouteBaseVersion.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
