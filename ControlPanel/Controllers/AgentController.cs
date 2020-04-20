@@ -59,5 +59,33 @@ namespace ControlPanel.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
+        [HttpGet]
+        public ActionResult Edit (int? id)
+        {
+            if(id==null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Agent agent = db.Agents.Find(id);
+            if(agent==null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            }
+            return View(agent);
+        }
+
+        [HttpPost]
+        public ActionResult Edit ([Bind(Include = "Id,Name,Login,Algorithm,IsAlgorithmAllowServiceLevel,WorkloadMaxContactsCount,IsActive")]Agent agent)
+        {
+            if(ModelState.IsValid)
+            {
+                db.Entry(agent).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            return View(agent);
+        }
     }
 }

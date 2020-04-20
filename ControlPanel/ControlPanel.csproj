@@ -198,6 +198,7 @@
     <Content Include="Views\Group\Index.cshtml" />
     <Content Include="Views\Agent\Create.cshtml" />
     <Content Include="Views\Agent\Delete.cshtml" />
+    <Content Include="Views\Agent\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
