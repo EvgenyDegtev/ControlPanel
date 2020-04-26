@@ -22,7 +22,7 @@ namespace ControlPanel.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-            ViewBag.GroupId = new SelectList(db.Groups, "Id", "Name");
+            ViewBag.Groups = new SelectList(db.Groups, "Id", "Name");
             return View();
         }
 
@@ -74,7 +74,7 @@ namespace ControlPanel.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             }
-            ViewBag.GroupId = new SelectList(db.Groups, "Id", "Name", agent.GroupId);
+            ViewBag.Groups = new SelectList(db.Groups, "Id", "Name");
             return View(agent);
         }
 
