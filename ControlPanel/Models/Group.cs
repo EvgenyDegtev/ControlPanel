@@ -10,7 +10,7 @@ namespace ControlPanel.Models
     {
         public int Id { get; set; }
 
-        [Display(Name ="Название")]
+        [Display(Name ="Группа")]
         public string Name { get; set; }
 
         [Display(Name="Комментарий")]

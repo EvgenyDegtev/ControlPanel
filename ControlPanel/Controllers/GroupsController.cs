@@ -20,21 +20,6 @@ namespace ControlPanel.Controllers
             return View(db.Groups.ToList());
         }
 
-        // GET: Group/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Group group = db.Groups.Find(id);
-            if (group == null)
-            {
-                return HttpNotFound();
-            }
-            return View(group);
-        }
-
         // GET: Group/Create
         public ActionResult Create()
         {
@@ -45,7 +30,6 @@ namespace ControlPanel.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Name,Description,IsActive")] Group group)
         {
             if (ModelState.IsValid)
@@ -77,7 +61,6 @@ namespace ControlPanel.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Name,Description,IsActive")] Group group)
         {
             if (ModelState.IsValid)
@@ -114,6 +97,24 @@ namespace ControlPanel.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
+        //Get
+        [HttpGet]
+        public ActionResult GroupAgents(int? id)
+        {
+            if(id==null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Group group = db.Groups.Include(gr => gr.Agents).FirstOrDefault(gr=>gr.Id == id);
+            if(group==null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(group);
+        }
+
 
         protected override void Dispose(bool disposing)
         {

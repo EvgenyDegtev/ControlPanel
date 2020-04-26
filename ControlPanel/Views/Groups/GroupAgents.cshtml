@@ -1,0 +1,12 @@
+﻿@model ControlPanel.Models.Group
+		
+<h2>GroupAgents</h2>
+
+<ul>
+	@foreach (var agent in Model.Agents)
+	{
+		<li>@agent.Login</li>
+	}
+</ul>
+
+
