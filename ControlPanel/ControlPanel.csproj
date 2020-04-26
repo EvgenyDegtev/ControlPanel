@@ -128,7 +128,6 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AgentsController.cs" />
     <Compile Include="Controllers\GroupsController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\RoutesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -161,13 +160,15 @@
     <Compile Include="Migrations\202004261556242_GroupidToGroupId.Designer.cs">
       <DependentUpon>202004261556242_GroupidToGroupId.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202004262053095_DeleteBookModel.cs" />
+    <Compile Include="Migrations\202004262053095_DeleteBookModel.Designer.cs">
+      <DependentUpon>202004262053095_DeleteBookModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Agent.cs" />
-    <Compile Include="Models\Book.cs" />
     <Compile Include="Models\DataBaseContext.cs" />
     <Compile Include="Models\DataBaseInitializer.cs" />
     <Compile Include="Models\Group.cs" />
-    <Compile Include="Models\Purchase.cs" />
     <Compile Include="Models\Route.cs" />
     <Compile Include="Models\Skill.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -207,8 +208,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Home\Buy.cshtml" />
     <Content Include="Views\Agents\Index.cshtml" />
     <Content Include="Views\Groups\Create.cshtml" />
     <Content Include="Views\Groups\Delete.cshtml" />
@@ -261,6 +260,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202004261556242_GroupidToGroupId.resx">
       <DependentUpon>202004261556242_GroupidToGroupId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004262053095_DeleteBookModel.resx">
+      <DependentUpon>202004262053095_DeleteBookModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
