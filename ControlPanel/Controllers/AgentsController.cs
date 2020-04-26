@@ -22,8 +22,7 @@ namespace ControlPanel.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-            SelectList groups = new SelectList(db.Groups,"Id","Name");
-            ViewBag.Groups = groups;
+            ViewBag.GroupId = new SelectList(db.Groups, "Id", "Name");
             return View();
         }
 
@@ -75,11 +74,12 @@ namespace ControlPanel.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             }
+            ViewBag.GroupId = new SelectList(db.Groups, "Id", "Name", agent.GroupId);
             return View(agent);
         }
 
         [HttpPost]
-        public ActionResult Edit ([Bind(Include = "Id,Name,Login,Algorithm,IsAlgorithmAllowServiceLevel,WorkloadMaxContactsCount,IsActive")]Agent agent)
+        public ActionResult Edit ([Bind(Include = "Id,Name,Login,Algorithm,IsAlgorithmAllowServiceLevel,WorkloadMaxContactsCount,IsActive,GroupId")]Agent agent)
         {
             if(ModelState.IsValid)
             {

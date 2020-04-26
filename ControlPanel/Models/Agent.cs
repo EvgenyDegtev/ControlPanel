@@ -30,6 +30,7 @@ namespace ControlPanel.Models
         [Display(Name ="Активен")]
         public bool IsActive { get; set; }
 
+        [Display(Name="Группа")]
         public int? GroupId { get; set; }
 
         public Group Group { get; set; }
