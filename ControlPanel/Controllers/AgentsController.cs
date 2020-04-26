@@ -15,17 +15,20 @@ namespace ControlPanel.Controllers
         // GET: Agent
         public ActionResult Index()
         {
-            return View(db.Agents.ToList());
+            var agents = db.Agents.Include(agent => agent.Group);
+            return View(agents.ToList());
         }
 
         [HttpGet]
         public ActionResult Create()
         {
+            SelectList groups = new SelectList(db.Groups,"Id","Name");
+            ViewBag.Groups = groups;
             return View();
         }
 
         [HttpPost]
-        public ActionResult Create ([Bind(Include ="Id,Name,Login,Algorithm,IsAlgorithmAllowServiceLevel,WorkloadMaxContactsCount,IsActive")] Agent agent)
+        public ActionResult Create ([Bind(Include ="Id,Name,Login,Algorithm,IsAlgorithmAllowServiceLevel,WorkloadMaxContactsCount,IsActive,GroupId")] Agent agent)
         {
             if(ModelState.IsValid)
             {

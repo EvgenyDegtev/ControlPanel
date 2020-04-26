@@ -129,6 +129,7 @@
     <Compile Include="Controllers\AgentsController.cs" />
     <Compile Include="Controllers\GroupsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\RoutesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -151,6 +152,14 @@
     <Compile Include="Migrations\202004202100323_AddRouteBaseVersion.cs" />
     <Compile Include="Migrations\202004202100323_AddRouteBaseVersion.Designer.cs">
       <DependentUpon>202004202100323_AddRouteBaseVersion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202004261549178_AddAgentGroupRelation.cs" />
+    <Compile Include="Migrations\202004261549178_AddAgentGroupRelation.Designer.cs">
+      <DependentUpon>202004261549178_AddAgentGroupRelation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202004261556242_GroupidToGroupId.cs" />
+    <Compile Include="Migrations\202004261556242_GroupidToGroupId.Designer.cs">
+      <DependentUpon>202004261556242_GroupidToGroupId.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Agent.cs" />
@@ -209,6 +218,11 @@
     <Content Include="Views\Agents\Create.cshtml" />
     <Content Include="Views\Agents\Delete.cshtml" />
     <Content Include="Views\Agents\Edit.cshtml" />
+    <Content Include="Views\Routes\Create.cshtml" />
+    <Content Include="Views\Routes\Delete.cshtml" />
+    <Content Include="Views\Routes\Details.cshtml" />
+    <Content Include="Views\Routes\Edit.cshtml" />
+    <Content Include="Views\Routes\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -241,6 +255,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202004202100323_AddRouteBaseVersion.resx">
       <DependentUpon>202004202100323_AddRouteBaseVersion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004261549178_AddAgentGroupRelation.resx">
+      <DependentUpon>202004261549178_AddAgentGroupRelation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004261556242_GroupidToGroupId.resx">
+      <DependentUpon>202004261556242_GroupidToGroupId.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

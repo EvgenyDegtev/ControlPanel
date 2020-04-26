@@ -18,5 +18,7 @@ namespace ControlPanel.Models
 
         [Display(Name="Активен")]
         public bool IsActive { get; set; }
+
+        public List<Agent> Agents { get; set; }
     }
 }

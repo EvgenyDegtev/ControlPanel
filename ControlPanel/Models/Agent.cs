@@ -29,5 +29,9 @@ namespace ControlPanel.Models
 
         [Display(Name ="Активен")]
         public bool IsActive { get; set; }
+
+        public int? GroupId { get; set; }
+
+        public Group Group { get; set; }
     }
 }
