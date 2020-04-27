@@ -216,12 +216,9 @@
     <Content Include="Views\Agents\Create.cshtml" />
     <Content Include="Views\Agents\Delete.cshtml" />
     <Content Include="Views\Agents\Edit.cshtml" />
-    <Content Include="Views\Routes\Create.cshtml" />
-    <Content Include="Views\Routes\Delete.cshtml" />
-    <Content Include="Views\Routes\Details.cshtml" />
-    <Content Include="Views\Routes\Edit.cshtml" />
-    <Content Include="Views\Routes\Index.cshtml" />
     <Content Include="Views\Groups\GroupAgents.cshtml" />
+    <Content Include="Views\Routes\Index.cshtml" />
+    <Content Include="Views\Routes\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

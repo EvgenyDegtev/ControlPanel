@@ -10,12 +10,16 @@ namespace ControlPanel.Models
     {
         public int Id { get; set; }
 
+        [Display(Name="Название")]
         public string Name { get; set; }
 
+        [Display(Name ="ID")]
         public string Key { get; set; }
 
+        [Display(Name="Активен")]
         public bool IsActive { get; set; }
 
+        [Display(Name="Навык")]
         public int? SkillId { get; set; }
 
         public Skill Skill { get; set; }
