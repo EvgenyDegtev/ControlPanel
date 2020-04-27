@@ -219,6 +219,7 @@
     <Content Include="Views\Groups\GroupAgents.cshtml" />
     <Content Include="Views\Routes\Index.cshtml" />
     <Content Include="Views\Routes\Create.cshtml" />
+    <Content Include="Views\Routes\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

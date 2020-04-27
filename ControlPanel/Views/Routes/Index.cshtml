@@ -39,8 +39,8 @@
 				@Html.DisplayFor(modelItem=>item.Skill.Name)
 			</td>
 			<td>
-				@Html.ActionLink("Edit", "Edit") |
-				@Html.ActionLink("Delete", "Delete")
+				@Html.ActionLink("Edit", "Edit",new {id=item.Id }) |
+				@Html.ActionLink("Delete", "Delete",new {id=item.Id })
 			</td>
 		</tr>
 	}
