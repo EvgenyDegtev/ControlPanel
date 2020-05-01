@@ -11,9 +11,13 @@ namespace ControlPanel.Models
         public int Id { get; set; }
 
         [Display(Name="Имя")]
+        [Required]
+        [StringLength(100)]
         public string Name { get; set; }
 
         [Display(Name="Логин")]
+        [Required]
+        [StringLength(100)]
         public string Login { get; set; }
 
         [Display(Name="Алгоритм")]

@@ -11,6 +11,7 @@ namespace ControlPanel.Models
         public int Id { get; set; }
 
         [Display(Name ="Группа")]
+        [Required]
         public string Name { get; set; }
 
         [Display(Name="Комментарий")]
