@@ -45,7 +45,8 @@ namespace ControlPanel.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Agent agent = db.Agents.Find(id);
+            var agents = db.Agents.Include(ag => ag.Group);
+            var agent = agents.Where(ag => ag.Id == id).First();
             if(agent==null)
             {
                 return HttpNotFound();
