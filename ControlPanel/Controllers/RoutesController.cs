@@ -63,5 +63,33 @@ namespace ControlPanel.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
+        [HttpGet]
+        public ActionResult Edit(int? id)
+        {
+            if(id==null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Route route = db.Routes.Find(id);
+            if(route==null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            }
+            ViewBag.Skills = new SelectList(db.Skills, "Id", "Name");
+            return View(route);
+        }
+
+        [HttpPost]
+        public ActionResult Edit([Bind] Route route)
+        {
+            if(ModelState.IsValid)
+            {
+                db.Entry(route).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(route);
+        }
     }
 }

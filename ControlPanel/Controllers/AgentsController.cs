@@ -22,7 +22,7 @@ namespace ControlPanel.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-            ViewBag.Groups = new SelectList(db.Groups, "Id", "Name");
+            ViewBag.GR = new SelectList(db.Groups, "Id", "Name");
             return View();
         }
 

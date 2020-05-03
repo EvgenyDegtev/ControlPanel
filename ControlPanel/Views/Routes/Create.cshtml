@@ -32,7 +32,7 @@
 		<div class="form-group">
 			@Html.LabelFor(model=>model.SkillId, htmlAttributes:new {@class="control-label col-md-2" })
 			<div class="col-md-10">
-				@Html.DropDownListFor(model=>model.SkillId,ViewBag.Skills as SelectList, htmlAttributes:new {@class="form-control" })
+				@Html.DropDownListFor(model=>model.SkillId,ViewBag.Skills as SelectList,"--", htmlAttributes:new {@class="form-control" })
 			</div>
 		</div>
 

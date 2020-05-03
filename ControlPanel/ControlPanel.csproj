@@ -229,6 +229,7 @@
     <Content Include="Views\Routes\Index.cshtml" />
     <Content Include="Views\Routes\Create.cshtml" />
     <Content Include="Views\Routes\Delete.cshtml" />
+    <Content Include="Views\Routes\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
