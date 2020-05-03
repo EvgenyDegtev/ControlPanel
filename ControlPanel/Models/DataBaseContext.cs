@@ -18,6 +18,11 @@ namespace ControlPanel.Models
 
         public DbSet<Skill> Skills { get; set; }
 
-        public System.Data.Entity.DbSet<ControlPanel.Models.Route> Routes { get; set; }
+        public DbSet<Route> Routes { get; set; }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

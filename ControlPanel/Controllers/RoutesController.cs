@@ -47,7 +47,7 @@ namespace ControlPanel.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Route route = db.Routes.Find(id);
+            Route route = db.Routes.Include(rt=>rt.Skill).FirstOrDefault(rt=>rt.Id==id);
             if(route==null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);

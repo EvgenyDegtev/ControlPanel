@@ -10,31 +10,31 @@ namespace ControlPanel.Models
     {
         public int Id { get; set; }
 
-        [Display(Name="Имя")]
+        [Display(Name = "Имя")]
         [Required]
         [StringLength(100)]
         public string Name { get; set; }
 
-        [Display(Name="Логин")]
+        [Display(Name = "Логин")]
         [Required]
         [StringLength(100)]
         public string Login { get; set; }
 
-        [Display(Name="Алгоритм")]
+        [Display(Name = "Алгоритм")]
         public int Algorithm { get; set; }
 
-        [Display(Name="Желаемый уровень обслуживания")]
+        [Display(Name = "Желаемый уровень обслуживания")]
         public bool IsAlgorithmAllowServiceLevel { get; set; }
 
-        [Display(Name ="Максимальная нагрузка")]
+        [Display(Name = "Максимальная нагрузка")]
         public int WorkloadMaxContactsCount { get; set; }
 
         //Other properties
 
-        [Display(Name ="Активен")]
+        [Display(Name = "Активен")]
         public bool IsActive { get; set; }
 
-        [Display(Name="Группа")]
+        [Display(Name = "Группа")]
         public int? GroupId { get; set; }
 
         public Group Group { get; set; }

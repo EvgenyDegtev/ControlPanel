@@ -1,0 +1,46 @@
+﻿@model IEnumerable<ControlPanel.Models.Skill>
+<h2>Index</h2>
+<p>
+	@Html.ActionLink("Create New", "Create")
+</p>
+
+
+<table class="table table-hover">
+	<tr>
+		<th>
+			@Html.DisplayNameFor(model=>model.Name)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model=>model.Key)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model=>model.Algorithm)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model=>model.IsActive)
+		</th>
+		<th></th>
+	</tr>
+	@foreach(var skill in Model)
+	{
+		<tr>
+			<td>
+				@Html.DisplayFor(item=>skill.Name)
+			</td>
+			<td>
+				@Html.DisplayFor(item=>skill.Key)
+			</td>
+			<td>
+				@Html.DisplayFor(item=>skill.Algorithm)
+			</td>
+			<td>
+				@Html.DisplayFor(item=>skill.IsActive)
+			</td>
+			<td>
+				@Html.ActionLink("Edit","Edit",new {id=skill.Id }) |
+				@Html.ActionLink("Delete","Delete", new {id=skill.Id })
+			</td>
+		</tr>
+	}
+</table>
+

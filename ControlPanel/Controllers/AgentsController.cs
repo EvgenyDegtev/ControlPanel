@@ -27,9 +27,9 @@ namespace ControlPanel.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create ([Bind(Include ="Id,Name,Login,Algorithm,IsAlgorithmAllowServiceLevel,WorkloadMaxContactsCount,IsActive,GroupId")] Agent agent)
+        public ActionResult Create([Bind(Include = "Id,Name,Login,Algorithm,IsAlgorithmAllowServiceLevel,WorkloadMaxContactsCount,IsActive,GroupId")] Agent agent)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 db.Agents.Add(agent);
                 db.SaveChanges();
@@ -41,13 +41,12 @@ namespace ControlPanel.Controllers
         [HttpGet]
         public ActionResult Delete(int? id)
         {
-            if(id==null)
+            if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var agents = db.Agents.Include(ag => ag.Group);
-            var agent = agents.Where(ag => ag.Id == id).First();
-            if(agent==null)
+            var agent = db.Agents.Include(ag => ag.Group).FirstOrDefault(ag => ag.Id == id);
+            if (agent == null)
             {
                 return HttpNotFound();
             }
@@ -55,7 +54,7 @@ namespace ControlPanel.Controllers
 
         }
         [HttpPost]
-        public ActionResult Delete (int id)
+        public ActionResult Delete(int id)
         {
             Agent agent = db.Agents.Find(id);
             db.Agents.Remove(agent);
@@ -64,14 +63,14 @@ namespace ControlPanel.Controllers
         }
 
         [HttpGet]
-        public ActionResult Edit (int? id)
+        public ActionResult Edit(int? id)
         {
-            if(id==null)
+            if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Agent agent = db.Agents.Find(id);
-            if(agent==null)
+            if (agent == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             }
@@ -80,9 +79,9 @@ namespace ControlPanel.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit ([Bind(Include = "Id,Name,Login,Algorithm,IsAlgorithmAllowServiceLevel,WorkloadMaxContactsCount,IsActive,GroupId")]Agent agent)
+        public ActionResult Edit([Bind(Include = "Id,Name,Login,Algorithm,IsAlgorithmAllowServiceLevel,WorkloadMaxContactsCount,IsActive,GroupId")] Agent agent)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 db.Entry(agent).State = EntityState.Modified;
                 db.SaveChanges();
@@ -94,7 +93,7 @@ namespace ControlPanel.Controllers
 
         protected override void Dispose(bool disposing)
         {
-            if(disposing)
+            if (disposing)
             {
                 db.Dispose();
             }

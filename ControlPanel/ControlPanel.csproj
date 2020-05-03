@@ -129,6 +129,7 @@
     <Compile Include="Controllers\AgentsController.cs" />
     <Compile Include="Controllers\GroupsController.cs" />
     <Compile Include="Controllers\RoutesController.cs" />
+    <Compile Include="Controllers\SkillsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -171,6 +172,14 @@
     <Compile Include="Migrations\202005011732072_GroupConstraint.cs" />
     <Compile Include="Migrations\202005011732072_GroupConstraint.Designer.cs">
       <DependentUpon>202005011732072_GroupConstraint.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202005031626181_DropAgents.cs" />
+    <Compile Include="Migrations\202005031626181_DropAgents.Designer.cs">
+      <DependentUpon>202005031626181_DropAgents.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202005031629218_AddAgent1.cs" />
+    <Compile Include="Migrations\202005031629218_AddAgent1.Designer.cs">
+      <DependentUpon>202005031629218_AddAgent1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Agent.cs" />
@@ -230,6 +239,9 @@
     <Content Include="Views\Routes\Create.cshtml" />
     <Content Include="Views\Routes\Delete.cshtml" />
     <Content Include="Views\Routes\Edit.cshtml" />
+    <Content Include="Views\Skills\Index.cshtml" />
+    <Content Include="Views\Skills\Create.cshtml" />
+    <Content Include="Views\Skills\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -277,6 +289,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202005011732072_GroupConstraint.resx">
       <DependentUpon>202005011732072_GroupConstraint.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005031626181_DropAgents.resx">
+      <DependentUpon>202005031626181_DropAgents.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005031629218_AddAgent1.resx">
+      <DependentUpon>202005031629218_AddAgent1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

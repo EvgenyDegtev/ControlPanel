@@ -102,12 +102,12 @@ namespace ControlPanel.Controllers
         [HttpGet]
         public ActionResult GroupAgents(int? id)
         {
-            if(id==null)
+            if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Group group = db.Groups.Include(gr => gr.Agents).FirstOrDefault(gr=>gr.Id == id);
-            if(group==null)
+            Group group = db.Groups.Include(gr => gr.Agents).FirstOrDefault(gr => gr.Id == id);
+            if (group == null)
             {
                 return HttpNotFound();
             }
