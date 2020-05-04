@@ -63,5 +63,41 @@ namespace ControlPanel.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
+        [HttpGet]
+        public ActionResult Edit (int? id)
+        {
+            if(id==null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Skill skill = db.Skills.Find(id);
+            if(skill==null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            }
+            return View(skill);
+        }
+
+        [HttpPost]
+        public ActionResult Edit ([Bind] Skill skill)
+        {
+            if(ModelState.IsValid)
+            {
+                db.Entry(skill).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+            return RedirectToAction("Index");
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if(disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
     }
 }
