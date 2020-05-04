@@ -86,8 +86,9 @@ namespace ControlPanel.Controllers
             {
                 db.Entry(skill).State = EntityState.Modified;
                 db.SaveChanges();
+                return RedirectToAction("Index");
             }
-            return RedirectToAction("Index");
+            return View(skill);
         }
 
         protected override void Dispose(bool disposing)

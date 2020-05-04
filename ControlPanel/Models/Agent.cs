@@ -11,7 +11,7 @@ namespace ControlPanel.Models
         public int Id { get; set; }
 
         [Display(Name = "Имя")]
-        [Required]
+        [Required(ErrorMessage ="Обязательное поле")]
         [StringLength(100)]
         public string Name { get; set; }
 

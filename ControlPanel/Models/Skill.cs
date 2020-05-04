@@ -11,9 +11,13 @@ namespace ControlPanel.Models
         public int Id { get; set; }
 
         [Display(Name ="Навык")]
+        [Required(ErrorMessage ="Требуется поле Навык")]
+        [StringLength(100, ErrorMessage ="Максимальная длина - 100 символов" )]
         public string Name { get; set; }
 
         [Display(Name ="ID")]
+        [Required(ErrorMessage ="Требутеся поле ID навыка")]
+        [StringLength(100, ErrorMessage = "Максимальная длина - 100 символов")]
         public string Key { get; set; }
 
         [Display(Name ="Алгоритм")]
