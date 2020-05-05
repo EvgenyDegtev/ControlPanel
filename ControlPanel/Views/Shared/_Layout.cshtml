@@ -6,6 +6,10 @@
 	@*<title>@ViewBag.Title</title>*@
 	@Styles.Render("~/Content/css")
 	@Scripts.Render("~/bundles/modernizr")
+	@Scripts.Render("~/bundles/jquery")
+	<script src="@Url.Content("~/Scripts/jquery-1.8.2.min.js")" type="text/javascript"></script>
+	<script src="@Url.Content("~/Scripts/jquery.validate.js")" type="text/javascript"></script>
+	<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")" type="text/javascript"></script>
 	@*<link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />*@
 </head>
 <body>

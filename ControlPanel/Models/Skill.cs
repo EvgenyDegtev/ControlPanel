@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace ControlPanel.Models
 {
@@ -18,6 +19,7 @@ namespace ControlPanel.Models
         [Display(Name ="ID")]
         [Required(ErrorMessage ="Требутеся поле ID навыка")]
         [StringLength(100, ErrorMessage = "Максимальная длина - 100 символов")]
+        [Remote(action:"Qq",controller:"Skills", ErrorMessage ="Error")]
         public string Key { get; set; }
 
         [Display(Name ="Алгоритм")]

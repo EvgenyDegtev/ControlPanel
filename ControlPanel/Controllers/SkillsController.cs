@@ -21,6 +21,19 @@ namespace ControlPanel.Controllers
             return View(skills);
         }
 
+        [HttpGet]
+        public JsonResult Qq(string Key)
+        {
+
+            var result = true;
+            var skill = db.Skills.Where(sk => sk.Key == Key);
+            if(skill.Count()>=1)
+            {
+                result = false;
+            }
+            return Json(result,JsonRequestBehavior.AllowGet);
+        }
+
 
         [HttpGet]
         public ActionResult Create(int? id)
@@ -90,6 +103,8 @@ namespace ControlPanel.Controllers
             }
             return View(skill);
         }
+
+       
 
         protected override void Dispose(bool disposing)
         {
