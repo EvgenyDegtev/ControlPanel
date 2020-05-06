@@ -93,8 +93,8 @@ namespace ControlPanel.Controllers
         [HttpGet]
         public JsonResult CheckKeyUnique(string Key)
         {
-            var skill = db.Skills.Where(sk => sk.Key == Key);
-            if (skill.Count() >= 1)
+            var skills = db.Skills.Where(sk => sk.Key == Key);
+            if (skills.Count()>=1)
             {
                 return Json($"Навык с ID {Key} уже существует", JsonRequestBehavior.AllowGet);
             }

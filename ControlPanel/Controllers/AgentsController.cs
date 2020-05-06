@@ -91,6 +91,17 @@ namespace ControlPanel.Controllers
             return View(agent);
         }
 
+        [HttpGet]
+        public JsonResult CheckLoginUnique (string Login)
+        {
+            var agents = db.Agents.Where(ag => ag.Login == Login);
+            if(agents.Count()>=1)
+            {
+                return Json($"Агент с логином {Login} уже существует", JsonRequestBehavior.AllowGet);
+            }
+            return Json(true, JsonRequestBehavior.AllowGet);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
