@@ -115,6 +115,17 @@ namespace ControlPanel.Controllers
             return View(group);
         }
 
+        [HttpGet]
+        public JsonResult CheckNameUnique (string Name)
+        {
+            var groups = db.Groups.Where(gr => gr.Name == Name);
+            if(groups.Count()>=1)
+            {
+                return Json($"Группа с названием {Name} уже существует", JsonRequestBehavior.AllowGet);
+            }
+            return Json(true, JsonRequestBehavior.AllowGet);
+        }
+
 
         protected override void Dispose(bool disposing)
         {

@@ -185,6 +185,10 @@
     <Compile Include="Migrations\202005041626073_SkillBaseConstraints.Designer.cs">
       <DependentUpon>202005041626073_SkillBaseConstraints.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202005062111526_AddGroupConstraints.cs" />
+    <Compile Include="Migrations\202005062111526_AddGroupConstraints.Designer.cs">
+      <DependentUpon>202005062111526_AddGroupConstraints.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Agent.cs" />
     <Compile Include="Models\DataBaseContext.cs" />
@@ -303,6 +307,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202005041626073_SkillBaseConstraints.resx">
       <DependentUpon>202005041626073_SkillBaseConstraints.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005062111526_AddGroupConstraints.resx">
+      <DependentUpon>202005062111526_AddGroupConstraints.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
