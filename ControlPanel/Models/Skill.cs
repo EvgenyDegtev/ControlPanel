@@ -19,7 +19,7 @@ namespace ControlPanel.Models
         [Display(Name ="ID")]
         [Required(ErrorMessage ="Требутеся поле ID навыка")]
         [StringLength(100, ErrorMessage = "Максимальная длина - 100 символов")]
-        [Remote(action:"Qq",controller:"Skills", ErrorMessage ="Error")]
+        [Remote(action:"CheckKeyUnique",controller:"Skills")]
         public string Key { get; set; }
 
         [Display(Name ="Алгоритм")]

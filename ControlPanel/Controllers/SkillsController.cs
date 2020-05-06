@@ -22,20 +22,6 @@ namespace ControlPanel.Controllers
         }
 
         [HttpGet]
-        public JsonResult Qq(string Key)
-        {
-
-            var result = true;
-            var skill = db.Skills.Where(sk => sk.Key == Key);
-            if(skill.Count()>=1)
-            {
-                result = false;
-            }
-            return Json(result,JsonRequestBehavior.AllowGet);
-        }
-
-
-        [HttpGet]
         public ActionResult Create(int? id)
         {
             return View();
@@ -104,7 +90,16 @@ namespace ControlPanel.Controllers
             return View(skill);
         }
 
-       
+        [HttpGet]
+        public JsonResult CheckKeyUnique(string Key)
+        {
+            var skill = db.Skills.Where(sk => sk.Key == Key);
+            if (skill.Count() >= 1)
+            {
+                return Json($"Навык с ID {Key} уже существует", JsonRequestBehavior.AllowGet);
+            }
+            return Json(true, JsonRequestBehavior.AllowGet);
+        }
 
         protected override void Dispose(bool disposing)
         {
