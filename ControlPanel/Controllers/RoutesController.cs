@@ -91,5 +91,26 @@ namespace ControlPanel.Controllers
             }
             return View(route);
         }
+
+        [HttpGet]
+        public JsonResult CheckKeyUnique (string Key)
+        {
+            var routes = db.Routes.Where(route => route.Key == Key);
+            if(routes.Count()>=1)
+            {
+                return Json($"Маршрут с ID {Key} уже существует", JsonRequestBehavior.AllowGet);
+            }
+            return Json(true, JsonRequestBehavior.AllowGet);
+        }
+
+
+        protected override void Dispose(bool disposing)
+        {
+            if(disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
     }
 }

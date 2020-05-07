@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace ControlPanel.Models
 {
@@ -11,9 +12,14 @@ namespace ControlPanel.Models
         public int Id { get; set; }
 
         [Display(Name="Название")]
+        [Required(ErrorMessage = "Требуется поле Название")]
+        [MaxLength(100,ErrorMessage = "Максимальная длина - 100 символов")]
         public string Name { get; set; }
 
         [Display(Name ="ID")]
+        [Required(ErrorMessage = "Требуется поле ID")]
+        [MaxLength(100,ErrorMessage = "Максимальная длина - 100 символов")]
+        [Remote(action:"CheckKeyUnique",controller:"Routes")]
         public string Key { get; set; }
 
         [Display(Name="Активен")]
