@@ -29,5 +29,7 @@ namespace ControlPanel.Models
         public bool IsActive { get; set; }
 
         public List<Route> Routes { get; set; }
+
+        public List<AgentToSkill> AgentToSkills { get; set; }
     }
 }

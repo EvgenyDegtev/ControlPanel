@@ -193,8 +193,13 @@
     <Compile Include="Migrations\202005072121570_AddRouteConstraints.Designer.cs">
       <DependentUpon>202005072121570_AddRouteConstraints.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202005101958041_AddAgentToSkill.cs" />
+    <Compile Include="Migrations\202005101958041_AddAgentToSkill.Designer.cs">
+      <DependentUpon>202005101958041_AddAgentToSkill.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Agent.cs" />
+    <Compile Include="Models\AgentToSkill.cs" />
     <Compile Include="Models\DataBaseContext.cs" />
     <Compile Include="Models\DataBaseInitializer.cs" />
     <Compile Include="Models\Group.cs" />
@@ -317,6 +322,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202005072121570_AddRouteConstraints.resx">
       <DependentUpon>202005072121570_AddRouteConstraints.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005101958041_AddAgentToSkill.resx">
+      <DependentUpon>202005101958041_AddAgentToSkill.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

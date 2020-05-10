@@ -41,5 +41,7 @@ namespace ControlPanel.Models
         public int? GroupId { get; set; }
 
         public Group Group { get; set; }
+
+        public List<AgentToSkill> AgentToSkills { get; set; }
     }
 }

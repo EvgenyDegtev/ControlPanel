@@ -20,6 +20,8 @@ namespace ControlPanel.Models
 
         public DbSet<Route> Routes { get; set; }
 
+        public DbSet<AgentToSkill> AgentToSkills { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
