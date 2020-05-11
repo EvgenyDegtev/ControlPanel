@@ -9,9 +9,14 @@
 	<p>
 		@Html.ActionLink("Create NEW", "Create")
 	</p>
-	<div class="btn-group">
-		@*@Html.PageLinks(ViewBag.PageInfo, x=>Url.Action("Index",new { page=x}))*@
-	</div>
+
+	@using(Html.BeginForm("Index","Agents"))
+	{
+		<p>
+			<strong>Логин: </strong> <input type="text" name="searchString"/>
+			<input type="submit" value="Поиск"/>
+		</p>
+	}
 
 	<table class="table table-hover">
 		<tr>

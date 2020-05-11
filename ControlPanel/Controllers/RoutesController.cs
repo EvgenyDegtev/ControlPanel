@@ -12,11 +12,14 @@ namespace ControlPanel.Controllers
     public class RoutesController : Controller
     {
         DataBaseContext db = new DataBaseContext();
-        // GET: Routes
-        [HttpGet]
-        public ActionResult Index()
+
+        public ActionResult Index(string searchString)
         {
-            var routes = db.Routes.Include(route => route.Skill).ToList();
+            if(String.IsNullOrEmpty(searchString))
+            {
+                return View(db.Routes.Include(route => route.Skill).ToList());
+            }
+            var routes = db.Routes.Where(route=>route.Key.Contains(searchString)).Include(route => route.Skill).ToList();
             return View(routes);
         }
 

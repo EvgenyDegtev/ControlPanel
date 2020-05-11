@@ -13,23 +13,15 @@ namespace ControlPanel.Controllers
     {
         DataBaseContext db = new DataBaseContext();
         // GET: Agent
-        public ActionResult Index()
+        public ActionResult Index(string searchString)
         {
-            var agents = db.Agents.Include(agent => agent.Group);
-            return View(agents.ToList());
+            if(String.IsNullOrEmpty(searchString))
+            {
+                return View(db.Agents.Include(agent=>agent.Group).ToList());
+            }
+            var agents = db.Agents.Where(ag => ag.Login.Contains(searchString)).Include(agent => agent.Group).ToList();
+            return View(agents);
         }
-
-        //public ActionResult Index(int page=1)
-        //{
-        //    int pageSize = 10;
-        //    //List<Agent> agentsPerPage = db.Agents.Include(agent => agent.Group).Skip((page - 1) * pageSize).Take(pageSize).ToList();
-        //    PageInfo pageInfo = new PageInfo { PageNumber = page, PageSize = pageSize, TotalItems=db.Agents.Count() };
-        //    //IndexViewAgent indexViewAgent = new IndexViewAgent { PageInfo = pageInfo, Agents = agentsPerPage };
-
-        //    ViewBag.PageInfo = pageInfo;
-        //    var agents = db.Agents.Include(agent => agent.Group);
-        //    return View(agents);
-        //}
 
         [HttpGet]
         public ActionResult Create()

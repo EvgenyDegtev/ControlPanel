@@ -4,6 +4,13 @@
 	@Html.ActionLink("Create New", "Create")
 </p>
 
+@using(Html.BeginForm("Index","Skills"))
+{
+	<p>
+		<strong>ID навыка:</strong> <input type="text" name="searchString"/>
+		<input type="submit" value="Поиск"/>
+	</p>
+}
 
 <table class="table table-hover">
 	<tr>

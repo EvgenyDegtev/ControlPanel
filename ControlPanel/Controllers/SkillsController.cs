@@ -13,11 +13,15 @@ namespace ControlPanel.Controllers
     public class SkillsController : Controller
     {
         DataBaseContext db = new DataBaseContext();
-        // GET: Skills
-        [HttpGet]
-        public ActionResult Index()
+
+        public ActionResult Index(string searchString)
         {
-            var skills = db.Skills.ToList();
+            if(String.IsNullOrEmpty(searchString))
+            {
+                return View(db.Skills.ToList());
+            }
+            var skills = db.Skills.Where(skill => skill.Key.Contains(searchString)).ToList();
+
             return View(skills);
         }
 
