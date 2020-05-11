@@ -14,10 +14,14 @@ namespace ControlPanel.Controllers
     {
         private DataBaseContext db = new DataBaseContext();
 
-        // GET: Group
-        public ActionResult Index()
+        public ActionResult Index(string searchString)
         {
-            return View(db.Groups.ToList());
+            if(String.IsNullOrEmpty(searchString))
+            {
+                return View(db.Groups.ToList());
+            }
+            var groups = db.Groups.Where(gr => gr.Name.Contains(searchString)).ToList();
+            return View(groups);
         }
 
         // GET: Group/Create
