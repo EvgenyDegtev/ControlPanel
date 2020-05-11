@@ -126,6 +126,17 @@ namespace ControlPanel.Controllers
             return Json(true, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpGet]
+        public ActionResult RemoveAgent (int id,int agentId)
+        {
+            var group = db.Groups.Find(id);
+            var agent = db.Agents.Find(agentId);
+            agent.GroupId = null;
+            db.Entry(agent).State = EntityState.Modified;
+            db.SaveChanges();
+            return RedirectToAction("GroupAgents",group);
+        }
+
 
         protected override void Dispose(bool disposing)
         {

@@ -19,6 +19,18 @@ namespace ControlPanel.Controllers
             return View(agents.ToList());
         }
 
+        //public ActionResult Index(int page=1)
+        //{
+        //    int pageSize = 10;
+        //    //List<Agent> agentsPerPage = db.Agents.Include(agent => agent.Group).Skip((page - 1) * pageSize).Take(pageSize).ToList();
+        //    PageInfo pageInfo = new PageInfo { PageNumber = page, PageSize = pageSize, TotalItems=db.Agents.Count() };
+        //    //IndexViewAgent indexViewAgent = new IndexViewAgent { PageInfo = pageInfo, Agents = agentsPerPage };
+
+        //    ViewBag.PageInfo = pageInfo;
+        //    var agents = db.Agents.Include(agent => agent.Group);
+        //    return View(agents);
+        //}
+
         [HttpGet]
         public ActionResult Create()
         {

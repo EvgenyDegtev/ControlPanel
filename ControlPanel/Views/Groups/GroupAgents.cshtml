@@ -2,11 +2,41 @@
 		
 <h2>GroupAgents</h2>
 
-<ul>
-	@foreach (var agent in Model.Agents)
+
+<table class="table table-hover">
+	<tr>
+		<th>Имя агента</th>
+		<th>Логин агента</th>
+		<th>Алгоритм</th>
+		<th>Активен</th>
+		<th></th>
+	</tr>
+	@foreach(var item in Model.Agents)
 	{
-		<li>@agent.Login</li>
+		<tr>
+			<td>
+				@Html.DisplayFor(agent=>item.Name)
+			</td>
+
+			<td>
+				@Html.DisplayFor(agent=>item.Login)
+			</td>
+
+			<td>
+				@Html.DisplayFor(agent=>item.Algorithm)
+			</td>
+
+			<td>
+				@Html.DisplayFor(agent=>item.IsActive)
+			</td>
+
+			<td>
+				@Html.ActionLink("Delete","RemoveAgent", new {id=Model.Id, agentId=item.Id })
+			</td>
+		</tr>
 	}
-</ul>
+
+</table>
+
 
 
