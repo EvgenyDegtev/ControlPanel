@@ -6,6 +6,9 @@ using System.Web.Mvc;
 using System.Data.Entity;
 using ControlPanel.Models;
 using System.Net;
+using PagedList;
+using PagedList.Mvc;
+
 
 namespace ControlPanel.Controllers
 {
@@ -13,14 +16,17 @@ namespace ControlPanel.Controllers
     {
         DataBaseContext db = new DataBaseContext();
         // GET: Agent
-        public ActionResult Index(string searchString)
+        public ActionResult Index(string searchString, int? page)
         {
+            int pageSize = 5;
+            int pageNumber = (page ?? 1);
             if(String.IsNullOrEmpty(searchString))
             {
-                return View(db.Agents.Include(agent=>agent.Group).ToList());
+                var agents2 = db.Agents.Include(agent => agent.Group).ToList();
+                return View(agents2.ToPagedList(pageNumber, pageSize));
             }
             var agents = db.Agents.Where(ag => ag.Login.Contains(searchString)).Include(agent => agent.Group).ToList();
-            return View(agents);
+            return View(agents.ToPagedList(pageNumber,pageSize));
         }
 
         [HttpGet]
