@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Data.Entity;
 using System.Net;
+using PagedList;
 
 namespace ControlPanel.Controllers
 {
@@ -13,14 +14,17 @@ namespace ControlPanel.Controllers
     {
         DataBaseContext db = new DataBaseContext();
 
-        public ActionResult Index(string searchString)
+        public ActionResult Index(string searchString, int? page)
         {
+            int pageSize = 5;
+            int pageNumber = page ?? 1;
+            var routes = db.Routes.Include(route => route.Skill).ToList();
             if(String.IsNullOrEmpty(searchString))
             {
-                return View(db.Routes.Include(route => route.Skill).ToList());
+                return View(routes.ToPagedList(pageNumber,pageSize));
             }
-            var routes = db.Routes.Where(route=>route.Key.Contains(searchString)).Include(route => route.Skill).ToList();
-            return View(routes);
+            routes = routes.Where(route => route.Key.Contains(searchString)).ToList();
+            return View(routes.ToPagedList(pageNumber,pageSize));
         }
 
 

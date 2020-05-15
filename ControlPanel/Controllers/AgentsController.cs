@@ -19,14 +19,14 @@ namespace ControlPanel.Controllers
         public ActionResult Index(string searchString, int? page)
         {
             int pageSize = 5;
-            int pageNumber = (page ?? 1);
+            int pageNumber = page ?? 1;
+            var agents = db.Agents.Include(agent => agent.Group).ToList();
             if(String.IsNullOrEmpty(searchString))
             {
-                var agents2 = db.Agents.Include(agent => agent.Group).ToList();
-                return View(agents2.ToPagedList(pageNumber, pageSize));
+                return View(agents.ToPagedList(pageNumber, pageSize));
             }
-            var agents = db.Agents.Where(ag => ag.Login.Contains(searchString)).Include(agent => agent.Group).ToList();
-            return View(agents.ToPagedList(pageNumber,pageSize));
+            agents = agents.Where(agent => agent.Login.Contains(searchString)).ToList();
+            return View(agents.ToPagedList(pageNumber, pageSize));
         }
 
         [HttpGet]

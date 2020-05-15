@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using ControlPanel.Models;
+using PagedList;
 
 namespace ControlPanel.Controllers
 {
@@ -14,14 +15,18 @@ namespace ControlPanel.Controllers
     {
         private DataBaseContext db = new DataBaseContext();
 
-        public ActionResult Index(string searchString)
+        public ActionResult Index(string searchString, int? page)
         {
+            int pageSize = 5;
+            int pageNumber = page ?? 1;
+            var groups = db.Groups.ToList();
             if(String.IsNullOrEmpty(searchString))
             {
-                return View(db.Groups.ToList());
+                return View(groups.ToPagedList(pageNumber,pageSize));
             }
-            var groups = db.Groups.Where(gr => gr.Name.Contains(searchString)).ToList();
-            return View(groups);
+            groups = groups.Where(group => group.Name.Contains(searchString)).ToList();
+            //var groups = db.Groups.Where(gr => gr.Name.Contains(searchString)).ToList();
+            return View(groups.ToPagedList(pageNumber,pageSize));
         }
 
         // GET: Group/Create

@@ -1,29 +1,29 @@
-﻿@model IEnumerable<ControlPanel.Models.Group>
-
+﻿@model PagedList.PagedList<ControlPanel.Models.Group>
+@using PagedList.Mvc
 <h2>Index</h2>
 
 <p>
 	@Html.ActionLink("Create New", "Create")
 </p>
 
-@using (Html.BeginForm("Index","Groups"))
+@using (Html.BeginForm("Index", "Groups"))
 {
-	<p >
-		<strong>Группа:</strong> <input type="text" name="searchString"/>	
-		<input type="submit" value="Поиск"/>
+	<p>
+		<strong>Группа:</strong> <input type="text" name="searchString" />
+		<input type="submit" value="Поиск" />
 	</p>
 }
 
 <table class="table table-hover">
 	<tr>
 		<th>
-			@Html.DisplayNameFor(model => model.Name)
+			@Html.DisplayNameFor(model => model.ToList().FirstOrDefault().Name)
 		</th>
 		<th>
-			@Html.DisplayNameFor(model => model.Description)
+			@Html.DisplayNameFor(model => model.ToList().FirstOrDefault().Description)
 		</th>
 		<th>
-			@Html.DisplayNameFor(model => model.IsActive)
+			@Html.DisplayNameFor(model => model.ToList().FirstOrDefault().IsActive)
 		</th>
 		<th></th>
 	</tr>
@@ -42,9 +42,12 @@
 			</td>
 			<td>
 				@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-				@Html.ActionLink("Delete", "Delete", new { id = item.Id })				
+				@Html.ActionLink("Delete", "Delete", new { id = item.Id })
 			</td>
 		</tr>
 	}
 
 </table>
+
+Страница @(Model.PageCount< Model.PageNumber?0:Model.PageNumber) из @Model.PageCount
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))

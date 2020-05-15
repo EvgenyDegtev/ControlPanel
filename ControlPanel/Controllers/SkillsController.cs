@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using ControlPanel.Models;
 using System.Data.Entity;
 using System.Net;
+using PagedList;
 
 namespace ControlPanel.Controllers
 {
@@ -14,15 +15,18 @@ namespace ControlPanel.Controllers
     {
         DataBaseContext db = new DataBaseContext();
 
-        public ActionResult Index(string searchString)
+        public ActionResult Index(string searchString, int? page)
         {
+            int pageSize = 5;
+            int pageNumber = page ?? 1;
+            var skills = db.Skills.ToList();
             if(String.IsNullOrEmpty(searchString))
             {
-                return View(db.Skills.ToList());
+                return View(skills.ToPagedList(pageNumber,pageSize));
             }
-            var skills = db.Skills.Where(skill => skill.Key.Contains(searchString)).ToList();
+            skills = db.Skills.Where(skill => skill.Key.Contains(searchString)).ToList();
 
-            return View(skills);
+            return View(skills.ToPagedList(pageNumber,pageSize));
         }
 
         [HttpGet]
