@@ -19,7 +19,7 @@ namespace ControlPanel.Models
         [Display(Name = "Логин")]
         [Required(ErrorMessage ="Требуется поле Логин")]
         [StringLength(100, ErrorMessage = "Максимальная длина - 100 символов")]
-        [Remote(action:"CheckLoginUnique",controller:"Agents")]
+        [Remote(action:"CheckLoginUnique",controller:"Agents", AdditionalFields =nameof(Id))]
         public string Login { get; set; }
 
         [Display(Name = "Алгоритм")]

@@ -102,11 +102,30 @@ namespace ControlPanel.Controllers
         }
 
         [HttpGet]
-        public JsonResult CheckLoginUnique (string Login)
+        public JsonResult CheckLoginUnique (string Login, int? Id)
         {
             var agents = db.Agents.Where(ag => ag.Login == Login);
-            if(agents.Count()>=1)
+            //create agent
+            if (Id==null)
             {
+                if (agents.Count() > 0)
+                {
+                    return Json($"Агент с логином {Login} уже существует", JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(true, JsonRequestBehavior.AllowGet);
+                }
+            }
+            //edit agent
+            if(agents.Count()>0)
+            {
+                var agent = agents.First();
+                //login corresponds id
+                if(agent.Id==Id)
+                {
+                    return Json(true, JsonRequestBehavior.AllowGet);
+                }
                 return Json($"Агент с логином {Login} уже существует", JsonRequestBehavior.AllowGet);
             }
             return Json(true, JsonRequestBehavior.AllowGet);
