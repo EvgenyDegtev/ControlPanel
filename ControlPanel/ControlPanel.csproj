@@ -133,6 +133,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AgentsController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\GroupsController.cs" />
     <Compile Include="Controllers\RoutesController.cs" />
     <Compile Include="Controllers\SkillsController.cs" />
@@ -267,6 +268,7 @@
     <Content Include="Views\Skills\Create.cshtml" />
     <Content Include="Views\Skills\Delete.cshtml" />
     <Content Include="Views\Skills\Edit.cshtml" />
+    <Content Include="Views\Error\StatusCode404.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
