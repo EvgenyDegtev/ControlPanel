@@ -109,6 +109,30 @@ namespace ControlPanel.Controllers
             return Json(true, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult SkillRoutes(int? id)
+        {
+            if(id==null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Skill skill = db.Skills.Include(sk => sk.Routes).FirstOrDefault(sk => sk.Id == id);
+            if(skill==null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            }
+            return View(skill);
+        }
+
+        public ActionResult RemoveRoute(int id, int routeId)
+        {
+            Route route = db.Routes.Find(routeId);
+            Skill skill = db.Skills.Find(id);
+            route.SkillId = null;
+            db.Entry(route).State = EntityState.Modified;
+            db.SaveChanges();           
+            return RedirectToAction("SkillRoutes", skill);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if(disposing)

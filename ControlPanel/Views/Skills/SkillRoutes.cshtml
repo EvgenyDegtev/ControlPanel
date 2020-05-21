@@ -1,0 +1,32 @@
+﻿@model ControlPanel.Models.Skill 
+
+<h2>SkillRoutes</h2>
+
+
+<table class="table table-hover">
+	<tr>
+		<th>Название</th>
+		<th>ID</th>
+		<th>Активен</th>
+		<th></th>
+	</tr>
+
+	@foreach(var item in Model.Routes)
+	{
+		<tr>
+			<td>
+				@Html.DisplayFor(route=>item.Name)
+			</td>
+			<td>
+				@Html.DisplayFor(route=>item.Key)
+			</td>
+			<td>
+				@Html.DisplayFor(route=>item.IsActive)
+			</td>
+			<td>
+				@Html.ActionLink("Delete","RemoveRoute", new { id=Model.Id, routeId=item.Id})
+			</td>
+		</tr>
+	}
+</table>
+
