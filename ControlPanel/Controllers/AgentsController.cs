@@ -131,6 +131,27 @@ namespace ControlPanel.Controllers
             return Json(true, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult AgentSkills(int? id)
+        {
+            if(id==null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Agent agent = db.Agents.Include(ag => ag.AgentToSkills).FirstOrDefault(ag => ag.Id == id);
+            if(agent==null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            }
+            return View(agent);
+        }
+
+        public ActionResult AddSkill (int id)
+        {
+            List<Skill> skills = db.Skills.ToList();
+            ViewBag.AgenId = id;
+            return View(skills);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

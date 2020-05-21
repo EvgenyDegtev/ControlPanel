@@ -69,6 +69,12 @@
 		</div>
 	</div>
 
-	@Html.ActionLink("Back to List", "Index")
+	<div>
+		@Html.ActionLink("Back to List", "Index")
+	</div>
+	<div>
+		@Html.ActionLink("Навыки","AgentSkills", new {id=Model.Id })
+	</div>
+	
 
 }

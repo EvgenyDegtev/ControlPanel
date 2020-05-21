@@ -1,0 +1,34 @@
+﻿@model List<ControlPanel.Models.Skill>
+
+<h2>AddSkill</h2>
+
+<table class="table table-hover">
+	<tr>
+		<th>Навык</th>
+		<th>ID</th>
+		<th>Алгоритм</th>
+		<th></th>
+	</tr>
+	@foreach(var item in Model)
+	{
+		<tr>
+			<td>
+				@Html.DisplayFor(skill=>item.Name)
+			</td>
+			<td>
+				@Html.DisplayFor(skill=>item.Key)
+			</td>
+			<td>
+				@Html.DisplayFor(skill=>item.Algorithm)
+			</td>
+			<td>
+				@Html.ActionLink("Add","AddSkillsConfirmation", new { id=ViewBag.AgenId, skillId=item.Id})
+			</td>
+		</tr>
+	}
+
+
+</table>
+
+
+

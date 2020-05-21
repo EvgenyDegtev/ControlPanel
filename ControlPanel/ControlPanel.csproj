@@ -270,6 +270,8 @@
     <Content Include="Views\Skills\Edit.cshtml" />
     <Content Include="Views\Error\StatusCode404.cshtml" />
     <Content Include="Views\Skills\SkillRoutes.cshtml" />
+    <Content Include="Views\Agents\AgentSkills.cshtml" />
+    <Content Include="Views\Agents\AddSkill.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
