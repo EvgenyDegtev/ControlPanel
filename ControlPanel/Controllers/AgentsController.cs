@@ -148,9 +148,24 @@ namespace ControlPanel.Controllers
         public ActionResult AddSkill (int id)
         {
             List<Skill> skills = db.Skills.ToList();
-            ViewBag.AgenId = id;
+            ViewBag.AgentId = id;
             return View(skills);
         }
+
+        [HttpGet]
+        public ActionResult SkillAddConfirmation(int id, int skillId)
+        {
+            AgentToSkill agentToSkill = new AgentToSkill { AgentId = id, SkillId = skillId };
+            return View(agentToSkill);
+        }
+
+        public ActionResult SkillAddConfirmation([Bind(Include ="AgentId,SkillId")] AgentToSkill agentToSkill)
+        {
+
+            return RedirectToAction("AgentSkills", new { id=19});
+        }
+
+
 
         protected override void Dispose(bool disposing)
         {

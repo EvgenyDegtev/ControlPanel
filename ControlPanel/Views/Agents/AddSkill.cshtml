@@ -22,7 +22,7 @@
 				@Html.DisplayFor(skill=>item.Algorithm)
 			</td>
 			<td>
-				@Html.ActionLink("Add","AddSkillsConfirmation", new { id=ViewBag.AgenId, skillId=item.Id})
+				@Html.ActionLink("Add","SkillAddConfirmation", new { id=ViewBag.AgentId, skillId=item.Id})
 			</td>
 		</tr>
 	}
