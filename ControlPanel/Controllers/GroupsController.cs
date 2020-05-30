@@ -9,12 +9,15 @@ using System.Web.Mvc;
 using ControlPanel.Models;
 using PagedList;
 using ControlPanel.Filters;
+using NLog;
+using System.Reflection;
 
 namespace ControlPanel.Controllers
 {
     public class GroupsController : Controller
     {
         private DataBaseContext db = new DataBaseContext();
+        private static Logger logger = LogManager.GetCurrentClassLogger();
 
         [ErrorLogger]
         public ActionResult Index(string searchString, int? page)

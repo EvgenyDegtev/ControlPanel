@@ -10,6 +10,7 @@ using PagedList;
 using PagedList.Mvc;
 using NLog;
 using ControlPanel.Filters;
+using System.Reflection;
 
 
 namespace ControlPanel.Controllers
@@ -22,15 +23,18 @@ namespace ControlPanel.Controllers
         [ErrorLogger]
         public ActionResult Index(string searchString, int? page)
         {
-            logger.Info("Controller: Agents Method: Index started");
+            logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}| Input params: {nameof(searchString)}={searchString}, {nameof(page)}={page} ");
+
             int pageSize = 5;
             int pageNumber = page ?? 1;
             var agents = db.Agents.Include(agent => agent.Group).ToList();
             if(String.IsNullOrEmpty(searchString))
             {
+                logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
                 return View(agents.ToPagedList(pageNumber, pageSize));
             }
             agents = agents.Where(agent => agent.Login.Contains(searchString)).ToList();
+            logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
             return View(agents.ToPagedList(pageNumber, pageSize));
         }
 
