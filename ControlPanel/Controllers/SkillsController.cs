@@ -7,6 +7,7 @@ using ControlPanel.Models;
 using System.Data.Entity;
 using System.Net;
 using PagedList;
+using ControlPanel.Filters;
 
 namespace ControlPanel.Controllers
 {
@@ -15,6 +16,7 @@ namespace ControlPanel.Controllers
     {
         DataBaseContext db = new DataBaseContext();
 
+        [ErrorLogger]
         public ActionResult Index(string searchString, int? page)
         {
             int pageSize = 5;
@@ -30,12 +32,14 @@ namespace ControlPanel.Controllers
         }
 
         [HttpGet]
+        [ErrorLogger]
         public ActionResult Create(int? id)
         {
             return View();
         }
 
         [HttpPost]
+        [ErrorLogger]
         public ActionResult Create([Bind] Skill skill)
         {
             if(ModelState.IsValid)
@@ -48,6 +52,7 @@ namespace ControlPanel.Controllers
         }
 
         [HttpGet]
+        [ErrorLogger]
         public ActionResult Delete (int? id)
         {
             if(id==null)
@@ -63,6 +68,7 @@ namespace ControlPanel.Controllers
         }
 
         [HttpPost]
+        [ErrorLogger]
         public ActionResult Delete(int id)
         {
             Skill skill = db.Skills.Find(id);
@@ -72,6 +78,7 @@ namespace ControlPanel.Controllers
         }
 
         [HttpGet]
+        [ErrorLogger]
         public ActionResult Edit (int? id)
         {
             if(id==null)
@@ -87,6 +94,7 @@ namespace ControlPanel.Controllers
         }
 
         [HttpPost]
+        [ErrorLogger]
         public ActionResult Edit ([Bind] Skill skill)
         {
             if(ModelState.IsValid)
@@ -99,6 +107,7 @@ namespace ControlPanel.Controllers
         }
 
         [HttpGet]
+        [ErrorLogger]
         public JsonResult CheckKeyUnique(string Key)
         {
             var skills = db.Skills.Where(sk => sk.Key == Key);
@@ -109,6 +118,7 @@ namespace ControlPanel.Controllers
             return Json(true, JsonRequestBehavior.AllowGet);
         }
 
+        [ErrorLogger]
         public ActionResult SkillRoutes(int? id)
         {
             if(id==null)
@@ -123,6 +133,7 @@ namespace ControlPanel.Controllers
             return View(skill);
         }
 
+        [ErrorLogger]
         public ActionResult RemoveRoute(int id, int routeId)
         {
             Route route = db.Routes.Find(routeId);

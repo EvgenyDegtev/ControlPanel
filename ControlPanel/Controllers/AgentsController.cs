@@ -9,6 +9,7 @@ using System.Net;
 using PagedList;
 using PagedList.Mvc;
 using NLog;
+using ControlPanel.Filters;
 
 
 namespace ControlPanel.Controllers
@@ -17,7 +18,8 @@ namespace ControlPanel.Controllers
     {
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
         DataBaseContext db = new DataBaseContext();
-        // GET: Agent
+
+        [ErrorLogger]
         public ActionResult Index(string searchString, int? page)
         {
             logger.Info("Controller: Agents Method: Index started");
@@ -33,6 +35,7 @@ namespace ControlPanel.Controllers
         }
 
         [HttpGet]
+        [ErrorLogger]
         public ActionResult Create()
         {
             ViewBag.GR = new SelectList(db.Groups, "Id", "Name");
@@ -40,6 +43,7 @@ namespace ControlPanel.Controllers
         }
 
         [HttpPost]
+        [ErrorLogger]
         public ActionResult Create([Bind(Include = "Id,Name,Login,Algorithm,IsAlgorithmAllowServiceLevel,WorkloadMaxContactsCount,IsActive,GroupId")] Agent agent)
         {
             if (ModelState.IsValid)
@@ -52,6 +56,7 @@ namespace ControlPanel.Controllers
         }
 
         [HttpGet]
+        [ErrorLogger]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -66,7 +71,9 @@ namespace ControlPanel.Controllers
             return View(agent);
 
         }
+
         [HttpPost]
+        [ErrorLogger]
         public ActionResult Delete(int id)
         {
             Agent agent = db.Agents.Find(id);
@@ -76,6 +83,7 @@ namespace ControlPanel.Controllers
         }
 
         [HttpGet]
+        [ErrorLogger]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -92,6 +100,7 @@ namespace ControlPanel.Controllers
         }
 
         [HttpPost]
+        [ErrorLogger]
         public ActionResult Edit([Bind(Include = "Id,Name,Login,Algorithm,IsAlgorithmAllowServiceLevel,WorkloadMaxContactsCount,IsActive,GroupId")] Agent agent)
         {
             if (ModelState.IsValid)
@@ -105,6 +114,7 @@ namespace ControlPanel.Controllers
         }
 
         [HttpGet]
+        [ErrorLogger]
         public JsonResult CheckLoginUnique (string Login, int? Id)
         {
             var agents = db.Agents.Where(ag => ag.Login == Login);
@@ -148,6 +158,8 @@ namespace ControlPanel.Controllers
             return View(agent);
         }
 
+        [HttpGet]
+        [ErrorLogger]
         public ActionResult AddSkill (int id)
         {
             List<Skill> skills = db.Skills.ToList();
@@ -156,12 +168,15 @@ namespace ControlPanel.Controllers
         }
 
         [HttpGet]
+        [ErrorLogger]
         public ActionResult SkillAddConfirmation(int id, int skillId)
         {
             AgentToSkill agentToSkill = new AgentToSkill { AgentId = id, SkillId = skillId };
             return View(agentToSkill);
         }
 
+        [HttpPost]
+        [ErrorLogger]
         public ActionResult SkillAddConfirmation([Bind(Include ="AgentId,SkillId")] AgentToSkill agentToSkill)
         {
 
