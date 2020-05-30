@@ -8,16 +8,19 @@ using ControlPanel.Models;
 using System.Net;
 using PagedList;
 using PagedList.Mvc;
+using NLog;
 
 
 namespace ControlPanel.Controllers
 {
     public class AgentsController : Controller
     {
+        private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
         DataBaseContext db = new DataBaseContext();
         // GET: Agent
         public ActionResult Index(string searchString, int? page)
         {
+            logger.Info("Controller: Agents Method: Index started");
             int pageSize = 5;
             int pageNumber = page ?? 1;
             var agents = db.Agents.Include(agent => agent.Group).ToList();
