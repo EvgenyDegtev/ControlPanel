@@ -22,103 +22,122 @@ namespace ControlPanel.Controllers
         [ErrorLogger]
         public ActionResult Index(string searchString, int? page)
         {
+            logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}| Input params: {nameof(searchString)}={searchString}, {nameof(page)}={page} ");
+
             int pageSize = 5;
             int pageNumber = page ?? 1;
             var groups = db.Groups.ToList();
             if(String.IsNullOrEmpty(searchString))
             {
+                logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
                 return View(groups.ToPagedList(pageNumber,pageSize));
             }
             groups = groups.Where(group => group.Name.Contains(searchString)).ToList();
-            //var groups = db.Groups.Where(gr => gr.Name.Contains(searchString)).ToList();
+
+            logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
             return View(groups.ToPagedList(pageNumber,pageSize));
         }
 
-        // GET: Group/Create
+        [HttpGet]
         [ErrorLogger]
         public ActionResult Create()
         {
+            logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
+            logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
             return View();
         }
 
-        // POST: Group/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ErrorLogger]
         public ActionResult Create([Bind(Include = "Id,Name,Description,IsActive")] Group group)
         {
+            logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(group.Name)}={group.Name}, {nameof(group.Description)}={group.Description}");
+
             if (ModelState.IsValid)
             {
                 db.Groups.Add(group);
                 db.SaveChanges();
+
+                logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
                 return RedirectToAction("Index");
             }
 
+            logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
             return View(group);
         }
 
-        // GET: Group/Edit/5
+       
+
         [ErrorLogger]
-        public ActionResult Edit(int? id)
+        public ActionResult Delete(int? id)
         {
+            logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(id)}={id}");
             if (id == null)
             {
+                logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Group group = db.Groups.Find(id);
             if (group == null)
             {
+                logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
                 return HttpNotFound();
             }
+            logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
             return View(group);
         }
 
-        // POST: Group/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost, ActionName("Delete")]
+        [ErrorLogger]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(id)}={id}");
+            Group group = db.Groups.Find(id);
+            db.Groups.Remove(group);
+            db.SaveChanges();
+
+            logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
+            return RedirectToAction("Index");
+        }
+
+        [ErrorLogger]
+        public ActionResult Edit(int? id)
+        {
+            logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(id)}={id}");
+            if (id == null)
+            {
+                logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Group group = db.Groups.Find(id);
+            if (group == null)
+            {
+                logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
+                return HttpNotFound();
+            }
+
+            logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
+            return View(group);
+        }
+
         [HttpPost]
         [ErrorLogger]
         public ActionResult Edit([Bind(Include = "Id,Name,Description,IsActive")] Group group)
         {
+            logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(group.Id)}={group.Id}, {nameof(group.Name)}={group.Name}, {nameof(group.Description)}={group.Description}");
+
             if (ModelState.IsValid)
             {
                 db.Entry(group).State = EntityState.Modified;
                 db.SaveChanges();
+
+                logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
                 return RedirectToAction("Index");
             }
+            logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
             return View(group);
         }
 
-        // GET: Group/Delete/5
-        [ErrorLogger]
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Group group = db.Groups.Find(id);
-            if (group == null)
-            {
-                return HttpNotFound();
-            }
-            return View(group);
-        }
-
-        // POST: Group/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        [ErrorLogger]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Group group = db.Groups.Find(id);
-            db.Groups.Remove(group);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
-        //Get
         [HttpGet]
         [ErrorLogger]
         public ActionResult GroupAgents(int? id)
@@ -159,7 +178,6 @@ namespace ControlPanel.Controllers
             db.SaveChanges();
             return RedirectToAction("GroupAgents",group);
         }
-
 
         protected override void Dispose(bool disposing)
         {

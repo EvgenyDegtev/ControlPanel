@@ -8,33 +8,42 @@ using System.Data.Entity;
 using System.Net;
 using PagedList;
 using ControlPanel.Filters;
+using NLog;
+using System.Reflection;
 
 namespace ControlPanel.Controllers
 {
     
     public class SkillsController : Controller
     {
+        private static Logger logger = LogManager.GetCurrentClassLogger();
         DataBaseContext db = new DataBaseContext();
 
         [ErrorLogger]
         public ActionResult Index(string searchString, int? page)
         {
+            logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}| Input params: {nameof(searchString)}={searchString}, {nameof(page)}={page} ");
+
             int pageSize = 5;
             int pageNumber = page ?? 1;
             var skills = db.Skills.ToList();
             if(String.IsNullOrEmpty(searchString))
             {
+                logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
                 return View(skills.ToPagedList(pageNumber,pageSize));
             }
             skills = db.Skills.Where(skill => skill.Key.Contains(searchString)).ToList();
 
+            logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
             return View(skills.ToPagedList(pageNumber,pageSize));
         }
 
         [HttpGet]
         [ErrorLogger]
-        public ActionResult Create(int? id)
+        public ActionResult Create()
         {
+            logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
+            logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
             return View();
         }
 
@@ -42,12 +51,18 @@ namespace ControlPanel.Controllers
         [ErrorLogger]
         public ActionResult Create([Bind] Skill skill)
         {
-            if(ModelState.IsValid)
+            logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(skill.Name)}={skill.Name}, {nameof(skill.Key)}={skill.Key}, {nameof(skill.Algorithm)}={skill.Algorithm}");
+
+            if (ModelState.IsValid)
             {
                 db.Skills.Add(skill);
                 db.SaveChanges();
+
+                logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
                 return RedirectToAction("Index");
             }
+
+            logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
             return View(skill);
         }
 
@@ -55,15 +70,19 @@ namespace ControlPanel.Controllers
         [ErrorLogger]
         public ActionResult Delete (int? id)
         {
-            if(id==null)
+            logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(id)}={id}");
+            if (id==null)
             {
+                logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Skill skill = db.Skills.Find(id);
             if(skill==null)
             {
+                logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             }
+            logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
             return View(skill);
         }
 
@@ -71,9 +90,11 @@ namespace ControlPanel.Controllers
         [ErrorLogger]
         public ActionResult Delete(int id)
         {
+            logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(id)}={id}");
             Skill skill = db.Skills.Find(id);
             db.Skills.Remove(skill);
             db.SaveChanges();
+            logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
             return RedirectToAction("Index");
         }
 
@@ -81,15 +102,20 @@ namespace ControlPanel.Controllers
         [ErrorLogger]
         public ActionResult Edit (int? id)
         {
-            if(id==null)
+            logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(id)}={id}");
+            if (id==null)
             {
+                logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Skill skill = db.Skills.Find(id);
             if(skill==null)
             {
+                logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             }
+
+            logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
             return View(skill);
         }
 
@@ -97,12 +123,16 @@ namespace ControlPanel.Controllers
         [ErrorLogger]
         public ActionResult Edit ([Bind] Skill skill)
         {
-            if(ModelState.IsValid)
+            logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(skill.Id)}={skill.Id}, {nameof(skill.Name)}={skill.Name}, {nameof(skill.Key)}={skill.Key}, {nameof(skill.Algorithm)}={skill.Algorithm}");
+            if (ModelState.IsValid)
             {
                 db.Entry(skill).State = EntityState.Modified;
                 db.SaveChanges();
+
+                logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
                 return RedirectToAction("Index");
             }
+            logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
             return View(skill);
         }
 
