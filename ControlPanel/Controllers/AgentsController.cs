@@ -201,15 +201,28 @@ namespace ControlPanel.Controllers
         public ActionResult SkillAddConfirmation(int id, int skillId)
         {
             AgentToSkill agentToSkill = new AgentToSkill { AgentId = id, SkillId = skillId };
+            string skillName = db.Skills.Find(skillId).Name;
+            ViewBag.SkillName = skillName;
             return View(agentToSkill);
         }
 
         [HttpPost]
         [ErrorLogger]
-        public ActionResult SkillAddConfirmation([Bind(Include ="AgentId,SkillId")] AgentToSkill agentToSkill)
+        public ActionResult SkillAddConfirmation([Bind] AgentToSkill agentToSkill)
         {
+            logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(agentToSkill.AgentId)}={agentToSkill.AgentId}, {nameof(agentToSkill.SkillId)}={agentToSkill.SkillId}, {nameof(agentToSkill.Level)}={agentToSkill.Level}, {nameof(agentToSkill.OrderIndex)}={agentToSkill.OrderIndex}, {nameof(agentToSkill.BreakingMode)}={agentToSkill.BreakingMode}, {nameof(agentToSkill.Percent)}={agentToSkill.Percent}");
+            
+            if(ModelState.IsValid)
+            {
+                agentToSkill.IsActive = true;
+                db.AgentToSkills.Add(agentToSkill);
+                db.SaveChanges();
+                logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
+                return RedirectToAction("AgentSkills", new { id = agentToSkill.AgentId });
+            }
 
-            return RedirectToAction("AgentSkills", new { id=19});
+            logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
+            return View(agentToSkill);
         }
 
 
