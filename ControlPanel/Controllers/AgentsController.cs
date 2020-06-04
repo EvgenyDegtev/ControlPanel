@@ -146,16 +146,19 @@ namespace ControlPanel.Controllers
         [ErrorLogger]
         public JsonResult CheckLoginUnique (string Login, int? Id)
         {
+            logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(Login)}={Login}, {nameof(Id)}={Id}");
             var agents = db.Agents.Where(ag => ag.Login == Login);
             //create agent
             if (Id==null)
             {
                 if (agents.Count() > 0)
                 {
+                    logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
                     return Json($"Агент с логином {Login} уже существует", JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
+                    logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
                     return Json(true, JsonRequestBehavior.AllowGet);
                 }
             }
@@ -166,26 +169,36 @@ namespace ControlPanel.Controllers
                 //login corresponds id
                 if(agent.Id==Id)
                 {
+                    logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
                     return Json(true, JsonRequestBehavior.AllowGet);
                 }
+                logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
                 return Json($"Агент с логином {Login} уже существует", JsonRequestBehavior.AllowGet);
             }
+            logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
             return Json(true, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpGet]
+        [ErrorLogger]
         public ActionResult AgentSkills(int? id)
         {
-            if(id==null)
+            logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(id)}={id}");
+            if (id==null)
             {
+                logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Agent agent = db.Agents.Include(ag => ag.AgentToSkills).FirstOrDefault(ag => ag.Id == id);
             if(agent==null)
             {
+                logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             }
             List<AgentToSkill> agentToSkills = db.AgentToSkills.Include(agentToSkill => agentToSkill.Skill).Where(agentToSkill => agentToSkill.AgentId == id).ToList();
             ViewBag.AgentId = id;
+
+            logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
             return View(agentToSkills);
         }
 
@@ -193,8 +206,11 @@ namespace ControlPanel.Controllers
         [ErrorLogger]
         public ActionResult AddSkill (int id)
         {
+            logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(id)}={id}");
             List<Skill> skills = db.Skills.ToList();
             ViewBag.AgentId = id;
+
+            logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
             return View(skills);
         }
 
@@ -202,9 +218,12 @@ namespace ControlPanel.Controllers
         [ErrorLogger]
         public ActionResult SkillAddConfirmation(int id, int skillId)
         {
+            logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(id)}={id}, {nameof(skillId)}={skillId}");
             AgentToSkill agentToSkill = new AgentToSkill { AgentId = id, SkillId = skillId };
             string skillName = db.Skills.Find(skillId).Name;
             ViewBag.SkillName = skillName;
+
+            logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
             return View(agentToSkill);
         }
 
@@ -235,6 +254,7 @@ namespace ControlPanel.Controllers
             AgentToSkill agentToSkill = db.AgentToSkills.Where(agToSkill =>( agToSkill.AgentId == id && agToSkill.SkillId == skillId)).FirstOrDefault();
             db.Entry(agentToSkill).State = EntityState.Deleted;
             db.SaveChanges();
+
             logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
             return RedirectToAction("AgentSkills", new { id });
         }
