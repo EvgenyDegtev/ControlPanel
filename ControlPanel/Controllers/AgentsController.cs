@@ -185,6 +185,7 @@ namespace ControlPanel.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             }
             List<AgentToSkill> agentToSkills = db.AgentToSkills.Include(agentToSkill => agentToSkill.Skill).Where(agentToSkill => agentToSkill.AgentId == id).ToList();
+            ViewBag.AgentId = id;
             return View(agentToSkills);
         }
 
@@ -226,7 +227,17 @@ namespace ControlPanel.Controllers
             return View(agentToSkill);
         }
 
-
+        [HttpGet]
+        [ErrorLogger]
+        public ActionResult RemoveSkill (int id, int skillId)
+        {
+            logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(id)}={id}, {nameof(skillId)}={skillId}");
+            AgentToSkill agentToSkill = db.AgentToSkills.Where(agToSkill =>( agToSkill.AgentId == id && agToSkill.SkillId == skillId)).FirstOrDefault();
+            db.Entry(agentToSkill).State = EntityState.Deleted;
+            db.SaveChanges();
+            logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
+            return RedirectToAction("AgentSkills", new { id });
+        }
 
         protected override void Dispose(bool disposing)
         {
