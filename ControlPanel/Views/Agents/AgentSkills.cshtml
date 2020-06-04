@@ -1,30 +1,43 @@
-﻿@model ControlPanel.Models.Agent
+﻿@model IEnumerable<ControlPanel.Models.AgentToSkill>
 
 <h2>AgentSkills</h2>
 
 <p>
-	@Html.ActionLink("Добавить навык", "AddSkill", new { id = Model.Id })
+	@* Do  not work *@
+	@Html.ActionLink("Добавить навык", "AddSkill", new { id = Model.First().AgentId })
 </p>
 
 <table class="table table-hover">
 	<tr>
-		<th>Навык</th>
-		<th>ID</th>
-		<th>Уровень</th>
-		<th>Режим прерываний</th>
-		<th>Порядок</th>
-		<th>Процент</th>
+		<th>
+			@Html.LabelFor(model=>model.FirstOrDefault().Skill.Name)
+		</th>
+		<th>
+			@Html.LabelFor(model=>model.FirstOrDefault().Skill.Key)
+		</th>
+		<th>
+			@Html.LabelFor(model=>model.FirstOrDefault().Level)
+		</th>
+		<th>
+			@Html.LabelFor(model=>model.FirstOrDefault().BreakingMode)
+		</th>
+		<th>
+			@Html.LabelFor(model=>model.FirstOrDefault().OrderIndex)
+		</th>
+		<th>
+			@Html.LabelFor(model=>model.FirstOrDefault().Percent)
+		</th>
 		<th></th>
 	</tr>
 
-	@foreach(var item in Model.AgentToSkills)
+	@foreach(var item in Model)
 	{
 		<tr>
 			<td>
-
+				@Html.DisplayFor(skill => item.Skill.Name)
 			</td>
 			<td>
-				@Html.DisplayFor(skill=>item.Id)
+				@Html.DisplayFor(skill=>item.Skill.Key)
 			</td>
 			<td>
 				@Html.DisplayFor(skill=>item.Level)
@@ -39,7 +52,8 @@
 				@Html.DisplayFor(skill=>item.Percent)
 			</td>
 			<td>
-				@Html.ActionLink("Delete","RemoveSkill",new {id=Model.Id, skillId=item.Id })
+				@Html.ActionLink("Edit", "Edit", "AgentToSkill", new { id = item.Id }, new { }) |
+				@Html.ActionLink("Delete", "RemoveSkill", new { id = Model.First().AgentId, skillId = item.SkillId })
 			</td>
 		</tr>
 

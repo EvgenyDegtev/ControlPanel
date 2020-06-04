@@ -184,7 +184,8 @@ namespace ControlPanel.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             }
-            return View(agent);
+            List<AgentToSkill> agentToSkills = db.AgentToSkills.Include(agentToSkill => agentToSkill.Skill).Where(agentToSkill => agentToSkill.AgentId == id).ToList();
+            return View(agentToSkills);
         }
 
         [HttpGet]
