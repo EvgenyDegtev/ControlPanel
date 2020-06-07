@@ -19,7 +19,7 @@
 	<div class="form-group">
 		@Html.LabelFor(model=>model.Level, htmlAttributes: new {@class="control-label col-md-2" })
 		<div class="col-md-10">
-			@Html.EditorFor(model => model.Level, new { htmlAttributes = new { @class = "form-control" } })
+			@Html.DropDownListFor(model => model.Level, ViewBag.levels as SelectList, htmlAttributes: new { @class = "form-control" })
 		</div>
 	</div>
 
@@ -33,7 +33,7 @@
 	<div class="form-group">
 		@Html.LabelFor(model=>model.BreakingMode, htmlAttributes: new {@class="control-label col-md-2" })
 		<div class="col-md-10">
-			@Html.EditorFor(model=>model.BreakingMode, new { htmlAttributes = new {@class="form-control"} })
+			@Html.DropDownListFor(model => model.BreakingMode, ViewBag.modes as SelectList, htmlAttributes: new { @class = "form-control" })
 		</div>
 	</div>
 
