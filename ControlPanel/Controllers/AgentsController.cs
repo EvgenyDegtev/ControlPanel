@@ -270,6 +270,54 @@ namespace ControlPanel.Controllers
 
         [HttpGet]
         [ErrorLogger]
+        public ActionResult EditSkill (int id, int skillId)
+        {
+            logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(id)}={id}, {nameof(skillId)}={skillId}");
+            AgentToSkill agentToSkill = db.AgentToSkills.Where(agToSkill => agToSkill.AgentId == id && agToSkill.SkillId == skillId).First();
+            string skillName = db.Skills.Find(skillId).Name;
+            ViewBag.SkillName = skillName;
+
+            var level1 = new { Level = 1, LevelName = "1" };
+            var level2 = new { Level = 2, LevelName = "2" };
+            var level3 = new { Level = 3, LevelName = "3" };
+            var level4 = new { Level = 4, LevelName = "4" };
+            var level5 = new { Level = 5, LevelName = "5" };
+            var level6 = new { Level = 6, LevelName = "6" };
+            var level7 = new { Level = 7, LevelName = "7" };
+            var level8 = new { Level = 8, LevelName = "8" };
+            var level9 = new { Level = 9, LevelName = "9" };
+            var level10 = new { Level = 10, LevelName = "10" };
+            var levelR1 = new { Level = -1, LevelName = "R1" };
+            var levelR2 = new { Level = -2, LevelName = "R2" };
+            var levels = new[] { level1, level2, level3, level4, level5, level6, level7, level8, level9, level10, levelR1, levelR2 };
+            ViewBag.levels = new SelectList(levels, "Level", "LevelName", agentToSkill.Level); ;
+
+
+
+            var mode1 = new { BreakingMode = 1, BreakingModeName = "Отключен" };
+            var mode2 = new { BreakingMode = 2, BreakingModeName = "Автоматический" };
+            var mode3 = new { BreakingMode = 3, BreakingModeName = "Ручной" };
+            var modes = new[] { mode1, mode2, mode3 };
+            ViewBag.modes = new SelectList(modes, "BreakingMode", "BreakingModename", agentToSkill.BreakingMode);
+
+            logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
+            return View(agentToSkill);
+        }
+
+        [HttpPost]
+        [ErrorLogger]
+        public ActionResult EditSkill ([Bind] AgentToSkill agentToSkill)
+        {
+            logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(agentToSkill.AgentId)}={agentToSkill.AgentId}, {nameof(agentToSkill.SkillId)}={agentToSkill.SkillId}, {nameof(agentToSkill.Level)}={agentToSkill.Level}, {nameof(agentToSkill.OrderIndex)}={agentToSkill.OrderIndex}, {nameof(agentToSkill.BreakingMode)}={agentToSkill.BreakingMode}, {nameof(agentToSkill.Percent)}={agentToSkill.Percent}");
+            
+            
+            
+            logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        [ErrorLogger]
         public ActionResult RemoveSkill (int id, int skillId)
         {
             logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(id)}={id}, {nameof(skillId)}={skillId}");

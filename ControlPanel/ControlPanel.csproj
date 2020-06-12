@@ -287,6 +287,7 @@
     <Content Include="Views\Agents\AgentSkills.cshtml" />
     <Content Include="Views\Agents\AddSkill.cshtml" />
     <Content Include="Views\Agents\SkillAddConfirmation.cshtml" />
+    <Content Include="Views\Agents\EditSkill.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
