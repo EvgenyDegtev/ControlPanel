@@ -19,6 +19,7 @@ namespace ControlPanel.Controllers
         private static Logger logger = LogManager.GetCurrentClassLogger();
         DataBaseContext db = new DataBaseContext();
 
+        //Get and Post
         [ErrorLogger]
         public ActionResult Index(string searchString, int? page)
         {
@@ -148,6 +149,7 @@ namespace ControlPanel.Controllers
             return Json(true, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpGet]
         [ErrorLogger]
         public ActionResult SkillRoutes(int? id)
         {
@@ -163,6 +165,7 @@ namespace ControlPanel.Controllers
             return View(skill);
         }
 
+        [HttpGet]
         [ErrorLogger]
         public ActionResult RemoveRoute(int id, int routeId)
         {

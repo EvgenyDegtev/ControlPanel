@@ -20,6 +20,7 @@ namespace ControlPanel.Controllers
         private static Logger logger = LogManager.GetCurrentClassLogger();
         DataBaseContext db = new DataBaseContext();
 
+        //Get and Post
         [ErrorLogger]
         public ActionResult Index(string searchString, int? page)
         {

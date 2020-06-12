@@ -8,7 +8,7 @@ namespace ControlPanel.Controllers
 {
     public class ErrorController : Controller
     {
-        // GET: Error
+        [HttpGet]
         public ActionResult StatusCode404()
         {
             Response.StatusCode = 404;

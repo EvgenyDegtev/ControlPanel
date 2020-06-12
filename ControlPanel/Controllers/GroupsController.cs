@@ -19,6 +19,7 @@ namespace ControlPanel.Controllers
         private DataBaseContext db = new DataBaseContext();
         private static Logger logger = LogManager.GetCurrentClassLogger();
 
+        //Get and Post
         [ErrorLogger]
         public ActionResult Index(string searchString, int? page)
         {
@@ -66,8 +67,7 @@ namespace ControlPanel.Controllers
             return View(group);
         }
 
-       
-
+        [HttpGet]
         [ErrorLogger]
         public ActionResult Delete(int? id)
         {
@@ -87,9 +87,9 @@ namespace ControlPanel.Controllers
             return View(group);
         }
 
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ErrorLogger]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult Delete(int id)
         {
             logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(id)}={id}");
             Group group = db.Groups.Find(id);
@@ -100,6 +100,7 @@ namespace ControlPanel.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpGet]
         [ErrorLogger]
         public ActionResult Edit(int? id)
         {
