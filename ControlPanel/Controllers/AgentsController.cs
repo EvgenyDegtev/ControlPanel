@@ -148,36 +148,28 @@ namespace ControlPanel.Controllers
         public JsonResult CheckLoginUnique (string Login, int? Id)
         {
             logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(Login)}={Login}, {nameof(Id)}={Id}");
-            var agents = db.Agents.Where(ag => ag.Login == Login);
-            //create agent
-            if (Id==null)
+            var agentsAlreadyInDb = db.Agents.Where(ag => ag.Login == Login);
+
+            if(agentsAlreadyInDb.Count() <= 0)
             {
-                if (agents.Count() > 0)
+                logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
+                return Json(true, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                var modifiedAgent = agentsAlreadyInDb.First();
+                //check login corresponds id
+                if (modifiedAgent.Id == Id)
                 {
                     logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
-                    return Json($"Агент с логином {Login} уже существует", JsonRequestBehavior.AllowGet);
+                    return Json(true, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
                     logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
-                    return Json(true, JsonRequestBehavior.AllowGet);
+                    return Json($"Агент с логином {Login} уже существует", JsonRequestBehavior.AllowGet);
                 }
             }
-            //edit agent
-            if(agents.Count()>0)
-            {
-                var agent = agents.First();
-                //login corresponds id
-                if(agent.Id==Id)
-                {
-                    logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
-                    return Json(true, JsonRequestBehavior.AllowGet);
-                }
-                logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
-                return Json($"Агент с логином {Login} уже существует", JsonRequestBehavior.AllowGet);
-            }
-            logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
-            return Json(true, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
@@ -291,8 +283,6 @@ namespace ControlPanel.Controllers
             var levelR2 = new { Level = -2, LevelName = "R2" };
             var levels = new[] { level1, level2, level3, level4, level5, level6, level7, level8, level9, level10, levelR1, levelR2 };
             ViewBag.levels = new SelectList(levels, "Level", "LevelName", agentToSkill.Level); ;
-
-
 
             var mode1 = new { BreakingMode = 1, BreakingModeName = "Отключен" };
             var mode2 = new { BreakingMode = 2, BreakingModeName = "Автоматический" };
