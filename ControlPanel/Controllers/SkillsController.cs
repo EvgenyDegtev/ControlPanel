@@ -139,14 +139,31 @@ namespace ControlPanel.Controllers
 
         [HttpGet]
         [ErrorLogger]
-        public JsonResult CheckKeyUnique(string Key)
+        public JsonResult CheckKeyUnique(string key, int? id)
         {
-            var skills = db.Skills.Where(sk => sk.Key == Key);
-            if (skills.Count()>=1)
+            logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(key)}={key}, {nameof(id)}={id}");
+            var skillsAlreadyInDb = db.Skills.Where(skill => skill.Key == key);
+
+            if (skillsAlreadyInDb.Count() <= 0)
             {
-                return Json($"Навык с ID {Key} уже существует", JsonRequestBehavior.AllowGet);
+                logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
+                return Json(true, JsonRequestBehavior.AllowGet);
             }
-            return Json(true, JsonRequestBehavior.AllowGet);
+            else
+            {
+                var modifiedSkill = skillsAlreadyInDb.First();
+                //check login corresponds id
+                if (modifiedSkill.Id == id)
+                {
+                    logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
+                    return Json(true, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
+                    return Json($"Навык с названием {key} уже существует", JsonRequestBehavior.AllowGet);
+                }
+            }
         }
 
         [HttpGet]

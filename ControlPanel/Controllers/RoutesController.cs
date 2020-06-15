@@ -143,14 +143,31 @@ namespace ControlPanel.Controllers
 
         [HttpGet]
         [ErrorLogger]
-        public JsonResult CheckKeyUnique (string Key)
+        public JsonResult CheckKeyUnique (string key, int? id)
         {
-            var routes = db.Routes.Where(route => route.Key == Key);
-            if(routes.Count()>=1)
+            logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(key)}={key}, {nameof(id)}={id}");
+            var routesAlreadyInDb = db.Routes.Where(route => route.Key == key);
+
+            if (routesAlreadyInDb.Count() <= 0)
             {
-                return Json($"Маршрут с ID {Key} уже существует", JsonRequestBehavior.AllowGet);
+                logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
+                return Json(true, JsonRequestBehavior.AllowGet);
             }
-            return Json(true, JsonRequestBehavior.AllowGet);
+            else
+            {
+                var modifiedRoute = routesAlreadyInDb.First();
+                //check key corresponds id
+                if (modifiedRoute.Id == id)
+                {
+                    logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
+                    return Json(true, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
+                    return Json($"Маршрут с названием {key} уже существует", JsonRequestBehavior.AllowGet);
+                }
+            }
         }
 
         protected override void Dispose(bool disposing)
