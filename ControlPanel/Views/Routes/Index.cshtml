@@ -4,7 +4,7 @@
 <h2>Index</h2>
 
 <p>
-	@Html.ActionLink("Create New","Create")
+	@Html.ActionLink("Добавить","Create")
 </p>
 
 @using(Html.BeginForm("Index","Routes"))
@@ -32,24 +32,24 @@
 		<th></th>
 	</tr>
 
-	@foreach (var item in Model)
+	@foreach (var route in Model)
 	{
 		<tr>
 			<td>
-				@Html.DisplayFor(modelItem => item.Name)
+				@Html.DisplayFor(model => route.Name)
 			</td>
 			<td>
-				@Html.DisplayFor(modelItem=>item.Key)
+				@Html.DisplayFor(model => route.Key)
 			</td>
 			<td>
-				@Html.DisplayFor(modelItem=>item.IsActive)
+				@Html.DisplayFor(model => route.IsActive)
 			</td>
 			<td>
-				@Html.DisplayFor(modelItem=>item.Skill.Name)
+				@Html.DisplayFor(model => route.Skill.Name)
 			</td>
 			<td>
-				@Html.ActionLink("Edit", "Edit",new {id=item.Id }) |
-				@Html.ActionLink("Delete", "Delete",new {id=item.Id })
+				@Html.ActionLink("Редактировать", "Edit",new {id= route.Id }) |
+				@Html.ActionLink("Удалить", "Delete",new {id= route.Id })
 			</td>
 		</tr>
 	}

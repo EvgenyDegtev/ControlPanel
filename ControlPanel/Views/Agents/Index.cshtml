@@ -1,88 +1,79 @@
 ﻿@model PagedList.PagedList<ControlPanel.Models.Agent>
 @using PagedList.Mvc
-<html>
-<head>
-	<title>Control Panel Agent</title>
-</head>
-<body>
-	<h2>Index</h2>
 
+<h2>Index</h2>
+
+<p>
+	@Html.ActionLink("Добавить", "Create")
+</p>
+
+@using (Html.BeginForm("Index", "Agents"))
+{
 	<p>
-		@Html.ActionLink("Create NEW", "Create")
+		<strong>Логин: </strong> <input type="text" name="searchString" />
+		<input type="submit" value="Поиск" />
 	</p>
+}
 
-	@using (Html.BeginForm("Index", "Agents"))
+<table class="table table-hover">
+	<tr>
+		<th>
+			@Html.DisplayNameFor(model => model.ToList().FirstOrDefault().Name)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.ToList().FirstOrDefault().Login)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.ToList().FirstOrDefault().Algorithm)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.ToList().FirstOrDefault().WorkloadMaxContactsCount)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.ToList().FirstOrDefault().IsAlgorithmAllowServiceLevel)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.ToList().FirstOrDefault().IsActive)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.ToList().FirstOrDefault().Group.Name)
+		</th>
+		<th>
+
+		</th>
+	</tr>
+
+	@foreach (var agent in Model)
 	{
-		<p>
-			<strong>Логин: </strong> <input type="text" name="searchString" />
-			<input type="submit" value="Поиск" />
-		</p>
-	}
-
-	<table class="table table-hover">
 		<tr>
-			<th>
-				@Html.DisplayNameFor(model => model.ToList().FirstOrDefault().Name)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.ToList().FirstOrDefault().Login)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.ToList().FirstOrDefault().Algorithm)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.ToList().FirstOrDefault().WorkloadMaxContactsCount)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.ToList().FirstOrDefault().IsAlgorithmAllowServiceLevel)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.ToList().FirstOrDefault().IsActive)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.ToList().FirstOrDefault().Group.Name)
-			</th>
-			<th>
-
-			</th>
+			<td>
+				@Html.DisplayFor(model => agent.Name)
+			</td>
+			<td>
+				@Html.DisplayFor(model => agent.Login)
+			</td>
+			<td>
+				@Html.DisplayFor(model => agent.Algorithm)
+			</td>
+			<td>
+				@Html.DisplayFor(model => agent.WorkloadMaxContactsCount)
+			</td>
+			<td>
+				@Html.DisplayFor(model => agent.IsAlgorithmAllowServiceLevel)
+			</td>
+			<td>
+				@Html.DisplayFor(model => agent.IsActive)
+			</td>
+			<td>
+				@Html.DisplayFor(model => agent.Group.Name)
+			</td>
+			<td>
+				@Html.ActionLink("Редактировать", "Edit", new { id = agent.Id }) |
+				@Html.ActionLink("Удалить", "Delete", new { id = agent.Id })
+			</td>
 		</tr>
-		@foreach (var item in Model)
-		{
-			<tr>
-				<td>
-					@Html.DisplayFor(agentItem => item.Name)
-				</td>
-				<td>
-					@Html.DisplayFor(agentItem => item.Login)
-				</td>
-				<td>
-					@Html.DisplayFor(agentItem => item.Algorithm)
-				</td>
-				<td>
-					@Html.DisplayFor(agentItem => item.WorkloadMaxContactsCount)
-				</td>
-				<td>
-					@Html.DisplayFor(agentItem => item.IsAlgorithmAllowServiceLevel)
-				</td>
-				<td>
-					@Html.DisplayFor(agentItem => item.IsActive)
-				</td>
-				<td>
-					@Html.DisplayFor(agentItem => item.Group.Name)
-				</td>
-				<td>
-					@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-					@Html.ActionLink("Delete", "Delete", new { id = item.Id })
-				</td>
-			</tr>
-		}
+	}
+</table>
 
-	</table>
-
-	Страница @(Model.PageCount< Model.PageNumber?0:Model.PageNumber) из @Model.PageCount
-	@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
-</body>
-
-
-</html>
-
+Страница @(Model.PageCount< Model.PageNumber?0:Model.PageNumber) из @Model.PageCount
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))

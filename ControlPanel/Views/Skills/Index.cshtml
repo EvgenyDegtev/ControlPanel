@@ -1,8 +1,10 @@
 ﻿@model PagedList.PagedList<ControlPanel.Models.Skill>
 @using PagedList.Mvc 
+
 <h2>Index</h2>
+
 <p>
-	@Html.ActionLink("Create New", "Create")
+	@Html.ActionLink("Добавить", "Create")
 </p>
 
 @using(Html.BeginForm("Index","Skills"))
@@ -29,24 +31,25 @@
 		</th>
 		<th></th>
 	</tr>
+
 	@foreach(var skill in Model)
 	{
 		<tr>
 			<td>
-				@Html.DisplayFor(item=>skill.Name)
+				@Html.DisplayFor(model=>skill.Name)
 			</td>
 			<td>
-				@Html.DisplayFor(item=>skill.Key)
+				@Html.DisplayFor(model=>skill.Key)
 			</td>
 			<td>
-				@Html.DisplayFor(item=>skill.Algorithm)
+				@Html.DisplayFor(model=>skill.Algorithm)
 			</td>
 			<td>
-				@Html.DisplayFor(item=>skill.IsActive)
+				@Html.DisplayFor(model=>skill.IsActive)
 			</td>
 			<td>
-				@Html.ActionLink("Edit","Edit",new {id=skill.Id }) |
-				@Html.ActionLink("Delete","Delete", new {id=skill.Id })
+				@Html.ActionLink("Редактировать","Edit",new {id=skill.Id }) |
+				@Html.ActionLink("Удалить","Delete", new {id=skill.Id })
 			</td>
 		</tr>
 	}

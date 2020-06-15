@@ -1,9 +1,10 @@
 ﻿@model PagedList.PagedList<ControlPanel.Models.Group>
 @using PagedList.Mvc
+
 <h2>Index</h2>
 
 <p>
-	@Html.ActionLink("Create New", "Create")
+	@Html.ActionLink("Добавить", "Create")
 </p>
 
 @using (Html.BeginForm("Index", "Groups"))
@@ -28,25 +29,24 @@
 		<th></th>
 	</tr>
 
-	@foreach (var item in Model)
+	@foreach (var group in Model)
 	{
 		<tr>
 			<td>
-				@Html.DisplayFor(modelItem => item.Name)
+				@Html.DisplayFor(model => group.Name)
 			</td>
 			<td>
-				@Html.DisplayFor(modelItem => item.Description)
+				@Html.DisplayFor(model => group.Description)
 			</td>
 			<td>
-				@Html.DisplayFor(modelItem => item.IsActive)
+				@Html.DisplayFor(model => group.IsActive)
 			</td>
 			<td>
-				@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-				@Html.ActionLink("Delete", "Delete", new { id = item.Id })
+				@Html.ActionLink("Редактировать", "Edit", new { id = group.Id }) |
+				@Html.ActionLink("Удалить", "Delete", new { id = group.Id })
 			</td>
 		</tr>
 	}
-
 </table>
 
 Страница @(Model.PageCount< Model.PageNumber?0:Model.PageNumber) из @Model.PageCount
