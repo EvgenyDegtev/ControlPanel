@@ -158,14 +158,31 @@ namespace ControlPanel.Controllers
 
         [HttpGet]
         [ErrorLogger]
-        public JsonResult CheckNameUnique (string Name)
+        public JsonResult CheckNameUnique (string name, int? id)
         {
-            var groups = db.Groups.Where(gr => gr.Name == Name);
-            if(groups.Count()>=1)
+            logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(name)}={name}, {nameof(id)}={id}");
+            var groupsAlreadyInDb = db.Groups.Where(group => group.Name == name);
+
+            if (groupsAlreadyInDb.Count() <= 0)
             {
-                return Json($"Группа с названием {Name} уже существует", JsonRequestBehavior.AllowGet);
+                logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
+                return Json(true, JsonRequestBehavior.AllowGet);
             }
-            return Json(true, JsonRequestBehavior.AllowGet);
+            else
+            {
+                var modifiedGroup = groupsAlreadyInDb.First();
+                //check name corresponds id
+                if (modifiedGroup.Id == id)
+                {
+                    logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
+                    return Json(true, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
+                    return Json($"Группа с названием {name} уже существует", JsonRequestBehavior.AllowGet);
+                }
+            }
         }
 
         [HttpGet]

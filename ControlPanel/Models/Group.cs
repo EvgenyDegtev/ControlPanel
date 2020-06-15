@@ -14,7 +14,7 @@ namespace ControlPanel.Models
         [Display(Name ="Группа")]
         [Required(ErrorMessage = "Требуется поле Группа")]
         [MaxLength(100,ErrorMessage = "Максимальная длина - 100 символов")]
-        [Remote(action:"CheckNameUnique",controller:"Groups")]
+        [Remote(action: "CheckNameUnique", controller: "Groups", AdditionalFields = nameof(Id))]
         public string Name { get; set; }
 
         [Display(Name="Комментарий")]

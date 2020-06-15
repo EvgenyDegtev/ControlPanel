@@ -145,10 +145,10 @@ namespace ControlPanel.Controllers
 
         [HttpGet]
         [ErrorLogger]
-        public JsonResult CheckLoginUnique (string Login, int? Id)
+        public JsonResult CheckLoginUnique (string login, int? id)
         {
-            logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(Login)}={Login}, {nameof(Id)}={Id}");
-            var agentsAlreadyInDb = db.Agents.Where(ag => ag.Login == Login);
+            logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(login)}={login}, {nameof(id)}={id}");
+            var agentsAlreadyInDb = db.Agents.Where(ag => ag.Login == login);
 
             if(agentsAlreadyInDb.Count() <= 0)
             {
@@ -159,7 +159,7 @@ namespace ControlPanel.Controllers
             {
                 var modifiedAgent = agentsAlreadyInDb.First();
                 //check login corresponds id
-                if (modifiedAgent.Id == Id)
+                if (modifiedAgent.Id == id)
                 {
                     logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
                     return Json(true, JsonRequestBehavior.AllowGet);
@@ -167,7 +167,7 @@ namespace ControlPanel.Controllers
                 else
                 {
                     logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
-                    return Json($"Агент с логином {Login} уже существует", JsonRequestBehavior.AllowGet);
+                    return Json($"Агент с логином {login} уже существует", JsonRequestBehavior.AllowGet);
                 }
             }
         }
