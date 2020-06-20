@@ -45,14 +45,21 @@ namespace ControlPanel.Controllers
         public ActionResult Create()
         {
             logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
-            ViewBag.GR = new SelectList(db.Groups, "Id", "Name");
+            ViewBag.Groups = new SelectList(db.Groups, "Id", "Name");
+
+            var algorithm1 = new { Algorithm = 0, AlgorithmName = "Максимальная потребоность" };
+            var algorithm2 = new { Algorithm = 1, AlgorithmName = "Уровень навыка" };
+            var algorithm3 = new { Algorithm = 2, AlgorithmName = "Процентное распределение" };
+            var algorithms = new[] { algorithm1, algorithm2, algorithm3 };
+            ViewBag.Algorithms = new SelectList(algorithms, "Algorithm", "AlgorithmName");
+
             logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
             return View();
         }
 
         [HttpPost]
         [ErrorLogger]
-        public ActionResult Create([Bind(Include = "Id,Name,Login,Algorithm,IsAlgorithmAllowServiceLevel,WorkloadMaxContactsCount,IsActive,GroupId")] Agent agent)
+        public ActionResult Create([Bind] Agent agent)
         {
             logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(agent.Name)}={agent.Name}, {nameof(agent.Login)}={agent.Algorithm}, {nameof(agent.IsAlgorithmAllowServiceLevel)}={agent.IsAlgorithmAllowServiceLevel}, {nameof(agent.WorkloadMaxContactsCount)}={agent.WorkloadMaxContactsCount}, {nameof(agent.GroupId)}={agent.GroupId} ");
 
@@ -120,6 +127,12 @@ namespace ControlPanel.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             }
             ViewBag.Groups = new SelectList(db.Groups, "Id", "Name");
+
+            var algorithm1 = new { Algorithm = 0, AlgorithmName = "Максимальная потребоность" };
+            var algorithm2 = new { Algorithm = 1, AlgorithmName = "Уровень навыка" };
+            var algorithm3 = new { Algorithm = 2, AlgorithmName = "Процентное распределение" };
+            var algorithms = new[] { algorithm1, algorithm2, algorithm3 };
+            ViewBag.Algorithms = new SelectList(algorithms, "Algorithm", "AlgorithmName", agent.Algorithm);
 
             logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
             return View(agent);
