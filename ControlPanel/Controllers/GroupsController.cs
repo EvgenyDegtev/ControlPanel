@@ -50,7 +50,7 @@ namespace ControlPanel.Controllers
 
         [HttpPost]
         [ErrorLogger]
-        public ActionResult Create([Bind(Include = "Id,Name,Description,IsActive")] Group group)
+        public ActionResult Create([Bind] Group group)
         {
             logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(group.Name)}={group.Name}, {nameof(group.Description)}={group.Description}");
 
@@ -123,7 +123,7 @@ namespace ControlPanel.Controllers
 
         [HttpPost]
         [ErrorLogger]
-        public ActionResult Edit([Bind(Include = "Id,Name,Description,IsActive")] Group group)
+        public ActionResult Edit([Bind] Group group)
         {
             logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(group.Id)}={group.Id}, {nameof(group.Name)}={group.Name}, {nameof(group.Description)}={group.Description}");
 
