@@ -16,7 +16,7 @@ namespace ControlPanel
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Agent", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "Agents", action = "Index", id = UrlParameter.Optional }
             );
         }
     }

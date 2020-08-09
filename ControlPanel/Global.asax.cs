@@ -8,6 +8,7 @@ using System.Web.Routing;
 using System.Data.Entity;
 using ControlPanel.Models;
 using NLog.Config;
+using ControlPanel.Infastructure;
 
 namespace ControlPanel
 {
@@ -21,6 +22,8 @@ namespace ControlPanel
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            ControllerBuilder.Current.SetControllerFactory(new NinjectControllerFactory());
         }
     }
 }
