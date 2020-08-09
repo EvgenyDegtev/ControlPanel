@@ -17,7 +17,7 @@ namespace ControlPanel.Infastructure
         public NinjectControllerFactory()
         {
             ninjectKernel = new StandardKernel();
-            //AddBindings();
+            AddBindings();
         }
 
         protected override IController GetControllerInstance (RequestContext requestContext, Type controllerType)

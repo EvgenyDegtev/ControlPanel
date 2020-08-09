@@ -10,6 +10,7 @@ using PagedList;
 using ControlPanel.Filters;
 using NLog;
 using System.Reflection;
+using ControlPanel.Abstract;
 
 namespace ControlPanel.Controllers
 {
@@ -18,6 +19,12 @@ namespace ControlPanel.Controllers
     {
         private static Logger logger = LogManager.GetCurrentClassLogger();
         DataBaseContext db = new DataBaseContext();
+        ISkillRepository repository;
+
+        public SkillsController (ISkillRepository skillRepository)
+        {
+            this.repository = skillRepository;
+        }
 
         //Get and Post
         [ErrorLogger]
@@ -27,7 +34,8 @@ namespace ControlPanel.Controllers
 
             int pageSize = 5;
             int pageNumber = page ?? 1;
-            var skills = db.Skills.ToList();
+            var skills = repository.Skills.ToList();
+            //var skills = db.Skills.ToList();
             if(String.IsNullOrEmpty(searchString))
             {
                 logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
