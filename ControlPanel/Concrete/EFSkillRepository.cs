@@ -36,5 +36,11 @@ namespace ControlPanel.Concrete
                 context.SaveChanges();
             }
         }
+
+        public IQueryable<Skill> SearchSkill(string searchString)
+        {
+            IQueryable<Skill> skills = context.Skills.Where(skill => skill.Key.Contains(searchString));
+            return skills;
+        }
     }
 }

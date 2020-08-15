@@ -13,5 +13,6 @@ namespace ControlPanel.Abstract
 
         void SaveSkill(Skill skill);
 
+        IQueryable<Skill> SearchSkill(string searchString);
     }
 }

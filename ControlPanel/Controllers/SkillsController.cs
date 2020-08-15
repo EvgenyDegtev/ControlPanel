@@ -41,7 +41,8 @@ namespace ControlPanel.Controllers
                 logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
                 return View(skills.ToPagedList(pageNumber,pageSize));
             }
-            skills = db.Skills.Where(skill => skill.Key.Contains(searchString)).ToList();
+            //skills = db.Skills.Where(skill => skill.Key.Contains(searchString)).ToList();
+            skills = repository.SearchSkill(searchString).ToList();
 
             logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
             return View(skills.ToPagedList(pageNumber,pageSize));
