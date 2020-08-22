@@ -16,8 +16,68 @@ namespace ControlPanel.Concrete
 
         public IQueryable<Skill> Skills
         {
-            get { return context.Skills; }
+            get {
+                var skills = context.Skills.AsQueryable();
+                return skills; }
         }
+
+        public Skill FindSkillById(int id)
+        {
+            var skill=context.Skills.Find(id);
+            return skill;
+        }
+
+        public Skill FindSkillByIdIncludeRoutes(int id)
+        {
+            Skill skill = context.Skills.Include(sk => sk.Routes).FirstOrDefault(sk => sk.Id == id && sk.IsActive == true);
+            return skill;
+        }
+
+        public IQueryable<Skill> FindSkillsByKey(string key)
+        {
+            IQueryable<Skill> skills = context.Skills.Where(skill => skill.Key == key && skill.IsActive == true);
+
+            return skills;
+        }
+
+        public void Create (Skill skill)
+        {
+            context.Skills.Add(skill);
+        }
+
+        public void Update(Skill skill)
+        {
+            context.Entry(skill).State = EntityState.Modified;
+        }
+
+        public void Delete (int id)
+        {
+            var skill = context.Skills.Find(id);
+            if(skill!=null)
+            {
+                context.Skills.Remove(skill);
+            }
+        }
+
+        public void Save()
+        {
+            context.SaveChanges();
+        }
+
+        public IQueryable<Skill> SearchSkill(string searchString)
+        {
+            IQueryable<Skill> skills = context.Skills.Where(skill => skill.Key.Contains(searchString));
+            return skills;
+        }
+
+        //Dispose
+
+
+
+
+
+
+
 
         public void SaveSkill (Skill skill)
         {
@@ -37,10 +97,6 @@ namespace ControlPanel.Concrete
             }
         }
 
-        public IQueryable<Skill> SearchSkill(string searchString)
-        {
-            IQueryable<Skill> skills = context.Skills.Where(skill => skill.Key.Contains(searchString));
-            return skills;
-        }
+        
     }
 }
