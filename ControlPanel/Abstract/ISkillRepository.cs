@@ -28,6 +28,6 @@ namespace ControlPanel.Abstract
 
         IQueryable<Skill> SearchSkill(string searchString);
 
-        void SaveSkill(Skill skill);        
+        //void SaveSkill(Skill skill);        
     }
 }

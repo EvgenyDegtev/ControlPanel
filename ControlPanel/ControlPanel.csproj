@@ -141,12 +141,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\IRouteRepository.cs" />
     <Compile Include="Abstract\ISkillRepository.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Concrete\EFDbContext.cs" />
     <Compile Include="Concrete\EFDbInitializer.cs" />
+    <Compile Include="Concrete\EFRouteRepository.cs" />
     <Compile Include="Concrete\EFSkillRepository.cs" />
     <Compile Include="Controllers\AgentsController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />

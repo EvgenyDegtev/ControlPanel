@@ -29,6 +29,7 @@ namespace ControlPanel.Infastructure
         public void AddBindings ()
         {
             ninjectKernel.Bind<ISkillRepository>().To<EFSkillRepository>();
+            ninjectKernel.Bind<IRouteRepository>().To<EFRouteRepository>();
         }
 
     }

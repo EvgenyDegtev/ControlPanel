@@ -79,23 +79,23 @@ namespace ControlPanel.Concrete
 
 
 
-        public void SaveSkill (Skill skill)
-        {
-            if(skill.Id==0)
-            {
-                context.Skills.Add(skill);
-                context.SaveChanges();
-            }
-            else
-            {
-                var dbEntry = context.Skills.Find(skill.Id);
-                if(dbEntry!=null)
-                {
-                    context.Entry(skill).State = EntityState.Modified;
-                }
-                context.SaveChanges();
-            }
-        }
+        //public void SaveSkill (Skill skill)
+        //{
+        //    if(skill.Id==0)
+        //    {
+        //        context.Skills.Add(skill);
+        //        context.SaveChanges();
+        //    }
+        //    else
+        //    {
+        //        var dbEntry = context.Skills.Find(skill.Id);
+        //        if(dbEntry!=null)
+        //        {
+        //            context.Entry(skill).State = EntityState.Modified;
+        //        }
+        //        context.SaveChanges();
+        //    }
+        //}
 
         
     }
