@@ -17,9 +17,29 @@ namespace ControlPanel.Concrete
 
         public IQueryable<Route> Routes
         {
-            get {
+            get 
+            {
                 var routes = context.Routes.AsQueryable();
-                    return routes; }
+                    return routes; 
+            }
+        }
+
+        public IQueryable<Skill> Skills
+        {
+            get
+            {
+                var skills = context.Skills.AsQueryable();
+                return skills;
+            }
+        }
+
+        public IQueryable<Route> RoutesIncludeSkills
+        {
+            get
+            {
+                var routes = context.Routes.Include(route => route.Skill).AsQueryable();
+                return routes;
+            }
         }
 
         public Route FindRouteById (int id)

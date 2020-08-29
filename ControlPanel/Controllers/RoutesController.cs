@@ -10,6 +10,8 @@ using PagedList;
 using ControlPanel.Filters;
 using NLog;
 using System.Reflection;
+using ControlPanel.Infastructure;
+using ControlPanel.Abstract;
 
 namespace ControlPanel.Controllers
 {
@@ -17,6 +19,13 @@ namespace ControlPanel.Controllers
     {
         private static Logger logger = LogManager.GetCurrentClassLogger();
         DataBaseContext db = new DataBaseContext();
+        IRouteRepository repository;
+
+        public RoutesController(IRouteRepository routeRepository)
+        {
+            this.repository = routeRepository;
+        }
+        
 
         //Get and Post
         [ErrorLogger]
@@ -24,16 +33,15 @@ namespace ControlPanel.Controllers
         {
             logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}| Input params: {nameof(searchString)}={searchString}, {nameof(page)}={page} ");
 
-
             int pageSize = 5;
             int pageNumber = page ?? 1;
-            var routes = db.Routes.Include(route => route.Skill).ToList();
+            var routes = repository.RoutesIncludeSkills.ToList();
             if(String.IsNullOrEmpty(searchString))
             {
                 logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
                 return View(routes.ToPagedList(pageNumber,pageSize));
             }
-            routes = routes.Where(route => route.Key.Contains(searchString)).ToList();
+            routes = repository.SearchRoute(searchString).ToList();
 
             logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
             return View(routes.ToPagedList(pageNumber,pageSize));
@@ -57,8 +65,8 @@ namespace ControlPanel.Controllers
 
             if (ModelState.IsValid)
             {
-                db.Routes.Add(route);
-                db.SaveChanges();
+                repository.Create(route);
+                repository.Save();
 
                 logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
                 return RedirectToAction("Index");
@@ -93,9 +101,9 @@ namespace ControlPanel.Controllers
         public ActionResult Delete(int id)
         {
             logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(id)}={id}");
-            Route route = db.Routes.Find(id);
-            db.Routes.Remove(route);
-            db.SaveChanges();
+
+            repository.Delete(id);
+            repository.Save();
 
             logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
             return RedirectToAction("Index");
@@ -111,13 +119,14 @@ namespace ControlPanel.Controllers
                 logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Route route = db.Routes.Find(id);
+            Route route2 = db.Routes.Find(id);
+            Route route = repository.FindRouteById((int)id);
             if(route==null)
             {
                 logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             }
-            ViewBag.Skills = new SelectList(db.Skills, "Id", "Name");
+            ViewBag.Skills = new SelectList(repository.Skills, "Id", "Name");
 
             logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
             return View(route);
@@ -131,8 +140,8 @@ namespace ControlPanel.Controllers
 
             if (ModelState.IsValid)
             {
-                db.Entry(route).State = EntityState.Modified;
-                db.SaveChanges();
+                repository.Update(route);
+                repository.Save();
 
                 logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
                 return RedirectToAction("Index");
@@ -146,7 +155,8 @@ namespace ControlPanel.Controllers
         public JsonResult CheckKeyUnique (string key, int? id)
         {
             logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(key)}={key}, {nameof(id)}={id}");
-            var routesAlreadyInDb = db.Routes.Where(route => route.Key == key);
+            var routesAlreadyInDb2 = db.Routes.Where(route => route.Key == key);
+            var routesAlreadyInDb = repository.FindRoutesByKey(key);
 
             if (routesAlreadyInDb.Count() <= 0)
             {

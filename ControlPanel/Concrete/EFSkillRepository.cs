@@ -16,9 +16,11 @@ namespace ControlPanel.Concrete
 
         public IQueryable<Skill> Skills
         {
-            get {
+            get 
+            {
                 var skills = context.Skills.AsQueryable();
-                return skills; }
+                return skills; 
+            }
         }
 
         public Skill FindSkillById(int id)

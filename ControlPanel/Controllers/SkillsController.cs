@@ -18,7 +18,7 @@ namespace ControlPanel.Controllers
     public class SkillsController : Controller
     {
         private static Logger logger = LogManager.GetCurrentClassLogger();
-        DataBaseContext db = new DataBaseContext();
+        //DataBaseContext db = new DataBaseContext();
         ISkillRepository repository;
 
         public SkillsController (ISkillRepository skillRepository)

@@ -12,6 +12,10 @@ namespace ControlPanel.Abstract
 
         IQueryable<Route> Routes { get; }
 
+        IQueryable<Skill> Skills { get; }
+
+        IQueryable<Route> RoutesIncludeSkills { get; }
+
         Route FindRouteById(int id);
 
         //FindRouteInclude 
