@@ -38,7 +38,6 @@ namespace ControlPanel.Concrete
         public IQueryable<Skill> FindSkillsByKey(string key)
         {
             IQueryable<Skill> skills = context.Skills.Where(skill => skill.Key == key && skill.IsActive == true);
-
             return skills;
         }
 

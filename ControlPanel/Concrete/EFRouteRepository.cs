@@ -80,7 +80,7 @@ namespace ControlPanel.Concrete
         }
         public IQueryable<Route> SearchRoute (string searchString)
         {
-            IQueryable<Route> routes = context.Routes.Where(route => route.Key == searchString && route.IsActive == true);
+            IQueryable<Route> routes = context.Routes.Where(route => route.Key.Contains(searchString) && route.IsActive == true);
             return routes;
         }
     }

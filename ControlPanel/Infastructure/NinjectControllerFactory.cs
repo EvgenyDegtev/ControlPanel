@@ -30,6 +30,8 @@ namespace ControlPanel.Infastructure
         {
             ninjectKernel.Bind<ISkillRepository>().To<EFSkillRepository>();
             ninjectKernel.Bind<IRouteRepository>().To<EFRouteRepository>();
+            ninjectKernel.Bind<IAgentRepository>().To<EFAgentRepository>();
+            ninjectKernel.Bind<IGroupRepository>().To<EFGroupRepository>();
         }
 
     }

@@ -16,5 +16,9 @@ namespace ControlPanel.Concrete
         public DbSet<Skill> Skills { get; set; }
 
         public DbSet<Route> Routes { get; set; }
+
+        public DbSet<Agent> Agents { get; set; }
+
+        public DbSet<Group> Groups { get; set; }
     }
 }
