@@ -14,6 +14,10 @@ namespace ControlPanel.Abstract
 
         Models.Group FindGroupById(int id);
 
+        Models.Group FindGroupByIdIncludeAgents(int id);
+
+        IQueryable<Models.Group> FindGroupsByName(string name);
+
         void Create(Models.Group group);
 
         void Update(Models.Group group);
@@ -21,6 +25,8 @@ namespace ControlPanel.Abstract
         void Delete(int id);
 
         void Save();
+
+        void RemoveAgentFromGroup(int agentId);
 
         IQueryable<Models.Group> SearchGroup(string searchString);
 

@@ -11,13 +11,20 @@ using PagedList;
 using ControlPanel.Filters;
 using NLog;
 using System.Reflection;
+using ControlPanel.Abstract;
 
 namespace ControlPanel.Controllers
 {
     public class GroupsController : Controller
     {
-        private DataBaseContext db = new DataBaseContext();
+        //private DataBaseContext db = new DataBaseContext();
         private static Logger logger = LogManager.GetCurrentClassLogger();
+        IGroupRepository repository;
+
+        public GroupsController(IGroupRepository groupRepository)
+        {
+            this.repository = groupRepository;
+        }
 
         //Get and Post
         [ErrorLogger]
@@ -27,13 +34,13 @@ namespace ControlPanel.Controllers
 
             int pageSize = 5;
             int pageNumber = page ?? 1;
-            var groups = db.Groups.ToList();
+            var groups = repository.Groups.ToList();
             if(String.IsNullOrEmpty(searchString))
             {
                 logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
                 return View(groups.ToPagedList(pageNumber,pageSize));
             }
-            groups = groups.Where(group => group.Name.Contains(searchString)).ToList();
+            groups = repository.SearchGroup(searchString).ToList();
 
             logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
             return View(groups.ToPagedList(pageNumber,pageSize));
@@ -56,8 +63,8 @@ namespace ControlPanel.Controllers
 
             if (ModelState.IsValid)
             {
-                db.Groups.Add(group);
-                db.SaveChanges();
+                repository.Create(group);
+                repository.Save();
 
                 logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
                 return RedirectToAction("Index");
@@ -77,7 +84,7 @@ namespace ControlPanel.Controllers
                 logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Group group = db.Groups.Find(id);
+            Group group = repository.FindGroupById((int)id);
             if (group == null)
             {
                 logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
@@ -92,9 +99,8 @@ namespace ControlPanel.Controllers
         public ActionResult Delete(int id)
         {
             logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(id)}={id}");
-            Group group = db.Groups.Find(id);
-            db.Groups.Remove(group);
-            db.SaveChanges();
+            repository.Delete(id);
+            repository.Save();
 
             logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
             return RedirectToAction("Index");
@@ -110,7 +116,7 @@ namespace ControlPanel.Controllers
                 logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Group group = db.Groups.Find(id);
+            Group group = repository.FindGroupById((int)id);
             if (group == null)
             {
                 logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
@@ -129,8 +135,8 @@ namespace ControlPanel.Controllers
 
             if (ModelState.IsValid)
             {
-                db.Entry(group).State = EntityState.Modified;
-                db.SaveChanges();
+                repository.Update(group);
+                repository.Save();
 
                 logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
                 return RedirectToAction("Index");
@@ -147,7 +153,7 @@ namespace ControlPanel.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Group group = db.Groups.Include(gr => gr.Agents).FirstOrDefault(gr => gr.Id == id);
+            Group group = repository.FindGroupByIdIncludeAgents((int)id);
             if (group == null)
             {
                 return HttpNotFound();
@@ -161,7 +167,8 @@ namespace ControlPanel.Controllers
         public JsonResult CheckNameUnique (string name, int? id)
         {
             logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(name)}={name}, {nameof(id)}={id}");
-            var groupsAlreadyInDb = db.Groups.Where(group => group.Name == name);
+            //var groupsAlreadyInDb2 = db.Groups.Where(group => group.Name == name);
+            var groupsAlreadyInDb = repository.FindGroupsByName(name);
 
             if (groupsAlreadyInDb.Count() <= 0)
             {
@@ -170,6 +177,7 @@ namespace ControlPanel.Controllers
             }
             else
             {
+                //var modifiedGroup2 = groupsAlreadyInDb.First();
                 var modifiedGroup = groupsAlreadyInDb.First();
                 //check name corresponds id
                 if (modifiedGroup.Id == id)
@@ -189,11 +197,15 @@ namespace ControlPanel.Controllers
         [ErrorLogger]
         public ActionResult RemoveAgent (int id,int agentId)
         {
-            var group = db.Groups.Find(id);
-            var agent = db.Agents.Find(agentId);
-            agent.GroupId = null;
-            db.Entry(agent).State = EntityState.Modified;
-            db.SaveChanges();
+            var group = repository.FindGroupById(id);
+            //var group = db.Groups.Find(id);
+            //var agent = db.Agents.Find(agentId);
+            //agent.GroupId = null;
+            //db.Entry(agent).State = EntityState.Modified;
+            //db.SaveChanges();
+            repository.RemoveAgentFromGroup(agentId);
+            repository.Save();
+
             return RedirectToAction("GroupAgents",group);
         }
 
@@ -201,7 +213,7 @@ namespace ControlPanel.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                //db.Dispose();
             }
             base.Dispose(disposing);
         }

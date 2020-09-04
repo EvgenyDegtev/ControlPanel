@@ -27,6 +27,18 @@ namespace ControlPanel.Concrete
             return group;
         }
 
+        public Models.Group FindGroupByIdIncludeAgents (int id)
+        {
+            Models.Group group = context.Groups.Include(gr => gr.Agents).FirstOrDefault(gr => gr.Id == id && gr.IsActive==true);
+            return group;
+        }
+
+        public IQueryable<Models.Group> FindGroupsByName (string name)
+        {
+            IQueryable<Models.Group> groups = context.Groups.Where(gr => gr.Name == name && gr.IsActive == true);
+            return groups;
+        }
+
         public void Save()
         {
             context.SaveChanges();
@@ -49,6 +61,13 @@ namespace ControlPanel.Concrete
             {
                 context.Groups.Remove(group);
             }            
+        }
+
+        public void RemoveAgentFromGroup(int agentId)
+        {
+            Agent agent = context.Agents.Find(agentId);
+            agent.GroupId = null;
+            context.Entry(agent).State = EntityState.Modified;
         }
 
         public IQueryable<Models.Group> SearchGroup(string searchString)
