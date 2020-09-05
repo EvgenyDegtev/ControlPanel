@@ -11,7 +11,16 @@ namespace ControlPanel.Abstract
     {
         IQueryable<Agent> Agents { get; }
 
+        IQueryable<Agent> AgentsIncludeGroup { get; }
+
         Agent FindAgentById(int id);
+
+        Agent FindAgentByIdIncludeGroup(int id);
+
+        Agent FindAgentByIdIncludeSkill(int id);
+
+        IQueryable<AgentToSkill> FindAgentToSkillForAgentById(int agentId);
+
 
         IQueryable<Agent> FindAgentsByLogin(string login);
 

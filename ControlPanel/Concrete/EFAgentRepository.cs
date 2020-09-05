@@ -22,10 +22,37 @@ namespace ControlPanel.Concrete
 
         }
 
+        public IQueryable<Agent> AgentsIncludeGroup
+        {
+            get
+            {
+                var agents = context.Agents.Include(agent => agent.Group).AsQueryable();
+                return agents;
+            }
+        }
+
         public Agent FindAgentById (int id)
         {
             var agent = context.Agents.Find(id);
             return agent;
+        }
+
+        public Agent FindAgentByIdIncludeGroup(int id)
+        {
+            var agent = context.Agents.Include(agent => agent.Group).FirstOrDefault(agent => agent.Id == id);
+            return agent;
+        }
+
+        public Agent FindAgentByIdIncludeSkill(int id)
+        {
+            var agent = context.Agents.Include(agent => agent.AgentToSkills).FirstOrDefault(agent => agent.Id == id);
+            return agent;
+        }
+
+        public IQueryable<AgentToSkill> FindAgentToSkillForAgentById(int agentId)
+        {
+            IQueryable<AgentToSkill> agentToSkills = context.AgentToSkills.Include(agentToSkill => agentToSkill.Skill).Where(agentToSkill => agentToSkill.AgentId == agentId);
+            return agentToSkills;
         }
 
         public IQueryable<Agent> FindAgentsByLogin(string login)

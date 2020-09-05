@@ -12,6 +12,7 @@ using NLog;
 using ControlPanel.Filters;
 using System.Reflection;
 using NLog.LayoutRenderers;
+using ControlPanel.Abstract;
 
 namespace ControlPanel.Controllers
 {
@@ -19,6 +20,12 @@ namespace ControlPanel.Controllers
     {
         private static Logger logger = LogManager.GetCurrentClassLogger();
         DataBaseContext db = new DataBaseContext();
+        IAgentRepository repository;
+
+        public AgentsController (IAgentRepository agentRepository)
+        {
+            this.repository = agentRepository;
+        }
 
         //Get and Post
         [ErrorLogger]
@@ -28,13 +35,13 @@ namespace ControlPanel.Controllers
 
             int pageSize = 5;
             int pageNumber = page ?? 1;
-            var agents = db.Agents.Include(agent => agent.Group).ToList();
+            var agents = repository.AgentsIncludeGroup.ToList();
             if(String.IsNullOrEmpty(searchString))
             {
                 logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
                 return View(agents.ToPagedList(pageNumber, pageSize));
             }
-            agents = agents.Where(agent => agent.Login.Contains(searchString)).ToList();
+            agents = repository.SearchAgent(searchString).ToList();
 
             logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
             return View(agents.ToPagedList(pageNumber, pageSize));
@@ -65,8 +72,8 @@ namespace ControlPanel.Controllers
 
             if (ModelState.IsValid)
             {
-                db.Agents.Add(agent);
-                db.SaveChanges();
+                repository.Create(agent);
+                repository.Save();
 
                 logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
                 return RedirectToAction("Index");
@@ -86,7 +93,7 @@ namespace ControlPanel.Controllers
                 logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var agent = db.Agents.Include(ag => ag.Group).FirstOrDefault(ag => ag.Id == id);
+            var agent = repository.FindAgentByIdIncludeGroup((int)id);
             if (agent == null)
             {
                 logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
@@ -102,9 +109,8 @@ namespace ControlPanel.Controllers
         public ActionResult Delete(int id)
         {
             logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(id)}={id}");
-            Agent agent = db.Agents.Find(id);
-            db.Agents.Remove(agent);
-            db.SaveChanges();
+            repository.Delete(id);
+            repository.Save();
 
             logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
             return RedirectToAction("Index");
@@ -120,7 +126,7 @@ namespace ControlPanel.Controllers
                 logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Agent agent = db.Agents.Find(id);
+            Agent agent = repository.FindAgentById((int)id);
             if (agent == null)
             {
                 logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
@@ -145,8 +151,8 @@ namespace ControlPanel.Controllers
             logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(agent.Id)}={agent.Id}, {nameof(agent.Name)}={agent.Name}, {nameof(agent.Login)}={agent.Algorithm}, {nameof(agent.IsAlgorithmAllowServiceLevel)}={agent.IsAlgorithmAllowServiceLevel}, {nameof(agent.WorkloadMaxContactsCount)}={agent.WorkloadMaxContactsCount}, {nameof(agent.GroupId)}={agent.GroupId} ");
             if (ModelState.IsValid)
             {
-                db.Entry(agent).State = EntityState.Modified;
-                db.SaveChanges();
+                repository.Update(agent);
+                repository.Save();
 
                 logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
                 return RedirectToAction("Index");
@@ -161,7 +167,8 @@ namespace ControlPanel.Controllers
         public JsonResult CheckLoginUnique (string login, int? id)
         {
             logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(login)}={login}, {nameof(id)}={id}");
-            var agentsAlreadyInDb = db.Agents.Where(ag => ag.Login == login);
+            //var agentsAlreadyInDb2 = db.Agents.Where(ag => ag.Login == login);
+            var agentsAlreadyInDb = repository.FindAgentsByLogin(login);
 
             if(agentsAlreadyInDb.Count() <= 0)
             {
@@ -195,13 +202,13 @@ namespace ControlPanel.Controllers
                 logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Agent agent = db.Agents.Include(ag => ag.AgentToSkills).FirstOrDefault(ag => ag.Id == id);
+            Agent agent = repository.FindAgentByIdIncludeSkill((int)id);
             if(agent==null)
             {
                 logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             }
-            List<AgentToSkill> agentToSkills = db.AgentToSkills.Include(agentToSkill => agentToSkill.Skill).Where(agentToSkill => agentToSkill.AgentId == id).ToList();
+            List<AgentToSkill> agentToSkills = repository.FindAgentToSkillForAgentById((int)id).ToList();
             ViewBag.AgentId = id;
 
             logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");

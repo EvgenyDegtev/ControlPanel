@@ -20,5 +20,7 @@ namespace ControlPanel.Concrete
         public DbSet<Agent> Agents { get; set; }
 
         public DbSet<Group> Groups { get; set; }
+
+        public DbSet<AgentToSkill> AgentToSkills { get; set; }
     }
 }
