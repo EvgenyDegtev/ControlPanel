@@ -52,7 +52,7 @@ namespace ControlPanel.Controllers
         public ActionResult Create()
         {
             logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
-            ViewBag.Groups = new SelectList(db.Groups, "Id", "Name");
+            ViewBag.Groups = new SelectList(repository.Groups, "Id", "Name");
 
             var algorithm1 = new { Algorithm = 0, AlgorithmName = "Максимальная потребоность" };
             var algorithm2 = new { Algorithm = 1, AlgorithmName = "Уровень навыка" };
@@ -132,7 +132,7 @@ namespace ControlPanel.Controllers
                 logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             }
-            ViewBag.Groups = new SelectList(db.Groups, "Id", "Name");
+            ViewBag.Groups = new SelectList(repository.Groups, "Id", "Name");
 
             var algorithm1 = new { Algorithm = 0, AlgorithmName = "Максимальная потребоность" };
             var algorithm2 = new { Algorithm = 1, AlgorithmName = "Уровень навыка" };
@@ -220,7 +220,8 @@ namespace ControlPanel.Controllers
         public ActionResult AddSkill (int id)
         {
             logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(id)}={id}");
-            List<Skill> skills = db.Skills.ToList();
+            List<Skill> skills = repository.Skills.ToList();
+            //List<Skill> skills = db.Skills.ToList();
             ViewBag.AgentId = id;
 
             logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
@@ -233,7 +234,8 @@ namespace ControlPanel.Controllers
         {
             logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(id)}={id}, {nameof(skillId)}={skillId}");
             AgentToSkill agentToSkill = new AgentToSkill { AgentId = id, SkillId = skillId };
-            string skillName = db.Skills.Find(skillId).Name;
+            //string skillName = db.Skills.Find(skillId).Name;
+            string skillName = repository.FindSkillById(skillId).Name;
             ViewBag.SkillName = skillName;
 
             var level1 = new { Level = 1, LevelName = "1" };
@@ -270,8 +272,11 @@ namespace ControlPanel.Controllers
             if(ModelState.IsValid)
             {
                 agentToSkill.IsActive = true;
-                db.AgentToSkills.Add(agentToSkill);
-                db.SaveChanges();
+                //db.AgentToSkills.Add(agentToSkill);
+                //db.SaveChanges();
+
+                repository.CreateAgentToSkill(agentToSkill);
+                repository.Save();
                 logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
                 return RedirectToAction("AgentSkills", new { id = agentToSkill.AgentId });
             }
@@ -286,7 +291,9 @@ namespace ControlPanel.Controllers
         {
             logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(id)}={id}, {nameof(skillId)}={skillId}");
             AgentToSkill agentToSkill = db.AgentToSkills.Where(agToSkill => agToSkill.AgentId == id && agToSkill.SkillId == skillId).First();
-            string skillName = db.Skills.Find(skillId).Name;
+            //AgentToSkill agentToSkill = repository.FindAgentToSkills(id, skillId).First();
+            string skillName = repository.FindSkillById(skillId).Name;
+            //string skillName = db.Skills.Find(skillId).Name;
             ViewBag.SkillName = skillName;
 
             var level1 = new { Level = 1, LevelName = "1" };
@@ -318,9 +325,11 @@ namespace ControlPanel.Controllers
         [ErrorLogger]
         public ActionResult EditSkill ([Bind] AgentToSkill agentToSkill)
         {
-            logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(agentToSkill.AgentId)}={agentToSkill.AgentId}, {nameof(agentToSkill.SkillId)}={agentToSkill.SkillId}, {nameof(agentToSkill.Level)}={agentToSkill.Level}, {nameof(agentToSkill.OrderIndex)}={agentToSkill.OrderIndex}, {nameof(agentToSkill.BreakingMode)}={agentToSkill.BreakingMode}, {nameof(agentToSkill.Percent)}={agentToSkill.Percent}");
-            
-            
+            logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(agentToSkill.Id)}={agentToSkill.Id}, {nameof(agentToSkill.AgentId)}={agentToSkill.AgentId}, {nameof(agentToSkill.SkillId)}={agentToSkill.SkillId}, {nameof(agentToSkill.Level)}={agentToSkill.Level}, {nameof(agentToSkill.OrderIndex)}={agentToSkill.OrderIndex}, {nameof(agentToSkill.BreakingMode)}={agentToSkill.BreakingMode}, {nameof(agentToSkill.Percent)}={agentToSkill.Percent}");
+
+            db.Entry(agentToSkill).State = EntityState.Modified;
+            db.SaveChanges();
+            //repository.Save();
             
             logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
             return RedirectToAction("Index");
@@ -331,9 +340,9 @@ namespace ControlPanel.Controllers
         public ActionResult RemoveSkill (int id, int skillId)
         {
             logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(id)}={id}, {nameof(skillId)}={skillId}");
-            AgentToSkill agentToSkill = db.AgentToSkills.Where(agToSkill =>( agToSkill.AgentId == id && agToSkill.SkillId == skillId)).FirstOrDefault();
-            db.Entry(agentToSkill).State = EntityState.Deleted;
-            db.SaveChanges();
+            AgentToSkill agentToSkill = repository.FindAgentToSkills(id, skillId).FirstOrDefault();
+            repository.DeleteAgentToSkill(agentToSkill.Id);
+            repository.Save();
 
             logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
             return RedirectToAction("AgentSkills", new { id });
@@ -343,7 +352,7 @@ namespace ControlPanel.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                //db.Dispose();
             }
             base.Dispose(disposing);
         }

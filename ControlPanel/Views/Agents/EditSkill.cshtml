@@ -5,6 +5,7 @@
 @using(Html.BeginForm())
 {
 	<div class="form-horizontal">
+		@Html.HiddenFor(model=>model.Id)
 		@Html.HiddenFor(model=>model.AgentId)
 		@Html.HiddenFor(model=>model.SkillId)
 

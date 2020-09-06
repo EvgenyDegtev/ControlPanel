@@ -11,9 +11,15 @@ namespace ControlPanel.Abstract
     {
         IQueryable<Agent> Agents { get; }
 
+        IQueryable<Group> Groups { get; }
+
+        IQueryable<Skill> Skills { get; }
+
         IQueryable<Agent> AgentsIncludeGroup { get; }
 
         Agent FindAgentById(int id);
+
+        Skill FindSkillById(int skillId);
 
         Agent FindAgentByIdIncludeGroup(int id);
 
@@ -33,5 +39,11 @@ namespace ControlPanel.Abstract
         void Delete(int id);
 
         IQueryable<Agent> SearchAgent(string searchString);
+
+        void CreateAgentToSkill(AgentToSkill agentToSkill);
+
+        void DeleteAgentToSkill(int id);
+
+        IQueryable<AgentToSkill> FindAgentToSkills(int agentId, int skillId);
     }
 }

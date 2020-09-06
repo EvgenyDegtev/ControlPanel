@@ -22,6 +22,24 @@ namespace ControlPanel.Concrete
 
         }
 
+        public IQueryable<Skill> Skills
+        {
+            get
+            {
+                var skills = context.Skills.AsQueryable();
+                return skills;
+            }
+        }
+
+        public IQueryable<Group> Groups
+        {
+            get
+            {
+                var groups = context.Groups.AsQueryable();
+                return groups;
+            }
+        }
+
         public IQueryable<Agent> AgentsIncludeGroup
         {
             get
@@ -35,6 +53,12 @@ namespace ControlPanel.Concrete
         {
             var agent = context.Agents.Find(id);
             return agent;
+        }
+
+        public Skill FindSkillById(int skillId)
+        {
+            var skill = context.Skills.Find(skillId);
+            return skill;
         }
 
         public Agent FindAgentByIdIncludeGroup(int id)
@@ -89,6 +113,26 @@ namespace ControlPanel.Concrete
         {
             var agents = context.Agents.Where(ag => ag.Login.Contains(searchString) && ag.IsActive == true);
             return agents;
+        }
+
+        public void CreateAgentToSkill(AgentToSkill agentToSkill)
+        {
+            context.AgentToSkills.Add(agentToSkill);
+        }
+
+        public void DeleteAgentToSkill(int id)
+        {
+            AgentToSkill agentToSkill = context.AgentToSkills.Find(id);
+            if(agentToSkill!=null)
+            {
+                context.AgentToSkills.Remove(agentToSkill);
+            }
+        }
+
+        public IQueryable<AgentToSkill> FindAgentToSkills(int agentId, int skillId)
+        {
+            IQueryable<AgentToSkill> agentToSkills = context.AgentToSkills.Where(agToSkill => agToSkill.AgentId == agentId && agToSkill.SkillId == skillId);
+            return agentToSkills;
         }
     }
 }
