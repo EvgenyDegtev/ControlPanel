@@ -36,6 +36,8 @@ namespace ControlPanel.Abstract
 
         void Update(Agent agent);
 
+        void UpdateAgentToSkill(AgentToSkill agentToSkill);
+
         void Delete(int id);
 
         IQueryable<Agent> SearchAgent(string searchString);

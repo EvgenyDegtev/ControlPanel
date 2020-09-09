@@ -51,8 +51,8 @@
 				@Html.DisplayFor(skill=>item.Percent)
 			</td>
 			<td>
-				@Html.ActionLink("Edit", "EditSkill", new { id = Model.First().AgentId, skillId=item.SkillId }) |
-				@Html.ActionLink("Delete", "RemoveSkill", new { id = Model.First().AgentId, skillId = item.SkillId })
+				@Html.ActionLink("Edit", "EditSkill", new { agentId = Model.First().AgentId, skillId=item.SkillId }) |
+				@Html.ActionLink("Delete", "RemoveSkill", new { gentId = Model.First().AgentId, skillId = item.SkillId })
 			</td>
 		</tr>
 	}

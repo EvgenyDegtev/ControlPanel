@@ -95,6 +95,11 @@ namespace ControlPanel.Concrete
             context.Entry(agent).State = EntityState.Modified;
         }
 
+        public void UpdateAgentToSkill(AgentToSkill agentToSkill)
+        {
+            context.Entry(agentToSkill).State = EntityState.Modified;
+        }
+
         public void Delete(int id)
         {
             var agent = context.Agents.Find(id);

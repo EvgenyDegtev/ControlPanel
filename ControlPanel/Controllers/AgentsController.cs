@@ -287,11 +287,11 @@ namespace ControlPanel.Controllers
 
         [HttpGet]
         [ErrorLogger]
-        public ViewResult EditSkill (int id, int skillId)
+        public ViewResult EditSkill (int agentId, int skillId)
         {
-            logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(id)}={id}, {nameof(skillId)}={skillId}");
-            AgentToSkill agentToSkill = db.AgentToSkills.Where(agToSkill => agToSkill.AgentId == id && agToSkill.SkillId == skillId).FirstOrDefault();
-            //AgentToSkill agentToSkill = repository.FindAgentToSkills(id, skillId).First();
+            logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(agentId)}={agentId}, {nameof(skillId)}={skillId}");
+            //AgentToSkill agentToSkill = db.AgentToSkills.Where(agToSkill => agToSkill.AgentId == agentId && agToSkill.SkillId == skillId).FirstOrDefault();
+            AgentToSkill agentToSkill = repository.FindAgentToSkills(agentId, skillId).First();
             string skillName = repository.FindSkillById(skillId).Name;
             //string skillName = db.Skills.Find(skillId).Name;
             ViewBag.SkillName = skillName;
@@ -323,20 +323,14 @@ namespace ControlPanel.Controllers
 
         [HttpPost]
         [ErrorLogger]
-        public ActionResult EditSkill ([Bind(Include ="Id,Level,OrderIndex,BreakingMode,Percent,AgentId,SkillId,IsActive")] AgentToSkill agentToSkill)
+        public ActionResult EditSkill ([Bind] AgentToSkill agentToSkill)
         {
             logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(agentToSkill.Id)}={agentToSkill.Id}, {nameof(agentToSkill.AgentId)}={agentToSkill.AgentId}, {nameof(agentToSkill.SkillId)}={agentToSkill.SkillId}, {nameof(agentToSkill.Level)}={agentToSkill.Level}, {nameof(agentToSkill.OrderIndex)}={agentToSkill.OrderIndex}, {nameof(agentToSkill.BreakingMode)}={agentToSkill.BreakingMode}, {nameof(agentToSkill.Percent)}={agentToSkill.Percent}");
 
             if(ModelState.IsValid)
             {
-                var agentToSkillNew = db.AgentToSkills.Where(aToSkill => aToSkill.AgentId == agentToSkill.AgentId && aToSkill.SkillId == agentToSkill.SkillId).FirstOrDefault();
-                agentToSkillNew.Level = agentToSkill.Level;
-                agentToSkillNew.OrderIndex = agentToSkill.OrderIndex;
-                agentToSkillNew.BreakingMode = agentToSkill.BreakingMode;
-                agentToSkillNew.Percent = agentToSkill.Percent;
-                db.AgentToSkills.Attach(agentToSkillNew);
-                db.Entry(agentToSkillNew).State = EntityState.Modified;
-                db.SaveChanges();
+                repository.UpdateAgentToSkill(agentToSkill);
+                repository.Save();
                 return RedirectToAction("Index");
             }
 
