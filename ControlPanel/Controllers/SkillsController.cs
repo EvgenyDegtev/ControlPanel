@@ -34,7 +34,6 @@ namespace ControlPanel.Controllers
 
             int pageSize = 5;
             int pageNumber = page ?? 1;
-            //var skills2 = repository.Skills.ToList();
             var skills = await repository.GetSkillsAsync();
             if(String.IsNullOrEmpty(searchString))
             {
@@ -58,14 +57,14 @@ namespace ControlPanel.Controllers
 
         [HttpPost]
         [ErrorLogger]
-        public ActionResult Create([Bind] Skill skill)
+        public async Task<ActionResult> Create([Bind] Skill skill)
         {
             logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(skill.Name)}={skill.Name}, {nameof(skill.Key)}={skill.Key}, {nameof(skill.Algorithm)}={skill.Algorithm}");
 
             if (ModelState.IsValid)
             {
                 repository.Create(skill);
-                repository.Save();
+                await repository.SaveAsync();
 
                 logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
                 return RedirectToAction("Index");
@@ -77,7 +76,7 @@ namespace ControlPanel.Controllers
 
         [HttpGet]
         [ErrorLogger]
-        public ActionResult Delete (int? id)
+        public async Task<ActionResult> Delete (int? id)
         {
             logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(id)}={id}");
             if (id==null)
@@ -85,7 +84,7 @@ namespace ControlPanel.Controllers
                 logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Skill skill = repository.FindSkillById((int)id);
+            Skill skill = await repository.FindSkillByIdAsync(id);
             if(skill==null)
             {
                 logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
@@ -97,18 +96,18 @@ namespace ControlPanel.Controllers
 
         [HttpPost]
         [ErrorLogger]
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
             logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(id)}={id}");
-            repository.Delete(id);
-            repository.Save();
+            await repository.DeleteAsync(id);
+            await repository.SaveAsync();
             logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
             return RedirectToAction("Index");
         }
 
         [HttpGet]
         [ErrorLogger]
-        public ActionResult Edit (int? id)
+        public async Task<ActionResult> Edit (int? id)
         {
             logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(id)}={id}");
             if (id==null)
@@ -116,7 +115,7 @@ namespace ControlPanel.Controllers
                 logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Skill skill = repository.FindSkillById((int)id);
+            Skill skill = await repository.FindSkillByIdAsync(id);
             //Skill skill = db.Skills.Find(id);
             if(skill==null)
             {
@@ -130,13 +129,13 @@ namespace ControlPanel.Controllers
 
         [HttpPost]
         [ErrorLogger]
-        public ActionResult Edit ([Bind] Skill skill)
+        public async Task<ActionResult> Edit ([Bind] Skill skill)
         {
             logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(skill.Id)}={skill.Id}, {nameof(skill.Name)}={skill.Name}, {nameof(skill.Key)}={skill.Key}, {nameof(skill.Algorithm)}={skill.Algorithm}");
             if (ModelState.IsValid)
             {
                 repository.Update(skill);
-                repository.Save();
+                await repository.SaveAsync();
 
                 logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
                 return RedirectToAction("Index");
@@ -147,11 +146,10 @@ namespace ControlPanel.Controllers
 
         [HttpGet]
         [ErrorLogger]
-        public JsonResult CheckKeyUnique(string key, int? id)
+        public async Task<JsonResult> CheckKeyUnique(string key, int? id)
         {
             logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(key)}={key}, {nameof(id)}={id}");
-            //var skillsAlreadyInDb = db.Skills.Where(skill => skill.Key == key);
-            var skillsAlreadyInDb=repository.FindSkillsByKey(key);
+            var skillsAlreadyInDb=await repository.FindSkillsByKeyAsync(key);
 
             if (skillsAlreadyInDb.Count() <= 0)
             {
@@ -177,14 +175,13 @@ namespace ControlPanel.Controllers
 
         [HttpGet]
         [ErrorLogger]
-        public ActionResult SkillRoutes(int? id)
+        public async Task<ActionResult> SkillRoutes(int? id)
         {
             if(id==null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            //Skill skill = db.Skills.Include(sk => sk.Routes).FirstOrDefault(sk => sk.Id == id);
-            Skill skill = repository.FindSkillByIdIncludeRoutes((int)id);
+            Skill skill = await repository.FindSkillByIdIncludeRoutesAsync(id);
             if(skill==null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
@@ -194,13 +191,13 @@ namespace ControlPanel.Controllers
 
         [HttpGet]
         [ErrorLogger]
-        public ActionResult RemoveRoute(int id, int routeId)
+        public async Task<ActionResult> RemoveRoute(int id, int routeId)
         {
-            Skill skill = repository.FindSkillByIdIncludeRoutes(id);
+            Skill skill = await repository.FindSkillByIdIncludeRoutesAsync(id);
             Route routeToRemove=skill.Routes.Find(route=>route.Id==routeId);
             skill.Routes.Remove(routeToRemove);            
             repository.Update(skill);
-            repository.Save();
+            await repository.SaveAsync();
           
             return RedirectToAction("SkillRoutes", skill);
         }

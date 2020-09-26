@@ -8,6 +8,7 @@ using ControlPanel.Controllers;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity;
 using System.Threading.Tasks;
+using System.Web.UI.WebControls;
 
 namespace ControlPanel.Concrete
 {
@@ -30,21 +31,39 @@ namespace ControlPanel.Concrete
             return skills;
         }
 
-        public Skill FindSkillById(int id)
+        public Skill FindSkillById(int? id)
         {
             var skill=context.Skills.Find(id);
             return skill;
         }
 
-        public Skill FindSkillByIdIncludeRoutes(int id)
+        public async Task<Skill> FindSkillByIdAsync(int? id)
+        {
+            var skill = await context.Skills.FindAsync(id);
+            return skill;
+        }
+
+        public Skill FindSkillByIdIncludeRoutes(int? id)
         {
             Skill skill = context.Skills.Include(sk => sk.Routes).FirstOrDefault(sk => sk.Id == id && sk.IsActive == true);
+            return skill;
+        }
+
+        public async Task<Skill> FindSkillByIdIncludeRoutesAsync(int? id)
+        {
+            Skill skill = await context.Skills.Include(sk => sk.Routes).FirstOrDefaultAsync(sk => sk.Id == id && sk.IsActive == true);
             return skill;
         }
 
         public IQueryable<Skill> FindSkillsByKey(string key)
         {
             IQueryable<Skill> skills = context.Skills.Where(skill => skill.Key == key && skill.IsActive == true);
+            return skills;
+        }
+
+        public async Task<List<Skill>> FindSkillsByKeyAsync(string key)
+        {
+            List<Skill> skills = await context.Skills.Where(skill => skill.Key == key && skill.IsActive == true).ToListAsync();
             return skills;
         }
 
@@ -67,9 +86,23 @@ namespace ControlPanel.Concrete
             }
         }
 
+        public async Task DeleteAsync(int id)
+        {
+            var skill = await context.Skills.FindAsync(id);
+            if (skill != null)
+            {
+                context.Skills.Remove(skill);
+            }
+        }
+
         public void Save()
         {
             context.SaveChanges();
+        }
+
+        public async Task SaveAsync()
+        {
+            await context.SaveChangesAsync();
         }
 
         public IQueryable<Skill> SearchSkill(string searchString)
