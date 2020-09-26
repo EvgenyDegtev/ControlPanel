@@ -7,12 +7,16 @@ using ControlPanel.Models;
 
 namespace ControlPanel.Abstract
 {
-    public interface ISkillRepository
-        //IDispose
+    public interface ISkillRepository       
     {
+        //IDispose
         IQueryable<Skill> Skills { get; }
 
+        Task<List<Skill>> GetSkillsAsync();
+
         Skill FindSkillById(int id);
+
+        //Task<Skill> FindSkillByIdAsync(int id);
 
         Skill FindSkillByIdIncludeRoutes(int id);
 
@@ -27,6 +31,8 @@ namespace ControlPanel.Abstract
         void Delete(int id);
 
         IQueryable<Skill> SearchSkill(string searchString);
+
+        Task<List<Skill>> SearchSkillsAsync(string searchString);
 
         //void SaveSkill(Skill skill);        
     }

@@ -11,6 +11,7 @@ using ControlPanel.Filters;
 using NLog;
 using System.Reflection;
 using ControlPanel.Abstract;
+using System.Threading.Tasks;
 
 namespace ControlPanel.Controllers
 {
@@ -18,7 +19,6 @@ namespace ControlPanel.Controllers
     public class SkillsController : Controller
     {
         private static Logger logger = LogManager.GetCurrentClassLogger();
-        //DataBaseContext db = new DataBaseContext();
         ISkillRepository repository;
 
         public SkillsController (ISkillRepository skillRepository)
@@ -28,19 +28,20 @@ namespace ControlPanel.Controllers
 
         //Get and Post
         [ErrorLogger]
-        public ActionResult Index(string searchString, int? page)
+        public async Task<ActionResult> Index(string searchString, int? page)
         {
             logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}| Input params: {nameof(searchString)}={searchString}, {nameof(page)}={page} ");
 
             int pageSize = 5;
             int pageNumber = page ?? 1;
-            var skills = repository.Skills.ToList();
+            //var skills2 = repository.Skills.ToList();
+            var skills = await repository.GetSkillsAsync();
             if(String.IsNullOrEmpty(searchString))
             {
                 logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
                 return View(skills.ToPagedList(pageNumber,pageSize));
             }
-            skills = repository.SearchSkill(searchString).ToList();
+            skills = await repository.SearchSkillsAsync(searchString);
 
             logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
             return View(skills.ToPagedList(pageNumber,pageSize));

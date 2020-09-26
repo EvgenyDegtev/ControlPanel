@@ -336,7 +336,7 @@ namespace ControlPanel.Controllers
 
             logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
             return View(agentToSkill);
-        }
+        } 
 
         [HttpGet]
         [ErrorLogger]

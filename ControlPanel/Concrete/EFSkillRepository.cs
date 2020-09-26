@@ -7,6 +7,7 @@ using ControlPanel.Abstract;
 using ControlPanel.Controllers;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity;
+using System.Threading.Tasks;
 
 namespace ControlPanel.Concrete
 {
@@ -16,11 +17,17 @@ namespace ControlPanel.Concrete
 
         public IQueryable<Skill> Skills
         {
-            get 
+            get
             {
                 var skills = context.Skills.AsQueryable();
-                return skills; 
+                return skills;
             }
+        }
+
+        public async Task<List<Skill>> GetSkillsAsync()
+        {
+            List<Skill> skills = await context.Skills.ToListAsync();
+            return skills;
         }
 
         public Skill FindSkillById(int id)
@@ -71,6 +78,35 @@ namespace ControlPanel.Concrete
             return skills;
         }
 
+        public async Task<List<Skill>> SearchSkillsAsync(string searchString)
+        {
+            var skills = await context.Skills.Where(skill => skill.Key.Contains(searchString)).ToListAsync();
+            return skills;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         //Dispose
 
 
@@ -98,6 +134,6 @@ namespace ControlPanel.Concrete
         //    }
         //}
 
-        
+
     }
 }
