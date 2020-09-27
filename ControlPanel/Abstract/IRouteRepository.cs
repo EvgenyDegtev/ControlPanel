@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using ControlPanel.Models;
+using System.Threading.Tasks;
 
 namespace ControlPanel.Abstract
 {
@@ -12,17 +13,29 @@ namespace ControlPanel.Abstract
 
         IQueryable<Route> Routes { get; }
 
+        Task<List<Route>> GetRoutesAsync();
+
         IQueryable<Skill> Skills { get; }
+
+        Task<List<Skill>> GetSkillsAsync();
 
         IQueryable<Route> RoutesIncludeSkills { get; }
 
+        Task<List<Route>> GetRoutesIncludeSkillsAsync();
+
         Route FindRouteById(int id);
 
-        //FindRouteInclude 
+        Task<Route> FindRouteByIdAsync(int? id);
+
+        Task<Route> FindRouteByIdIncludeSkillAsync(int? id);
 
         IQueryable<Route> FindRoutesByKey(string key);
 
+        Task<List<Route>> FindRoutesByKeyAsync(string key);
+
         void Save();
+
+        Task SaveAsync();
 
         void Create(Route route);
 
@@ -30,6 +43,10 @@ namespace ControlPanel.Abstract
 
         void Delete(int id);
 
+        Task DeleteAsync(int id);
+
         IQueryable<Route> SearchRoute(string searchString);
+
+        Task<List<Route>> SearchRoutesAsync(string searchString);
     }
 }
