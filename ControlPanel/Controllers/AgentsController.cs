@@ -13,6 +13,7 @@ using ControlPanel.Filters;
 using System.Reflection;
 using NLog.LayoutRenderers;
 using ControlPanel.Abstract;
+using System.Threading.Tasks;
 
 namespace ControlPanel.Controllers
 {
@@ -29,19 +30,19 @@ namespace ControlPanel.Controllers
 
         //Get and Post
         [ErrorLogger]
-        public ActionResult Index(string searchString, int? page)
+        public async Task<ActionResult> Index(string searchString, int? page)
         {
             logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}| Input params: {nameof(searchString)}={searchString}, {nameof(page)}={page} ");
 
             int pageSize = 5;
             int pageNumber = page ?? 1;
-            var agents = repository.AgentsIncludeGroup.ToList();
+            var agents = await repository.GetAgentsIncludeGroupAsync();
             if(String.IsNullOrEmpty(searchString))
             {
                 logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
                 return View(agents.ToPagedList(pageNumber, pageSize));
             }
-            agents = repository.SearchAgent(searchString).ToList();
+            agents = await repository.SearchAgentsAsync(searchString);
 
             logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
             return View(agents.ToPagedList(pageNumber, pageSize));
@@ -49,10 +50,10 @@ namespace ControlPanel.Controllers
 
         [HttpGet]
         [ErrorLogger]
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
             logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
-            ViewBag.Groups = new SelectList(repository.Groups, "Id", "Name");
+            ViewBag.Groups = new SelectList(await repository.GetGroupsAsync(), "Id", "Name");
 
             var algorithm1 = new { Algorithm = 0, AlgorithmName = "Максимальная потребоность" };
             var algorithm2 = new { Algorithm = 1, AlgorithmName = "Уровень навыка" };
@@ -66,14 +67,14 @@ namespace ControlPanel.Controllers
 
         [HttpPost]
         [ErrorLogger]
-        public ActionResult Create([Bind] Agent agent)
+        public async Task<ActionResult> Create([Bind] Agent agent)
         {
             logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(agent.Name)}={agent.Name}, {nameof(agent.Login)}={agent.Algorithm}, {nameof(agent.IsAlgorithmAllowServiceLevel)}={agent.IsAlgorithmAllowServiceLevel}, {nameof(agent.WorkloadMaxContactsCount)}={agent.WorkloadMaxContactsCount}, {nameof(agent.GroupId)}={agent.GroupId} ");
 
             if (ModelState.IsValid)
             {
                 repository.Create(agent);
-                repository.Save();
+                await repository.SaveAsync();
 
                 logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
                 return RedirectToAction("Index");
@@ -85,7 +86,7 @@ namespace ControlPanel.Controllers
 
         [HttpGet]
         [ErrorLogger]
-        public ActionResult Delete(int? id)
+        public async Task<ActionResult> Delete(int? id)
         {
             logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(id)}={id}");
             if (id == null)
@@ -93,7 +94,7 @@ namespace ControlPanel.Controllers
                 logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var agent = repository.FindAgentByIdIncludeGroup((int)id);
+            var agent = await repository.FindAgentByIdIncludeGroupAsync(id);
             if (agent == null)
             {
                 logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
@@ -106,11 +107,11 @@ namespace ControlPanel.Controllers
 
         [HttpPost]
         [ErrorLogger]
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
             logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(id)}={id}");
-            repository.Delete(id);
-            repository.Save();
+            await repository.DeleteAsync(id);
+            await repository.SaveAsync();
 
             logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
             return RedirectToAction("Index");
@@ -118,7 +119,7 @@ namespace ControlPanel.Controllers
 
         [HttpGet]
         [ErrorLogger]
-        public ActionResult Edit(int? id)
+        public async Task<ActionResult> Edit(int? id)
         {
             logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(id)}={id}");
             if (id == null)
@@ -126,13 +127,13 @@ namespace ControlPanel.Controllers
                 logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Agent agent = repository.FindAgentById((int)id);
+            Agent agent = await repository.FindAgentByIdAsync(id);
             if (agent == null)
             {
                 logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             }
-            ViewBag.Groups = new SelectList(repository.Groups, "Id", "Name");
+            ViewBag.Groups = new SelectList(await repository.GetGroupsAsync(), "Id", "Name");
 
             var algorithm1 = new { Algorithm = 0, AlgorithmName = "Максимальная потребоность" };
             var algorithm2 = new { Algorithm = 1, AlgorithmName = "Уровень навыка" };
@@ -146,13 +147,13 @@ namespace ControlPanel.Controllers
 
         [HttpPost]
         [ErrorLogger]
-        public ActionResult Edit([Bind] Agent agent)
+        public async Task<ActionResult> Edit([Bind] Agent agent)
         {
             logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(agent.Id)}={agent.Id}, {nameof(agent.Name)}={agent.Name}, {nameof(agent.Login)}={agent.Algorithm}, {nameof(agent.IsAlgorithmAllowServiceLevel)}={agent.IsAlgorithmAllowServiceLevel}, {nameof(agent.WorkloadMaxContactsCount)}={agent.WorkloadMaxContactsCount}, {nameof(agent.GroupId)}={agent.GroupId} ");
             if (ModelState.IsValid)
             {
                 repository.Update(agent);
-                repository.Save();
+                await repository.SaveAsync();
 
                 logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
                 return RedirectToAction("Index");
@@ -164,11 +165,11 @@ namespace ControlPanel.Controllers
 
         [HttpGet]
         [ErrorLogger]
-        public JsonResult CheckLoginUnique (string login, int? id)
+        public async Task<JsonResult> CheckLoginUnique (string login, int? id)
         {
             logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(login)}={login}, {nameof(id)}={id}");
             //var agentsAlreadyInDb2 = db.Agents.Where(ag => ag.Login == login);
-            var agentsAlreadyInDb = repository.FindAgentsByLogin(login);
+            var agentsAlreadyInDb = await repository.FindAgentsByLoginAsync(login);
 
             if(agentsAlreadyInDb.Count() <= 0)
             {
@@ -194,7 +195,7 @@ namespace ControlPanel.Controllers
 
         [HttpGet]
         [ErrorLogger]
-        public ActionResult AgentSkills(int? id)
+        public async Task<ActionResult> AgentSkills(int? id)
         {
             logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(id)}={id}");
             if (id==null)
@@ -202,13 +203,13 @@ namespace ControlPanel.Controllers
                 logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Agent agent = repository.FindAgentByIdIncludeSkill((int)id);
+            Agent agent = await repository.FindAgentByIdIncludeSkillsAsync(id);
             if(agent==null)
             {
                 logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             }
-            List<AgentToSkill> agentToSkills = repository.FindAgentToSkillForAgentById((int)id).ToList();
+            List<AgentToSkill> agentToSkills = await repository.FindAgentToSkillForAgentByIdAsync(id);
             ViewBag.AgentId = id;
 
             logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
@@ -217,10 +218,10 @@ namespace ControlPanel.Controllers
 
         [HttpGet]
         [ErrorLogger]
-        public ActionResult AddSkill (int id)
+        public async Task<ActionResult> AddSkill (int id)
         {
             logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(id)}={id}");
-            List<Skill> skills = repository.Skills.ToList();
+            List<Skill> skills = await repository.GetSkillsAsync();
             //List<Skill> skills = db.Skills.ToList();
             ViewBag.AgentId = id;
 
@@ -230,13 +231,12 @@ namespace ControlPanel.Controllers
 
         [HttpGet]
         [ErrorLogger]
-        public ActionResult SkillAddConfirmation(int id, int skillId)
+        public async Task<ActionResult> SkillAddConfirmation(int id, int skillId)
         {
             logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(id)}={id}, {nameof(skillId)}={skillId}");
             AgentToSkill agentToSkill = new AgentToSkill { AgentId = id, SkillId = skillId };
-            //string skillName = db.Skills.Find(skillId).Name;
-            string skillName = repository.FindSkillById(skillId).Name;
-            ViewBag.SkillName = skillName;
+            Skill skill = await repository.FindSkillByIdAsync(skillId);
+            ViewBag.SkillName = skill.Name;
 
             var level1 = new { Level = 1, LevelName = "1" };
             var level2 = new { Level = 2, LevelName = "2" };
@@ -265,18 +265,16 @@ namespace ControlPanel.Controllers
 
         [HttpPost]
         [ErrorLogger]
-        public ActionResult SkillAddConfirmation([Bind] AgentToSkill agentToSkill)
+        public async Task<ActionResult> SkillAddConfirmation([Bind] AgentToSkill agentToSkill)
         {
             logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(agentToSkill.AgentId)}={agentToSkill.AgentId}, {nameof(agentToSkill.SkillId)}={agentToSkill.SkillId}, {nameof(agentToSkill.Level)}={agentToSkill.Level}, {nameof(agentToSkill.OrderIndex)}={agentToSkill.OrderIndex}, {nameof(agentToSkill.BreakingMode)}={agentToSkill.BreakingMode}, {nameof(agentToSkill.Percent)}={agentToSkill.Percent}");
             
             if(ModelState.IsValid)
             {
                 agentToSkill.IsActive = true;
-                //db.AgentToSkills.Add(agentToSkill);
-                //db.SaveChanges();
 
                 repository.CreateAgentToSkill(agentToSkill);
-                repository.Save();
+                await repository.SaveAsync();
                 logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
                 return RedirectToAction("AgentSkills", new { id = agentToSkill.AgentId });
             }
@@ -287,14 +285,12 @@ namespace ControlPanel.Controllers
 
         [HttpGet]
         [ErrorLogger]
-        public ViewResult EditSkill (int agentId, int skillId)
+        public async Task<ViewResult> EditSkill (int agentId, int skillId)
         {
             logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(agentId)}={agentId}, {nameof(skillId)}={skillId}");
-            //AgentToSkill agentToSkill = db.AgentToSkills.Where(agToSkill => agToSkill.AgentId == agentId && agToSkill.SkillId == skillId).FirstOrDefault();
-            AgentToSkill agentToSkill = repository.FindAgentToSkills(agentId, skillId).First();
-            string skillName = repository.FindSkillById(skillId).Name;
-            //string skillName = db.Skills.Find(skillId).Name;
-            ViewBag.SkillName = skillName;
+            AgentToSkill agentToSkill = await repository.FindAgentToSkillAsync(agentId, skillId);
+            Skill skill = await repository.FindSkillByIdAsync(skillId);
+            ViewBag.SkillName = skill.Name;
 
             var level1 = new { Level = 1, LevelName = "1" };
             var level2 = new { Level = 2, LevelName = "2" };
@@ -323,14 +319,14 @@ namespace ControlPanel.Controllers
 
         [HttpPost]
         [ErrorLogger]
-        public ActionResult EditSkill ([Bind] AgentToSkill agentToSkill)
+        public async Task<ActionResult> EditSkill ([Bind] AgentToSkill agentToSkill)
         {
             logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(agentToSkill.Id)}={agentToSkill.Id}, {nameof(agentToSkill.AgentId)}={agentToSkill.AgentId}, {nameof(agentToSkill.SkillId)}={agentToSkill.SkillId}, {nameof(agentToSkill.Level)}={agentToSkill.Level}, {nameof(agentToSkill.OrderIndex)}={agentToSkill.OrderIndex}, {nameof(agentToSkill.BreakingMode)}={agentToSkill.BreakingMode}, {nameof(agentToSkill.Percent)}={agentToSkill.Percent}");
 
             if(ModelState.IsValid)
             {
                 repository.UpdateAgentToSkill(agentToSkill);
-                repository.Save();
+                await repository.SaveAsync();
                 return RedirectToAction("Index");
             }
 
@@ -340,12 +336,12 @@ namespace ControlPanel.Controllers
 
         [HttpGet]
         [ErrorLogger]
-        public ActionResult RemoveSkill (int id, int skillId)
+        public async Task<ActionResult> RemoveSkill (int id, int skillId)
         {
             logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(id)}={id}, {nameof(skillId)}={skillId}");
-            AgentToSkill agentToSkill = repository.FindAgentToSkills(id, skillId).FirstOrDefault();
-            repository.DeleteAgentToSkill(agentToSkill.Id);
-            repository.Save();
+            AgentToSkill agentToSkill = await repository.FindAgentToSkillAsync(id, skillId);
+            await repository.DeleteAgentToSkillAsync(agentToSkill.Id);
+            await repository.SaveAsync();
 
             logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
             return RedirectToAction("AgentSkills", new { id });

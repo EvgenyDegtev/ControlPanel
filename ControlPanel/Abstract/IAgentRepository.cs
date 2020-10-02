@@ -75,6 +75,6 @@ namespace ControlPanel.Abstract
 
         IQueryable<AgentToSkill> FindAgentToSkills(int agentId, int skillId);
 
-        Task<List<AgentToSkill>> FindAgentToSkillsAsync(int agentId, int skillId);
+        Task<AgentToSkill> FindAgentToSkillAsync(int agentId, int skillId);
     }
 }

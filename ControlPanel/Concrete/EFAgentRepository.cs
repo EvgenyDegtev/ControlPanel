@@ -230,10 +230,10 @@ namespace ControlPanel.Concrete
             return agentToSkills;
         }
 
-        public async Task<List<AgentToSkill>> FindAgentToSkillsAsync(int agentId, int skillId)
+        public async Task<AgentToSkill> FindAgentToSkillAsync(int agentId, int skillId)
         {
             List<AgentToSkill> agentToSkills = await context.AgentToSkills.Where(agToSkill => agToSkill.AgentId == agentId && agToSkill.SkillId == skillId).ToListAsync();
-            return agentToSkills;
+            return agentToSkills.First();
         }
     }
 }
