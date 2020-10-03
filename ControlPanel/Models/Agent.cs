@@ -34,8 +34,8 @@ namespace ControlPanel.Models
 
         //Other properties
 
-        [Display(Name = "Активен")]
-        public bool IsActive { get; set; }
+        //[Display(Name = "Активен")]
+        //public bool IsActive { get; set; }
 
         [Display(Name = "Группа")]
         public int? GroupId { get; set; }

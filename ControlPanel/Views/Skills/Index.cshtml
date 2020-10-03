@@ -26,9 +26,6 @@
 		<th>
 			@Html.DisplayNameFor(model=>model.ToList().FirstOrDefault().Algorithm)
 		</th>
-		<th>
-			@Html.DisplayNameFor(model=>model.ToList().FirstOrDefault().IsActive)
-		</th>
 		<th></th>
 	</tr>
 
@@ -43,9 +40,6 @@
 			</td>
 			<td>
 				@Html.DisplayFor(model=>skill.Algorithm)
-			</td>
-			<td>
-				@Html.DisplayFor(model=>skill.IsActive)
 			</td>
 			<td>
 				@Html.ActionLink("Редактировать","Edit",new {id=skill.Id }) |

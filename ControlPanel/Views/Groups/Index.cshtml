@@ -23,9 +23,6 @@
 		<th>
 			@Html.DisplayNameFor(model => model.ToList().FirstOrDefault().Description)
 		</th>
-		<th>
-			@Html.DisplayNameFor(model => model.ToList().FirstOrDefault().IsActive)
-		</th>
 		<th></th>
 	</tr>
 
@@ -37,9 +34,6 @@
 			</td>
 			<td>
 				@Html.DisplayFor(model => group.Description)
-			</td>
-			<td>
-				@Html.DisplayFor(model => group.IsActive)
 			</td>
 			<td>
 				@Html.ActionLink("Редактировать", "Edit", new { id = group.Id }) |

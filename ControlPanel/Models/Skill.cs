@@ -25,8 +25,8 @@ namespace ControlPanel.Models
         [Display(Name ="Алгоритм")]
         public int Algorithm { get; set; }
 
-        [Display(Name ="Активен")]
-        public bool IsActive { get; set; }
+        //[Display(Name ="Активен")]
+        //public bool IsActive { get; set; }
 
         public List<Route> Routes { get; set; }
 

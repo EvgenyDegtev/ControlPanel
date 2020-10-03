@@ -42,25 +42,25 @@ namespace ControlPanel.Concrete
 
         public Models.Group FindGroupByIdIncludeAgents (int id)
         {
-            Models.Group group = context.Groups.Include(gr => gr.Agents).FirstOrDefault(gr => gr.Id == id && gr.IsActive==true);
+            Models.Group group = context.Groups.Include(gr => gr.Agents).FirstOrDefault(gr => gr.Id == id);
             return group;
         }
 
         public async Task<Models.Group> FindGroupByIdIncludeAgentsAsync(int? id)
         {
-            Models.Group group=await context.Groups.Include(gr => gr.Agents).FirstOrDefaultAsync(gr => gr.Id == id && gr.IsActive == true);
+            Models.Group group=await context.Groups.Include(gr => gr.Agents).FirstOrDefaultAsync(gr => gr.Id == id);
             return group;
         }
 
         public IQueryable<Models.Group> FindGroupsByName (string name)
         {
-            IQueryable<Models.Group> groups = context.Groups.Where(gr => gr.Name == name && gr.IsActive == true);
+            IQueryable<Models.Group> groups = context.Groups.Where(gr => gr.Name == name);
             return groups;
         }
 
         public async Task<List<Models.Group>> FindGroupsByNameAsync (string name)
         {
-            List<Models.Group> groups = await context.Groups.Where(gr => gr.Name == name && gr.IsActive == true).ToListAsync();
+            List<Models.Group> groups = await context.Groups.Where(gr => gr.Name == name).ToListAsync();
             return groups;
         }
 

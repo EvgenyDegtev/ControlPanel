@@ -232,6 +232,10 @@
     <Compile Include="Migrations\202010031926406_RemoveIsActiveFromRoute.Designer.cs">
       <DependentUpon>202010031926406_RemoveIsActiveFromRoute.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202010031953490_RemoveIsActive.cs" />
+    <Compile Include="Migrations\202010031953490_RemoveIsActive.Designer.cs">
+      <DependentUpon>202010031953490_RemoveIsActive.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Agent.cs" />
     <Compile Include="Models\AgentToSkill.cs" />
@@ -376,6 +380,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202010031926406_RemoveIsActiveFromRoute.resx">
       <DependentUpon>202010031926406_RemoveIsActiveFromRoute.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010031953490_RemoveIsActive.resx">
+      <DependentUpon>202010031953490_RemoveIsActive.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

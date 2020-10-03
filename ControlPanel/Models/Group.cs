@@ -21,8 +21,8 @@ namespace ControlPanel.Models
         [MaxLength(5000,ErrorMessage = "Максимальная длина - 5000 символов")]
         public string Description { get; set; }
 
-        [Display(Name="Активен")]
-        public bool IsActive { get; set; }
+        //[Display(Name="Активен")]
+        //public bool IsActive { get; set; }
 
         public List<Agent> Agents { get; set; }
     }

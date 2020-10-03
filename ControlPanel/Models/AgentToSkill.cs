@@ -35,6 +35,6 @@ namespace ControlPanel.Models
 
         public Skill Skill { get; set; }
 
-        public bool IsActive { get; set; }
+        //public bool IsActive { get; set; }
     }
 }

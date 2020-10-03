@@ -21,9 +21,6 @@
 				@Html.DisplayFor(route=>item.Key)
 			</td>
 			<td>
-				@Html.DisplayFor(route=>item.IsActive)
-			</td>
-			<td>
 				@Html.ActionLink("Delete","RemoveRoute", new { id=Model.Id, routeId=item.Id})
 			</td>
 		</tr>

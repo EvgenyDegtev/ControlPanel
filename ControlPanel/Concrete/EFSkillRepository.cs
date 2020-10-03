@@ -45,25 +45,25 @@ namespace ControlPanel.Concrete
 
         public Skill FindSkillByIdIncludeRoutes(int? id)
         {
-            Skill skill = context.Skills.Include(sk => sk.Routes).FirstOrDefault(sk => sk.Id == id && sk.IsActive == true);
+            Skill skill = context.Skills.Include(sk => sk.Routes).FirstOrDefault(sk => sk.Id == id);
             return skill;
         }
 
         public async Task<Skill> FindSkillByIdIncludeRoutesAsync(int? id)
         {
-            Skill skill = await context.Skills.Include(sk => sk.Routes).FirstOrDefaultAsync(sk => sk.Id == id && sk.IsActive == true);
+            Skill skill = await context.Skills.Include(sk => sk.Routes).FirstOrDefaultAsync(sk => sk.Id == id);
             return skill;
         }
 
         public IQueryable<Skill> FindSkillsByKey(string key)
         {
-            IQueryable<Skill> skills = context.Skills.Where(skill => skill.Key == key && skill.IsActive == true);
+            IQueryable<Skill> skills = context.Skills.Where(skill => skill.Key == key);
             return skills;
         }
 
         public async Task<List<Skill>> FindSkillsByKeyAsync(string key)
         {
-            List<Skill> skills = await context.Skills.Where(skill => skill.Key == key && skill.IsActive == true).ToListAsync();
+            List<Skill> skills = await context.Skills.Where(skill => skill.Key == key).ToListAsync();
             return skills;
         }
 

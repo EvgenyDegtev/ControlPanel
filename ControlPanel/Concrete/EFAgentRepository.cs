@@ -136,13 +136,13 @@ namespace ControlPanel.Concrete
 
         public IQueryable<Agent> FindAgentsByLogin(string login)
         {
-            IQueryable<Agent> agents = context.Agents.Where(ag => ag.Login == login && ag.IsActive == true);
+            IQueryable<Agent> agents = context.Agents.Where(ag => ag.Login == login);
             return agents;
         }
 
         public async Task<List<Agent>> FindAgentsByLoginAsync(string login)
         {
-            List<Agent> agents = await context.Agents.Where(ag => ag.Login == login && ag.IsActive == true).ToListAsync();
+            List<Agent> agents = await context.Agents.Where(ag => ag.Login == login).ToListAsync();
             return agents;
         }
 
@@ -191,13 +191,13 @@ namespace ControlPanel.Concrete
 
         public IQueryable<Agent> SearchAgent(string searchString)
         {
-            var agents = context.Agents.Where(ag => ag.Login.Contains(searchString) && ag.IsActive == true);
+            var agents = context.Agents.Where(ag => ag.Login.Contains(searchString));
             return agents;
         }
 
         public async Task<List<Agent>> SearchAgentsAsync(string searchString)
         {
-            var agents = await context.Agents.Where(ag => ag.Login.Contains(searchString) && ag.IsActive == true).ToListAsync();
+            var agents = await context.Agents.Where(ag => ag.Login.Contains(searchString)).ToListAsync();
             return agents;
         }
 

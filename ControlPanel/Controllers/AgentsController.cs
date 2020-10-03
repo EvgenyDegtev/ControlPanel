@@ -271,7 +271,7 @@ namespace ControlPanel.Controllers
             
             if(ModelState.IsValid)
             {
-                agentToSkill.IsActive = true;
+                //agentToSkill.IsActive = true;
 
                 repository.CreateAgentToSkill(agentToSkill);
                 await repository.SaveAsync();
