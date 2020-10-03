@@ -24,9 +24,6 @@
 			@Html.DisplayNameFor(model => model.ToList().FirstOrDefault().Key)
 		</th>
 		<th>
-			@Html.DisplayNameFor(model => model.ToList().FirstOrDefault().IsActive)
-		</th>
-		<th>
 			@Html.DisplayNameFor(model => model.ToList().FirstOrDefault().Skill.Name)
 		</th>
 		<th></th>
@@ -40,9 +37,6 @@
 			</td>
 			<td>
 				@Html.DisplayFor(model => route.Key)
-			</td>
-			<td>
-				@Html.DisplayFor(model => route.IsActive)
 			</td>
 			<td>
 				@Html.DisplayFor(model => route.Skill.Name)

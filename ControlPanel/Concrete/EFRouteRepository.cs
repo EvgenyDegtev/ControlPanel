@@ -81,13 +81,13 @@ namespace ControlPanel.Concrete
 
         public IQueryable<Route> FindRoutesByKey (string key)
         {
-            var routes = context.Routes.Where(route => route.Key == key && route.IsActive == true);
+            var routes = context.Routes.Where(route => route.Key == key);
             return routes;
         }
 
         public async Task<List<Route>> FindRoutesByKeyAsync(string key)
         {
-            var routes = await context.Routes.Where(route => route.Key == key && route.IsActive == true).ToListAsync();
+            var routes = await context.Routes.Where(route => route.Key == key).ToListAsync();
             return routes;
         }
 
@@ -132,13 +132,13 @@ namespace ControlPanel.Concrete
         }
         public IQueryable<Route> SearchRoute (string searchString)
         {
-            IQueryable<Route> routes = context.Routes.Where(route => route.Key.Contains(searchString) && route.IsActive == true);
+            IQueryable<Route> routes = context.Routes.Where(route => route.Key.Contains(searchString));
             return routes;
         }
 
         public async Task<List<Route>> SearchRoutesAsync(string searchString)
         {
-            List<Route> routes = await context.Routes.Where(route => route.Key.Contains(searchString) && route.IsActive == true).ToListAsync();
+            List<Route> routes = await context.Routes.Where(route => route.Key.Contains(searchString)).ToListAsync();
             return routes;
         }
     }

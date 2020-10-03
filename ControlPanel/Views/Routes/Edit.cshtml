@@ -27,13 +27,6 @@
 	</div>
 
 	<div class="form-group">
-		@Html.LabelFor(model => model.IsActive, new { @class = "control-label col-md-2" })
-		<div class="checkbox">
-			@Html.EditorFor(model => model.IsActive)
-		</div>
-	</div>
-
-	<div class="form-group">
 		@Html.LabelFor(model => model.SkillId, new { @class = "control-label col-md-2" })
 		<div class="col-md-10">
 			@Html.DropDownListFor(model => model.SkillId, ViewBag.Skills as SelectList, "--", new { @class = "form-control" })

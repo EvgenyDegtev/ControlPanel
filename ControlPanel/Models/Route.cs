@@ -22,8 +22,8 @@ namespace ControlPanel.Models
         [Remote(action: "CheckKeyUnique", controller: "Routes", AdditionalFields = nameof(Id))]
         public string Key { get; set; }
 
-        [Display(Name="Активен")]
-        public bool IsActive { get; set; }
+        //[Display(Name = "Активен")]
+        //public bool IsActive { get; set; }
 
         [Display(Name="Навык")]
         public int? SkillId { get; set; }
