@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 
 namespace ControlPanel.Controllers
 {
+    [Authorize]
     public class GroupsController : Controller
     {
         //private DataBaseContext db = new DataBaseContext();

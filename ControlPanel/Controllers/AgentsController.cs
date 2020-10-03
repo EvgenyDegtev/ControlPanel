@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 
 namespace ControlPanel.Controllers
 {
+    [Authorize]
     public class AgentsController : Controller
     {
         private static Logger logger = LogManager.GetCurrentClassLogger();

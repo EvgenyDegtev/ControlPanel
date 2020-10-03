@@ -154,6 +154,7 @@
     <Compile Include="Concrete\EFGroupRepository.cs" />
     <Compile Include="Concrete\EFRouteRepository.cs" />
     <Compile Include="Concrete\EFSkillRepository.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AgentsController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\GroupsController.cs" />
@@ -163,6 +164,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infastructure\Abstract\IAuthProvider.cs" />
+    <Compile Include="Infastructure\Concrete\FormsAuthProvider.cs" />
     <Compile Include="Infastructure\NinjectControllerFactory.cs" />
     <Compile Include="Migrations\202004022009381_InitialCreate.cs" />
     <Compile Include="Migrations\202004022009381_InitialCreate.Designer.cs">
@@ -245,6 +248,7 @@
     <Compile Include="Models\Route.cs" />
     <Compile Include="Models\Skill.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\LoginViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -312,6 +316,8 @@
     <Content Include="Views\Agents\AddSkill.cshtml" />
     <Content Include="Views\Agents\SkillAddConfirmation.cshtml" />
     <Content Include="Views\Agents\EditSkill.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Shared\_AdminLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

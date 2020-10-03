@@ -7,6 +7,8 @@ using System.Web.Routing;
 using Ninject;
 using ControlPanel.Abstract;
 using ControlPanel.Concrete;
+using ControlPanel.Infastructure.Abstract;
+using ControlPanel.Infastructure.Concrete;
 
 namespace ControlPanel.Infastructure
 {
@@ -32,6 +34,7 @@ namespace ControlPanel.Infastructure
             ninjectKernel.Bind<IRouteRepository>().To<EFRouteRepository>();
             ninjectKernel.Bind<IAgentRepository>().To<EFAgentRepository>();
             ninjectKernel.Bind<IGroupRepository>().To<EFGroupRepository>();
+            ninjectKernel.Bind<IAuthProvider>().To<FormsAuthProvider>();
         }
 
     }
