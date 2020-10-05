@@ -45,6 +45,8 @@ namespace ControlPanel.Controllers
             }
             agents = await repository.SearchAgentsAsync(searchString);
 
+            ViewBag.searchString = searchString;
+
             logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
             return View(agents.ToPagedList(pageNumber, pageSize));
         }

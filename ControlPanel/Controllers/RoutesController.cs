@@ -45,6 +45,8 @@ namespace ControlPanel.Controllers
             }
             routes = await repository.SearchRoutesAsync(searchString);
 
+            ViewBag.searchString = searchString;
+
             logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
             return View(routes.ToPagedList(pageNumber,pageSize));
         }

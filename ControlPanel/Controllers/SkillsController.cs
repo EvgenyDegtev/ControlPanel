@@ -43,6 +43,9 @@ namespace ControlPanel.Controllers
             }
             skills = await repository.SearchSkillsAsync(searchString);
 
+
+            ViewBag.searchString = searchString;
+
             logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
             return View(skills.ToPagedList(pageNumber,pageSize));
         }

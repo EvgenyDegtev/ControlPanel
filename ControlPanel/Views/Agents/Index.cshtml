@@ -10,7 +10,7 @@
 @using (Html.BeginForm("Index", "Agents"))
 {
 	<p>
-		<strong>Логин: </strong> <input type="text" name="searchString" />
+		<strong>Логин: </strong> <input type="text" name="searchString" value="@ViewBag.searchString"/>
 		<input type="submit" value="Поиск" />
 	</p>
 }

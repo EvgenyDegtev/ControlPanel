@@ -44,6 +44,8 @@ namespace ControlPanel.Controllers
             }
             groups = await repository.SearchGroupsAsync(searchString);
 
+            ViewBag.searchString = searchString;
+
             logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
             return View(groups.ToPagedList(pageNumber,pageSize));
         }

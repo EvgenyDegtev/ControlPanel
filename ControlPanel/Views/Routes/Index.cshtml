@@ -10,7 +10,7 @@
 @using(Html.BeginForm("Index","Routes"))
 {
 	<p>
-		<strong>ID маршрута: </strong> <input type="text" name="searchString"/>
+		<strong>ID маршрута: </strong> <input type="text" name="searchString" value="@ViewBag.searchString"/>
 		<input type="submit" value="Поиск"/>
 	</p>
 }
