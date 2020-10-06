@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web;
+using System.Web.SessionState;
 using System.Web.Mvc;
 using ControlPanel.Models;
 using PagedList;
@@ -17,6 +18,7 @@ using System.Threading.Tasks;
 namespace ControlPanel.Controllers
 {
     [Authorize]
+    [SessionState(SessionStateBehavior.Disabled)]
     public class GroupsController : Controller
     {
         //private DataBaseContext db = new DataBaseContext();

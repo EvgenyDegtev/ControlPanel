@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.SessionState;
 using System.Web.Mvc;
 using System.Data.Entity;
 using System.Net;
@@ -17,6 +18,7 @@ using System.Threading.Tasks;
 namespace ControlPanel.Controllers
 {
     [Authorize]
+    [SessionState(SessionStateBehavior.Disabled)]
     public class RoutesController : Controller
     {
         private static Logger logger = LogManager.GetCurrentClassLogger();
