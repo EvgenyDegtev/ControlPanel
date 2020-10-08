@@ -160,6 +160,7 @@
     <Compile Include="Controllers\GroupsController.cs" />
     <Compile Include="Controllers\RoutesController.cs" />
     <Compile Include="Controllers\SkillsController.cs" />
+    <Compile Include="Filters\ActionStartAttribute.cs" />
     <Compile Include="Filters\ErrorLoggerAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

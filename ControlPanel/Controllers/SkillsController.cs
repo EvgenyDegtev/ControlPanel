@@ -30,6 +30,7 @@ namespace ControlPanel.Controllers
 
         //Get and Post
         [ErrorLogger]
+        [ActionStart]
         public async Task<ActionResult> Index(string searchString, int? page)
         {
             logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}| Input params: {nameof(searchString)}={searchString}, {nameof(page)}={page} ");
