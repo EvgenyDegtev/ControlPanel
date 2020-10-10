@@ -158,6 +158,7 @@
     <Compile Include="Controllers\AgentsController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\GroupsController.cs" />
+    <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\RoutesController.cs" />
     <Compile Include="Controllers\SkillsController.cs" />
     <Compile Include="Filters\ActionStartAttribute.cs" />
@@ -246,6 +247,7 @@
     <Compile Include="Models\DataBaseContext.cs" />
     <Compile Include="Models\DataBaseInitializer.cs" />
     <Compile Include="Models\Group.cs" />
+    <Compile Include="Models\Report.cs" />
     <Compile Include="Models\Route.cs" />
     <Compile Include="Models\Skill.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -319,6 +321,7 @@
     <Content Include="Views\Agents\EditSkill.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Shared\_AdminLayout.cshtml" />
+    <Content Include="Views\Reports\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

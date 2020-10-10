@@ -23,7 +23,6 @@ namespace ControlPanel.Controllers
     public class AgentsController : Controller
     {
         private static Logger logger = LogManager.GetCurrentClassLogger();
-        DataBaseContext db = new DataBaseContext();
         IAgentRepository repository;
 
         public AgentsController (IAgentRepository agentRepository)
