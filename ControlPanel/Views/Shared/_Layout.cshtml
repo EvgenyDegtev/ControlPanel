@@ -6,7 +6,7 @@
 	@Styles.Render("~/Content/css")
 	@Scripts.Render("~/bundles/modernizr")
 	@Scripts.Render("~/bundles/jquery")
-	<script src="@Url.Content("~/Scripts/jquery-1.8.2.min.js")" type="text/javascript"></script>
+	<script src="@Url.Content("~/Scripts/jquery-3.4.1.min.js")" type="text/javascript"></script>
 	<script src="@Url.Content("~/Scripts/jquery.validate.js")" type="text/javascript"></script>
 	<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")" type="text/javascript"></script>
 	@*<link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />*@
@@ -15,10 +15,11 @@
 <body>
     <nav>
 		<ul class="nav nav-tabs">
-			<li>@Html.ActionLink("Агенты","Index","Agents")</li>
+			<li>@Html.ActionLink("Агенты", "Index", "Agents")</li>
 			<li>@Html.ActionLink("Группы", "Index", "Groups")</li>
 			<li>@Html.ActionLink("Навыки", "Index", "Skills")</li>
 			<li>@Html.ActionLink("Маршруты", "Index", "Routes")</li>
+			<li>@Html.ActionLink("Отчеты", "Index", "Reports")</li>
 		</ul>
     </nav>
         @RenderBody()

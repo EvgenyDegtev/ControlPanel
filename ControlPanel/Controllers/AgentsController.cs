@@ -12,7 +12,6 @@ using PagedList.Mvc;
 using NLog;
 using ControlPanel.Filters;
 using System.Reflection;
-using NLog.LayoutRenderers;
 using ControlPanel.Abstract;
 using System.Threading.Tasks;
 
