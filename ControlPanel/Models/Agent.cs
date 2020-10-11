@@ -7,10 +7,12 @@ using System.Web.Mvc;
 
 namespace ControlPanel.Models
 {
+    [Serializable]
     public class Agent
     {
         public int Id { get; set; }
 
+        
         [Display(Name = "Имя")]
         [Required(ErrorMessage = "Требуется поле Имя")]
         [StringLength(100, ErrorMessage = "Максимальная длина - 100 символов")]
