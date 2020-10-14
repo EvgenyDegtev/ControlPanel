@@ -11,12 +11,14 @@ using NLog;
 using System.Threading.Tasks;
 using System.Runtime.Serialization.Formatters.Binary;
 using CsvHelper;
+using System.Globalization;
 
 namespace ControlPanel.Controllers
 {
     public class ReportsController : Controller
     {
-        CsvHelper.Configuration.Configuration configuration = new Configuration();
+        
+        //CsvHelper.Configuration.Configuration configuration = new Configuration();
         IAgentRepository agentRpository;
         ISkillRepository skillRepository;
         private static Logger logger = LogManager.GetCurrentClassLogger();
@@ -38,20 +40,37 @@ namespace ControlPanel.Controllers
         public async Task<FileResult> GetReport([Bind] Report report)
         {
             var agentsForReport = await agentRpository.GetAgentsAsync();
-            BinaryFormatter binaryFormatter = new BinaryFormatter();
-            byte[] reportByteStream;
-            using(var memoryStream=new MemoryStream())
+            string pathCsvFile = @"C:\Users\EDegtev\AppData\Roaming\ControlPanel\1.csv";
+
+            using(StreamWriter streamWriter=new StreamWriter(pathCsvFile))
             {
-                binaryFormatter.Serialize(memoryStream, agentsForReport);
-                reportByteStream = memoryStream.ToArray();
+                using(CsvWriter csvWriter=new CsvWriter(streamWriter,CultureInfo.InvariantCulture))
+                {
+                    csvWriter.Configuration.Delimiter = ";";
+
+                    csvWriter.WriteRecords(agentsForReport);
+                }
             }
 
-            string reportString = report.Name.ToString()+";"+report.DateFrom.ToString() + ";" + report.DateTo.ToString();
-            Encoding encoding = Encoding.ASCII;
-            byte[] reportStream = encoding.GetBytes(reportString);
-            string file_type = "application/txt";
-            string file_name = "1.txt";
-            return File(reportByteStream, file_type, file_name);
+
+
+
+            string file_type = "application/csv";
+            string file_name = "111.csv";
+            return File(pathCsvFile, file_type, file_name);
+
+            //BinaryFormatter binaryFormatter = new BinaryFormatter();
+            //byte[] reportByteStream;
+            //using(var memoryStream=new MemoryStream())
+            //{
+            //    binaryFormatter.Serialize(memoryStream, agentsForReport);
+            //    reportByteStream = memoryStream.ToArray();
+            //}
+            //string reportString = report.Name.ToString()+";"+report.DateFrom.ToString() + ";" + report.DateTo.ToString();
+            //Encoding encoding = Encoding.ASCII;
+            //byte[] reportStream = encoding.GetBytes(reportString);
+            //return File(reportByteStream, file_type, file_name);
+
         }
     }
 }
