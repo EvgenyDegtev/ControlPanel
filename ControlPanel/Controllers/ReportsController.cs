@@ -17,21 +17,20 @@ namespace ControlPanel.Controllers
 {
     public class ReportsController : Controller
     {
-        
-        //CsvHelper.Configuration.Configuration configuration = new Configuration();
         IAgentRepository agentRpository;
         ISkillRepository skillRepository;
         private static Logger logger = LogManager.GetCurrentClassLogger();
 
-        public ReportsController(IAgentRepository agentRepository)
+        public ReportsController(IAgentRepository agentRepository, ISkillRepository skillRepository)
         {
             this.agentRpository = agentRepository;
+            this.skillRepository = skillRepository;
         }
 
         // GET: Reports
         public ActionResult Index()
         {
-            string[] reports = new string[] { "AgentReport", "Skillreport" };
+            string[] reports = new string[] { "AgentReport", "SkillReport" };
             ViewBag.Reports = new SelectList(reports);
             return View();
         }
@@ -39,38 +38,40 @@ namespace ControlPanel.Controllers
         [HttpPost]
         public async Task<FileResult> GetReport([Bind] Report report)
         {
-            var agentsForReport = await agentRpository.GetAgentsAsync();
-            string pathCsvFile = @"C:\Users\EDegtev\AppData\Roaming\ControlPanel\1.csv";
-
-            using(StreamWriter streamWriter=new StreamWriter(pathCsvFile))
+            string pathCsvFile=null;
+            switch (report.Name)
             {
-                using(CsvWriter csvWriter=new CsvWriter(streamWriter,CultureInfo.InvariantCulture))
-                {
-                    csvWriter.Configuration.Delimiter = ";";
+                case "AgentReport":
+                    var agentsForReport = await agentRpository.GetAgentsAsync();
+                    pathCsvFile=CreateCsvReport<Agent>(report, agentsForReport);
+                    break;
 
-                    csvWriter.WriteRecords(agentsForReport);
-                }
+                case "SkillReport":
+                    var skillsForReport = await skillRepository.GetSkillsAsync();
+                    pathCsvFile = CreateCsvReport<Skill>(report, skillsForReport);
+                    break;
+                default:
+                    break;
             }
 
+            string fileType = "application/csv";
+            string fileName = $"{report.Name}_{report.DateFrom}_{report.DateTo}.csv";
+            return File(pathCsvFile, fileType, fileName);
+        }
 
+        private string CreateCsvReport<T>(Report report, List<T> reportData)
+        {
+            string pathCsvFile = $@"C:\Users\EDegtev\AppData\Roaming\ControlPanel\{report.Name}.csv";
 
-
-            string file_type = "application/csv";
-            string file_name = "111.csv";
-            return File(pathCsvFile, file_type, file_name);
-
-            //BinaryFormatter binaryFormatter = new BinaryFormatter();
-            //byte[] reportByteStream;
-            //using(var memoryStream=new MemoryStream())
-            //{
-            //    binaryFormatter.Serialize(memoryStream, agentsForReport);
-            //    reportByteStream = memoryStream.ToArray();
-            //}
-            //string reportString = report.Name.ToString()+";"+report.DateFrom.ToString() + ";" + report.DateTo.ToString();
-            //Encoding encoding = Encoding.ASCII;
-            //byte[] reportStream = encoding.GetBytes(reportString);
-            //return File(reportByteStream, file_type, file_name);
-
+            using (StreamWriter streamWriter = new StreamWriter(pathCsvFile))
+            {
+                using (CsvWriter csvWriter = new CsvWriter(streamWriter, CultureInfo.InvariantCulture))
+                {
+                    csvWriter.Configuration.Delimiter = ";";
+                    csvWriter.WriteRecords(reportData);
+                }
+            }
+            return pathCsvFile;
         }
     }
 }
