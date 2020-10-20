@@ -234,10 +234,10 @@ namespace ControlPanel.Controllers
 
         [HttpGet]
         [ErrorLogger]
-        public async Task<ActionResult> SkillAddConfirmation(int id, int skillId)
+        public async Task<ActionResult> SkillAddConfirmation(int agentId, int skillId)
         {
-            logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(id)}={id}, {nameof(skillId)}={skillId}");
-            AgentToSkill agentToSkill = new AgentToSkill { AgentId = id, SkillId = skillId };
+            logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(agentId)}={agentId}, {nameof(skillId)}={skillId}");
+            AgentToSkill agentToSkill = new AgentToSkill { AgentId = agentId, SkillId = skillId };
             Skill skill = await repository.FindSkillByIdAsync(skillId);
             ViewBag.SkillName = skill.Name;
 
@@ -330,7 +330,7 @@ namespace ControlPanel.Controllers
             {
                 repository.UpdateAgentToSkill(agentToSkill);
                 await repository.SaveAsync();
-                return RedirectToAction("Index");
+                return RedirectToAction("AgentSkills", new { id = agentToSkill.AgentId });
             }
 
             logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
@@ -339,15 +339,15 @@ namespace ControlPanel.Controllers
 
         [HttpGet]
         [ErrorLogger]
-        public async Task<ActionResult> RemoveSkill (int id, int skillId)
+        public async Task<ActionResult> RemoveSkill (int agentId, int skillId)
         {
-            logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(id)}={id}, {nameof(skillId)}={skillId}");
-            AgentToSkill agentToSkill = await repository.FindAgentToSkillAsync(id, skillId);
+            logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(agentId)}={agentId}, {nameof(skillId)}={skillId}");
+            AgentToSkill agentToSkill = await repository.FindAgentToSkillAsync(agentId, skillId);
             await repository.DeleteAgentToSkillAsync(agentToSkill.Id);
             await repository.SaveAsync();
 
             logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
-            return RedirectToAction("AgentSkills", new { id });
+            return RedirectToAction("AgentSkills", new { id=agentId });
         }
 
         protected override void Dispose(bool disposing)
