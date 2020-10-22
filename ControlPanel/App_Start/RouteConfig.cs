@@ -13,6 +13,7 @@ namespace ControlPanel
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             
+            //Agent Routes
             routes.MapRoute(
                 name: "EditAgentSkill",
                 url: "Agents/{agentId}/EditSkill/{skillId}",
@@ -22,7 +23,7 @@ namespace ControlPanel
             routes.MapRoute(
                 name: "RemoveAgentSkill",
                 url: "Agents/{agentId}/RemoveSkill/{skillId}",
-                new { controller = "Agents", action = "EditSkill" }
+                new { controller = "Agents", action = "RemoveSkill" }
                 );
 
             routes.MapRoute(
@@ -43,6 +44,33 @@ namespace ControlPanel
                 new { action = "AgentSkills" }
                 );
 
+            //Group Routes
+            routes.MapRoute(
+                name: "RemoveAgentFromGroup",
+                url: "Groups/{groupId}/RemoveAgent/{agentId}",
+                new { controller = "Groups", action = "RemoveAgent" }
+                );
+
+            routes.MapRoute(
+                name: "GroupAgents",
+                url: "{controller}/{id}/Agents",
+                new { action = "GroupAgents" }
+                );
+
+            //Skill Routes
+            routes.MapRoute(
+                name: "RemoveRouteFromSkill",
+                url: "Skills/{skillId}/RemoveRoute/{routeId}",
+                new { controller="Skills", action="RemoveRoute" }
+                );
+
+            routes.MapRoute(
+                name: "SkillRoutes",
+                url: "{controller}/{id}/Routes",
+                new { action = "SkillRoutes" }
+                );
+
+            //Default Route
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",

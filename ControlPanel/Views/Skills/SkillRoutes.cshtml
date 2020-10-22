@@ -21,7 +21,7 @@
 				@Html.DisplayFor(route=>item.Key)
 			</td>
 			<td>
-				@Html.ActionLink("Delete","RemoveRoute", new { id=Model.Id, routeId=item.Id})
+				@Html.ActionLink("Delete","RemoveRoute", new { skillId=Model.Id, routeId=item.Id})
 			</td>
 		</tr>
 	}

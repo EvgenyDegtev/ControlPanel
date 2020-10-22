@@ -197,9 +197,9 @@ namespace ControlPanel.Controllers
 
         [HttpGet]
         [ErrorLogger]
-        public async Task<ActionResult> RemoveRoute(int id, int routeId)
+        public async Task<ActionResult> RemoveRoute(int skillId, int routeId)
         {
-            Skill skill = await repository.FindSkillByIdIncludeRoutesAsync(id);
+            Skill skill = await repository.FindSkillByIdIncludeRoutesAsync(skillId);
             Route routeToRemove=skill.Routes.Find(route=>route.Id==routeId);
             skill.Routes.Remove(routeToRemove);            
             repository.Update(skill);

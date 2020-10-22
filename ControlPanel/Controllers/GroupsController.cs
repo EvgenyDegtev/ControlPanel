@@ -21,7 +21,6 @@ namespace ControlPanel.Controllers
     [SessionState(SessionStateBehavior.Disabled)]
     public class GroupsController : Controller
     {
-        //private DataBaseContext db = new DataBaseContext();
         private static Logger logger = LogManager.GetCurrentClassLogger();
         IGroupRepository repository;
 
@@ -202,9 +201,9 @@ namespace ControlPanel.Controllers
 
         [HttpGet]
         [ErrorLogger]
-        public async Task<ActionResult> RemoveAgent (int id,int agentId)
+        public async Task<ActionResult> RemoveAgent (int groupId,int agentId)
         {
-            var group = await repository.FindGroupByIdAsync(id);
+            var group = await repository.FindGroupByIdAsync(groupId);
             await repository.RemoveAgentFromGroupAsync(agentId);
             await repository.SaveAsync();
 
