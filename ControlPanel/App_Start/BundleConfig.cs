@@ -26,6 +26,9 @@ namespace ControlPanel
                       "~/Content/bootstrap.css",
                       "~/Content/site.css",
                       "~/Content/PagedList.css"));
+
+            bundles.Add(new StyleBundle("~/Content/fontawesome").Include(
+                "~/Content/font-awesome.css"));
         }
     }
 }
