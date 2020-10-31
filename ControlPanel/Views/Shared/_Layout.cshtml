@@ -13,15 +13,7 @@
 	@*<link href="@Url.Content("~/Content/PagedList.css")" rel="stylesheet" type="text/css"/>*@
 </head>
 <body>
-    <nav>
-		<ul class="nav nav-tabs">
-			<li>@Html.ActionLink("Агенты", "Index", "Agents")</li>
-			<li>@Html.ActionLink("Группы", "Index", "Groups")</li>
-			<li>@Html.ActionLink("Навыки", "Index", "Skills")</li>
-			<li>@Html.ActionLink("Маршруты", "Index", "Routes")</li>
-			<li>@Html.ActionLink("Отчеты", "Index", "Reports")</li>
-		</ul>
-    </nav>
-        @RenderBody()
+	@Html.Action("Menu", "Navigation")
+	@RenderBody()
 </body>
 </html>

@@ -1,0 +1,11 @@
+﻿<nav>
+	<ul class="nav nav-tabs">
+		<li>@Html.ActionLink("Агенты", "Index", "Agents", new { controller = "Agents", action = "Index" }, new {@class= "selected"})</li>
+		<li>@Html.RouteLink("Агенты", new {controller="Agents", action="Index" })</li>
+		<li class="active">@Html.ActionLink("Группы", "Index", "Groups", new { controller = "Groups", action = "Index" })</li>
+		<li>@Html.ActionLink("Навыки", "Index", "Skills")</li>
+		<li>@Html.ActionLink("Маршруты", "Index", "Routes")</li>
+		<li>@Html.ActionLink("Отчеты", "Index", "Reports")</li>
+	</ul>
+	<h4>@ViewBag.SelectedCategory</h4>
+</nav>

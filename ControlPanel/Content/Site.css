@@ -41,3 +41,12 @@ td {
 input {
     width: 150px;
 }
+
+.sort {
+    display:none;
+}
+
+.selected {
+    color:green;
+    background-color:yellow;
+}
