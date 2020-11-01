@@ -1,11 +1,39 @@
-﻿<nav>
+﻿@{ 
+	string agentSelectionClass = null;
+	string groupSelectionClass = null;
+	string skillSelectionClass = null;
+	string routeSelectionClass = null;
+	string reportSelectionClass = null;
+	if (ViewBag.activeController=="Groups")
+	{
+		groupSelectionClass = "active";
+	}
+	else if(ViewBag.activeController == "Skills")
+	{
+		skillSelectionClass = "active";
+	}
+	else if (ViewBag.activeController == "Routes")
+	{
+		routeSelectionClass = "active";
+	}
+	else if (ViewBag.activeController == "Reports")
+	{
+		reportSelectionClass = "active";
+	}
+	else
+	{
+		agentSelectionClass = "active";
+	}
+}
+<h4>@ViewBag.url</h4>
+
+<nav>
 	<ul class="nav nav-tabs">
-		<li>@Html.ActionLink("Агенты", "Index", "Agents", new { controller = "Agents", action = "Index" }, new {@class= "selected"})</li>
-		<li>@Html.RouteLink("Агенты", new {controller="Agents", action="Index" })</li>
-		<li class="active">@Html.ActionLink("Группы", "Index", "Groups", new { controller = "Groups", action = "Index" })</li>
-		<li>@Html.ActionLink("Навыки", "Index", "Skills")</li>
-		<li>@Html.ActionLink("Маршруты", "Index", "Routes")</li>
-		<li>@Html.ActionLink("Отчеты", "Index", "Reports")</li>
+		<li class="@agentSelectionClass">@Html.ActionLink("Агенты", "Index", "Agents")</li>
+		<li class="@groupSelectionClass">@Html.ActionLink("Группы", "Index", "Groups")</li>
+		<li class="@skillSelectionClass">@Html.ActionLink("Навыки", "Index", "Skills")</li>
+		<li class="@routeSelectionClass">@Html.ActionLink("Маршруты", "Index", "Routes")</li>
+		<li class="@reportSelectionClass">@Html.ActionLink("Отчеты", "Index", "Reports")</li>
 	</ul>
 	<h4>@ViewBag.SelectedCategory</h4>
 </nav>

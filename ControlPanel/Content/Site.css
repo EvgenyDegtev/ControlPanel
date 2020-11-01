@@ -45,8 +45,3 @@ input {
 .sort {
     display:none;
 }
-
-.selected {
-    color:green;
-    background-color:yellow;
-}

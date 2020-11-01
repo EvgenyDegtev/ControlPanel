@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 
 namespace ControlPanel.Controllers
 {
@@ -11,7 +12,7 @@ namespace ControlPanel.Controllers
         // GET: Navigation
         public PartialViewResult Menu()
         {
-            ViewBag.SelectedCategory=RouteData.Values["controller"];
+            ViewBag.activeController = HttpContext.Request.RequestContext.RouteData.Values["Controller"];
             return PartialView();
         }
     }
