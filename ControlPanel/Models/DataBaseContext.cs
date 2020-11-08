@@ -6,25 +6,25 @@ using System.Data.Entity;
 
 namespace ControlPanel.Models
 {
-    public class DataBaseContext: DbContext
-    {
-        public DataBaseContext()
-            :base("MainContext")
-        { }
+    //public class DataBaseContext: DbContext
+    //{
+    //    public DataBaseContext()
+    //        :base("MainContext")
+    //    { }
 
-        public DbSet<Agent> Agents { get; set; }
+    //    public DbSet<Agent> Agents { get; set; }
 
-        public DbSet<Group> Groups { get; set; }
+    //    public DbSet<Group> Groups { get; set; }
 
-        public DbSet<Skill> Skills { get; set; }
+    //    public DbSet<Skill> Skills { get; set; }
 
-        public DbSet<Route> Routes { get; set; }
+    //    public DbSet<Route> Routes { get; set; }
 
-        public DbSet<AgentToSkill> AgentToSkills { get; set; }
+    //    public DbSet<AgentToSkill> AgentToSkills { get; set; }
 
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-        }
-    }
+    //    protected override void OnModelCreating(DbModelBuilder modelBuilder)
+    //    {
+    //        base.OnModelCreating(modelBuilder);
+    //    }
+    //}
 }

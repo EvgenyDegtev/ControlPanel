@@ -9,6 +9,7 @@ using System.Data.Entity;
 using ControlPanel.Models;
 using NLog.Config;
 using ControlPanel.Infastructure;
+using ControlPanel.Concrete;
 
 namespace ControlPanel
 {
@@ -16,7 +17,7 @@ namespace ControlPanel
     {
         protected void Application_Start()
         {
-            Database.SetInitializer(new DataBaseInitializer());
+            Database.SetInitializer(new EFDbInitializer());
 
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
