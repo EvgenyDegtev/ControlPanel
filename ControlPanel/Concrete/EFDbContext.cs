@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Data.Entity;
 using ControlPanel.Models;
+using ControlPanel.Concrete.Config;
 
 namespace ControlPanel.Concrete
 {
@@ -24,5 +25,10 @@ namespace ControlPanel.Concrete
         public DbSet<AgentToSkill> AgentToSkills { get; set; }
 
         public System.Data.Entity.DbSet<ControlPanel.Models.Report> Reports { get; set; }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Configurations.Add(new AgentConfiguration());
+        }
     }
 }

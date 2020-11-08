@@ -160,6 +160,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Concrete\Config\AgentConfiguration.cs" />
     <Compile Include="Concrete\EFAgentRepository.cs" />
     <Compile Include="Concrete\EFDbContext.cs" />
     <Compile Include="Concrete\EFDbInitializer.cs" />
@@ -253,6 +254,10 @@
     <Compile Include="Migrations\202010031953490_RemoveIsActive.cs" />
     <Compile Include="Migrations\202010031953490_RemoveIsActive.Designer.cs">
       <DependentUpon>202010031953490_RemoveIsActive.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202011081339108_AddAgentIndex.cs" />
+    <Compile Include="Migrations\202011081339108_AddAgentIndex.Designer.cs">
+      <DependentUpon>202011081339108_AddAgentIndex.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Agent.cs" />
@@ -415,6 +420,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202010031953490_RemoveIsActive.resx">
       <DependentUpon>202010031953490_RemoveIsActive.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011081339108_AddAgentIndex.resx">
+      <DependentUpon>202011081339108_AddAgentIndex.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
