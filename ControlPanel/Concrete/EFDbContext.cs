@@ -29,6 +29,9 @@ namespace ControlPanel.Concrete
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.Add(new AgentConfiguration());
+            modelBuilder.Configurations.Add(new GroupConfiguration());
+            modelBuilder.Configurations.Add(new SkillConfiguration());
+            modelBuilder.Configurations.Add(new RouteConfiguration());
         }
     }
 }

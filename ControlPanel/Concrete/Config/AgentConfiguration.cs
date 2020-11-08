@@ -11,7 +11,8 @@ namespace ControlPanel.Concrete.Config
     {
         public AgentConfiguration()
         {
-            ToTable("Agents").HasIndex(p => p.Login).IsUnique();
+            ToTable("Agents").HasIndex(agent => agent.Login).IsUnique();
+            ToTable("Agents").HasIndex(agent => agent.Name);
         }
     }
 }

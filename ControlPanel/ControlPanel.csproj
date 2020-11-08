@@ -161,6 +161,9 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Concrete\Config\AgentConfiguration.cs" />
+    <Compile Include="Concrete\Config\GroupConfiguration.cs" />
+    <Compile Include="Concrete\Config\RouteConfiguration.cs" />
+    <Compile Include="Concrete\Config\SkillConfiguration.cs" />
     <Compile Include="Concrete\EFAgentRepository.cs" />
     <Compile Include="Concrete\EFDbContext.cs" />
     <Compile Include="Concrete\EFDbInitializer.cs" />
@@ -258,6 +261,10 @@
     <Compile Include="Migrations\202011081339108_AddAgentIndex.cs" />
     <Compile Include="Migrations\202011081339108_AddAgentIndex.Designer.cs">
       <DependentUpon>202011081339108_AddAgentIndex.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202011082039177_AddIndexes.cs" />
+    <Compile Include="Migrations\202011082039177_AddIndexes.Designer.cs">
+      <DependentUpon>202011082039177_AddIndexes.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Agent.cs" />
@@ -423,6 +430,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202011081339108_AddAgentIndex.resx">
       <DependentUpon>202011081339108_AddAgentIndex.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011082039177_AddIndexes.resx">
+      <DependentUpon>202011082039177_AddIndexes.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
