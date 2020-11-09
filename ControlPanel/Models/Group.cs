@@ -19,7 +19,7 @@ namespace ControlPanel.Models
         public string Name { get; set; }
 
         [Display(Name="Комментарий")]
-        [MaxLength(5000,ErrorMessage = "Максимальная длина - 5000 символов")]
+        [MaxLength(8000,ErrorMessage = "Максимальная длина - 5000 символов")]
         public string Description { get; set; }
 
         //[Display(Name="Активен")]

@@ -7,7 +7,7 @@ namespace ControlPanel.Migrations
     {
         public override void Up()
         {
-            AlterColumn("dbo.Groups", "Description", c => c.String(maxLength: 5000));
+            AlterColumn("dbo.Groups", "Description", c => c.String(maxLength: 8000));
         }
         
         public override void Down()

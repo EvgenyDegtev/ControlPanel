@@ -12,7 +12,7 @@ namespace ControlPanel.Concrete.Config
         public GroupConfiguration()
         {
             ToTable("Groups").HasIndex(group => group.Name).IsUnique();
-            ToTable("Groups").Property(group => group.Description).HasMaxLength(5000);
+            ToTable("Groups").Property(group => group.Description).HasMaxLength(8000);
         }
     }
 }
