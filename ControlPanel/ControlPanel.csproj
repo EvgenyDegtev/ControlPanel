@@ -277,8 +277,6 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Agent.cs" />
     <Compile Include="Models\AgentToSkill.cs" />
-    <Compile Include="Models\DataBaseContext.cs" />
-    <Compile Include="Models\DataBaseInitializer.cs" />
     <Compile Include="Models\Group.cs" />
     <Compile Include="Models\Report.cs" />
     <Compile Include="Models\Route.cs" />
