@@ -183,6 +183,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\SortHelper.cs" />
     <Compile Include="Infastructure\Abstract\IAuthProvider.cs" />
     <Compile Include="Infastructure\Concrete\FormsAuthProvider.cs" />
     <Compile Include="Infastructure\NinjectControllerFactory.cs" />

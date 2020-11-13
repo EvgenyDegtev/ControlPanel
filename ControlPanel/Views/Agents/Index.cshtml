@@ -1,5 +1,7 @@
-﻿@model PagedList.PagedList<ControlPanel.Models.Agent>
-@using PagedList.Mvc
+﻿@using PagedList.Mvc
+@using ControlPanel.Helpers
+@model PagedList.PagedList<ControlPanel.Models.Agent>
+
 
 <h2>Index</h2>
 
@@ -9,80 +11,82 @@
 
 
 @*@using (Html.BeginForm("AddFormFile", "Agents", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
-	<p>
-		<input type="file" name="AddFromFile" />
-		<input type="submit" value="Добавить из файла" />		
-	</p>
-}*@
-
-
-
-	@using (Html.BeginForm("Index", "Agents"))
 	{
 		<p>
-			<strong>Логин: </strong> <input type="text" name="searchString" value="@ViewBag.searchString" />
-			<input type="submit" value="Поиск" />
+			<input type="file" name="AddFromFile" />
+			<input type="submit" value="Добавить из файла" />
 		</p>
-	}
+	}*@
 
 
 
-	<table class="table table-hover">
+@using (Html.BeginForm("Index", "Agents"))
+{
+	<p>
+		<strong>Логин: </strong> <input type="text" name="searchString" value="@ViewBag.searchString" />
+		<input type="submit" value="Поиск" />
+	</p>
+}
+
+
+
+<table class="table table-hover">
+	<tr>
+		<th>
+			@Html.DisplayNameFor(model => model.ToList().FirstOrDefault().Name)
+			@Html.Sort("asc")
+			@*@Html.Sort("desc")*@
+			<span class="sort"><i class="sort fa fa-sort-amount-desc"></i></span>
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.ToList().FirstOrDefault().Login)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.ToList().FirstOrDefault().Algorithm)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.ToList().FirstOrDefault().WorkloadMaxContactsCount)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.ToList().FirstOrDefault().IsAlgorithmAllowServiceLevel)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.ToList().FirstOrDefault().Group.Name)
+		</th>
+		<th>
+
+		</th>
+	</tr>
+
+	@foreach (var agent in Model)
+	{
 		<tr>
-			<th>
-				@Html.DisplayNameFor(model => model.ToList().FirstOrDefault().Name)
-				<span class="sort"><i class="sort fa fa-sort-amount-desc"></i></span>
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.ToList().FirstOrDefault().Login)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.ToList().FirstOrDefault().Algorithm)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.ToList().FirstOrDefault().WorkloadMaxContactsCount)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.ToList().FirstOrDefault().IsAlgorithmAllowServiceLevel)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.ToList().FirstOrDefault().Group.Name)
-			</th>
-			<th>
-
-			</th>
+			<td>
+				@Html.DisplayFor(model => agent.Name)
+			</td>
+			<td>
+				@Html.DisplayFor(model => agent.Login)
+			</td>
+			<td>
+				@Html.DisplayFor(model => agent.Algorithm)
+			</td>
+			<td>
+				@Html.DisplayFor(model => agent.WorkloadMaxContactsCount)
+			</td>
+			<td>
+				@Html.DisplayFor(model => agent.IsAlgorithmAllowServiceLevel)
+			</td>
+			<td>
+				@Html.DisplayFor(model => agent.Group.Name)
+			</td>
+			<td>
+				<a href=@Url.Action("Edit", new {id=agent.Id })><i class="fa fa-edit"></i></a>
+				|
+				<a href=@Url.Action("Delete", new {id=agent.Id })><i class="fa fa-close"></i></a>
+			</td>
 		</tr>
-
-		@foreach (var agent in Model)
-		{
-			<tr>
-				<td>
-					@Html.DisplayFor(model => agent.Name)
-				</td>
-				<td>
-					@Html.DisplayFor(model => agent.Login)
-				</td>
-				<td>
-					@Html.DisplayFor(model => agent.Algorithm)
-				</td>
-				<td>
-					@Html.DisplayFor(model => agent.WorkloadMaxContactsCount)
-				</td>
-				<td>
-					@Html.DisplayFor(model => agent.IsAlgorithmAllowServiceLevel)
-				</td>
-				<td>
-					@Html.DisplayFor(model => agent.Group.Name)
-				</td>
-				<td>
-					<a href=@Url.Action("Edit", new {id=agent.Id })><i class="fa fa-edit"></i></a>
-					|
-					<a href=@Url.Action("Delete", new {id=agent.Id })><i class="fa fa-close"></i></a>
-				</td>
-			</tr>
-		}
-	</table>
+	}
+</table>
 
 	Страница @(Model.PageCount< Model.PageNumber?0:Model.PageNumber) из @Model.PageCount
 	@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
