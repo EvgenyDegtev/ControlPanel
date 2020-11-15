@@ -14,6 +14,7 @@ using ControlPanel.Filters;
 using System.Reflection;
 using ControlPanel.Abstract;
 using System.Threading.Tasks;
+using ControlPanel.ViewModels;
 
 namespace ControlPanel.Controllers
 {
@@ -31,24 +32,37 @@ namespace ControlPanel.Controllers
 
         //Get and Post
         [ErrorLogger]
-        public async Task<ActionResult> Index(string searchString, int? page)
+        public async Task<ActionResult> Index(string searchString, int? page, string sortOrder="asc")
         {
             logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}| Input params: {nameof(searchString)}={searchString}, {nameof(page)}={page} ");
 
             int pageSize = 5;
             int pageNumber = page ?? 1;
             var agents = await repository.GetAgentsIncludeGroupAsync();
-            if(String.IsNullOrEmpty(searchString))
+
+            AgentsIndexViewModel agentsIndexViewModel = new AgentsIndexViewModel
+            {
+                PagedAgents = agents.ToPagedList(pageNumber, pageSize),
+                SearchString = searchString,
+                SortOrder = sortOrder
+            };
+
+            if (String.IsNullOrEmpty(searchString))
             {
                 logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
-                return View(agents.ToPagedList(pageNumber, pageSize));
+                return View(agentsIndexViewModel);
             }
             agents = await repository.SearchAgentsAsync(searchString);
+            agentsIndexViewModel.PagedAgents = agents.ToPagedList(pageNumber, pageSize);
 
+            //to del
             ViewBag.searchString = searchString;
+            ViewBag.sortOrder = "asc";
 
             logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
-            return View(agents.ToPagedList(pageNumber, pageSize));
+
+            return View(agentsIndexViewModel);
+            //return View(agents.ToPagedList(pageNumber, pageSize));
         }
 
         [HttpGet]

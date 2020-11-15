@@ -16,11 +16,11 @@ namespace ControlPanel.Helpers
             
             if (sortOrder == "asc")
             {
-                iTag.MergeAttribute("class", "fa fa-sort-amount-asc");
+                iTag.MergeAttribute("class", "fa fa-sort-asc");
             }
             else
             {
-                iTag.MergeAttribute("class", "fa fa-sort-amount-desc");
+                iTag.MergeAttribute("class", "fa fa-sort-desc");
             }
             spanTag.InnerHtml += iTag.ToString();
 

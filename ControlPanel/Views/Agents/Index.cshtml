@@ -1,6 +1,9 @@
 ﻿@using PagedList.Mvc
+@using PagedList
 @using ControlPanel.Helpers
-@model PagedList.PagedList<ControlPanel.Models.Agent>
+@using ControlPanel.ViewModels
+@*@model PagedList.PagedList<ControlPanel.Models.Agent>*@
+@model AgentsIndexViewModel
 
 
 <h2>Index</h2>
@@ -23,7 +26,7 @@
 @using (Html.BeginForm("Index", "Agents"))
 {
 	<p>
-		<strong>Логин: </strong> <input type="text" name="searchString" value="@ViewBag.searchString" />
+		<strong>Логин: </strong> <input type="text" name="searchString" value="@Model.SearchString" />
 		<input type="submit" value="Поиск" />
 	</p>
 }
@@ -33,32 +36,31 @@
 <table class="table table-hover">
 	<tr>
 		<th>
-			@Html.DisplayNameFor(model => model.ToList().FirstOrDefault().Name)
-			@Html.Sort("asc")
-			@*@Html.Sort("desc")*@
+			@Html.DisplayNameFor(model => model.PagedAgents.ToList().FirstOrDefault().Name)
+			@Html.Sort("@ViewBag.sortOrder")
 			<span class="sort"><i class="sort fa fa-sort-amount-desc"></i></span>
 		</th>
 		<th>
-			@Html.DisplayNameFor(model => model.ToList().FirstOrDefault().Login)
+			@Html.DisplayNameFor(model => model.PagedAgents.ToList().FirstOrDefault().Login)
 		</th>
 		<th>
-			@Html.DisplayNameFor(model => model.ToList().FirstOrDefault().Algorithm)
+			@Html.DisplayNameFor(model => model.PagedAgents.ToList().FirstOrDefault().Algorithm)
 		</th>
 		<th>
-			@Html.DisplayNameFor(model => model.ToList().FirstOrDefault().WorkloadMaxContactsCount)
+			@Html.DisplayNameFor(model => model.PagedAgents.ToList().FirstOrDefault().WorkloadMaxContactsCount)
 		</th>
 		<th>
-			@Html.DisplayNameFor(model => model.ToList().FirstOrDefault().IsAlgorithmAllowServiceLevel)
+			@Html.DisplayNameFor(model => model.PagedAgents.ToList().FirstOrDefault().IsAlgorithmAllowServiceLevel)
 		</th>
 		<th>
-			@Html.DisplayNameFor(model => model.ToList().FirstOrDefault().Group.Name)
+			@Html.DisplayNameFor(model => model.PagedAgents.ToList().FirstOrDefault().Group.Name)
 		</th>
 		<th>
 
 		</th>
 	</tr>
 
-	@foreach (var agent in Model)
+	@foreach (var agent in Model.PagedAgents)
 	{
 		<tr>
 			<td>
@@ -88,5 +90,5 @@
 	}
 </table>
 
-	Страница @(Model.PageCount< Model.PageNumber?0:Model.PageNumber) из @Model.PageCount
-	@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+	Страница @(Model.PagedAgents.PageCount < Model.PagedAgents.PageNumber ?0: Model.PagedAgents.PageNumber) из @Model.PagedAgents.PageCount
+	@Html.PagedListPager(Model.PagedAgents, page => Url.Action("Index", new { page }))
