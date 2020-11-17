@@ -91,4 +91,4 @@
 </table>
 
 	Страница @(Model.PagedAgents.PageCount < Model.PagedAgents.PageNumber ?0: Model.PagedAgents.PageNumber) из @Model.PagedAgents.PageCount
-	@Html.PagedListPager(Model.PagedAgents, page => Url.Action("Index", new { page }))
+	@Html.PagedListPager(Model.PagedAgents, currentPage => Url.Action("Index", new { page=currentPage, searchString=@Model.SearchString }))
