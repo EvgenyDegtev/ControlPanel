@@ -37,8 +37,8 @@
 	<tr>
 		<th>
 			@Html.DisplayNameFor(model => model.PagedAgents.ToList().FirstOrDefault().Name)
-			@Html.Sort("@ViewBag.sortOrder")
-			<span class="sort"><i class="sort fa fa-sort-amount-desc"></i></span>
+			@Html.Sort(Url.Action("Index",new {searchString=Model.SearchString, page=1,sortOrder="asc" }),Model.SortOrder)
+			@*<span class="sort"><i class="sort fa fa-sort-amount-desc"></i></span>*@
 		</th>
 		<th>
 			@Html.DisplayNameFor(model => model.PagedAgents.ToList().FirstOrDefault().Login)

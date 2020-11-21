@@ -8,12 +8,14 @@ namespace ControlPanel.Helpers
 {
     public static class SortHelper
     {
-        public static MvcHtmlString Sort(this HtmlHelper html, string sortOrder="desc")
+        public static MvcHtmlString Sort(this HtmlHelper html, string hrefValue,string sortOrder = "desc")
         {
-            //< i class="sort fa fa-sort-amount-desc"></i>
-            TagBuilder spanTag = new TagBuilder("span");
+            //< a href = @Url.Action("Delete", new { id = agent.Id }) >< i class="fa fa-close"></i></a>
+
+            TagBuilder aTag = new TagBuilder("a");
+            aTag.MergeAttribute("href", hrefValue);
+
             TagBuilder iTag = new TagBuilder("i");
-            
             if (sortOrder == "asc")
             {
                 iTag.MergeAttribute("class", "fa fa-sort-asc");
@@ -22,9 +24,10 @@ namespace ControlPanel.Helpers
             {
                 iTag.MergeAttribute("class", "fa fa-sort-desc");
             }
-            spanTag.InnerHtml += iTag.ToString();
 
-            return new MvcHtmlString(spanTag.ToString());
+            aTag.InnerHtml += iTag.ToString();
+
+            return new MvcHtmlString(aTag.ToString());
         }
     }
 }
