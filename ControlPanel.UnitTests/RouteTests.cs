@@ -84,7 +84,37 @@ namespace ControlPanel.UnitTests
         [TestMethod]
         public void TestAgentsIncomingRoutes()
         {
+            TestRouteMatch("~/", "Agents", "Index");
+            //TestRouteMatch("~/?page=2", "Agents", "Index");
+            TestRouteMatch("~/Agents/Index/?page=2", "Agents", "Index");
+            TestRouteMatch("~/Agents/Index/?page=2&searchString=1", "Agents", "Index");
             TestRouteMatch("~/Agents/Index", "Agents", "Index");
+            TestRouteMatch("~/Agents/Create","Agents","Create");
+            TestRouteMatch("~/Agents/Edit/29", "Agents", "Edit");
+            TestRouteMatch("~/Agents/Delete/29", "Agents", "Delete");
+            TestRouteMatch("~/Agents/22/Skills", "Agents", "AgentSkills");
+            TestRouteMatch("~/Agents/22/EditSkill/4", "Agents", "EditSkill");
+            TestRouteMatch("~/Agents/22/RemoveSkill/4", "Agents", "RemoveSkill");
+            TestRouteMatch("~/Agents/22/AddSkill", "Agents", "AddSkill");
+            TestRouteMatch("~/Agents/22/AddSkill/4", "Agents", "SkillAddConfirmation");
+        }
+
+        [TestMethod]
+        public void TestSkillIncomingRoutes()
+        {
+
+        }
+
+        [TestMethod]
+        public void TestGroupIncomingRoutes()
+        {
+
+        }
+
+        [TestMethod]
+        public void TestRouteIncomingRoutes()
+        {
+
         }
     }
 }
