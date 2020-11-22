@@ -57,6 +57,14 @@ namespace ControlPanel.Controllers
         public ActionResult Create()
         {
             logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
+
+            var algorithm1 = new { Algorithm = 0, AlgorithmName = "Наиболее свободный без учета навыка" };
+            var algorithm2 = new { Algorithm = 1, AlgorithmName = "Наиболее свободный с учетом навыка" };
+            var algorithm3 = new { Algorithm = 2, AlgorithmName = "Наименее занятый без учета навыка" };
+            var algorithm4 = new { Algorithm = 3, AlgorithmName = "Наименее занятый с учетом навыка" };
+            var algorithms = new[] { algorithm1, algorithm2, algorithm3, algorithm4 };
+            ViewBag.Algorithms = new SelectList(algorithms, "Algorithm", "AlgorithmName",0);
+
             logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
             return View();
         }
@@ -128,6 +136,13 @@ namespace ControlPanel.Controllers
                 logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             }
+
+            var algorithm1 = new { Algorithm = 0, AlgorithmName = "Наиболее свободный без учета навыка" };
+            var algorithm2 = new { Algorithm = 1, AlgorithmName = "Наиболее свободный с учетом навыка" };
+            var algorithm3 = new { Algorithm = 2, AlgorithmName = "Наименее занятый без учета навыка" };
+            var algorithm4 = new { Algorithm = 3, AlgorithmName = "Наименее занятый с учетом навыка" };
+            var algorithms = new[] { algorithm1, algorithm2, algorithm3, algorithm4 };
+            ViewBag.Algorithms = new SelectList(algorithms, "Algorithm", "AlgorithmName", skill.Algorithm);
 
             logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
             return View(skill);
