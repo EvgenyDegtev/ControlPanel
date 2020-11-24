@@ -275,6 +275,10 @@
     <Compile Include="Migrations\202011082125352_GroupDescriptionMaxLength2.Designer.cs">
       <DependentUpon>202011082125352_GroupDescriptionMaxLength2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202011241900262_RemoveReportEntity.cs" />
+    <Compile Include="Migrations\202011241900262_RemoveReportEntity.Designer.cs">
+      <DependentUpon>202011241900262_RemoveReportEntity.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Agent.cs" />
     <Compile Include="Models\AgentToSkill.cs" />
@@ -447,6 +451,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202011082125352_GroupDescriptionMaxLength2.resx">
       <DependentUpon>202011082125352_GroupDescriptionMaxLength2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011241900262_RemoveReportEntity.resx">
+      <DependentUpon>202011241900262_RemoveReportEntity.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

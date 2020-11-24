@@ -24,7 +24,7 @@ namespace ControlPanel.Concrete
 
         public DbSet<AgentToSkill> AgentToSkills { get; set; }
 
-        public System.Data.Entity.DbSet<ControlPanel.Models.Report> Reports { get; set; }
+        //public System.Data.Entity.DbSet<ControlPanel.Models.Report> Reports { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
