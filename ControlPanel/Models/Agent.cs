@@ -36,14 +36,26 @@ namespace ControlPanel.Models
 
         //Other properties
 
-        //[Display(Name = "Активен")]
-        //public bool IsActive { get; set; }
-
         [Display(Name = "Группа")]
         public int? GroupId { get; set; }
 
         public Group Group { get; set; }
 
         public List<AgentToSkill> AgentToSkills { get; set; }
+
+        public static Dictionary<int, string> algorithmDictionary = new Dictionary<int, string>
+        {
+            [0] = "Максимальная потребность",
+            [1] = "Уровень навыка",
+            [2] = "Процентное распределение"
+        };
+
+        public string AlgorithmName
+        {
+            get
+            {
+                return algorithmDictionary[this.Algorithm];
+            }
+        }
     }
 }
