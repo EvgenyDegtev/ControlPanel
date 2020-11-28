@@ -11,22 +11,36 @@ namespace ControlPanel.Models
     {
         public int Id { get; set; }
 
-        [Display(Name ="Навык")]
-        [Required(ErrorMessage ="Требуется поле Навык")]
-        [StringLength(100, ErrorMessage ="Максимальная длина - 100 символов" )]
+        [Display(Name = "Навык")]
+        [Required(ErrorMessage = "Требуется поле Навык")]
+        [StringLength(100, ErrorMessage = "Максимальная длина - 100 символов")]
         public string Name { get; set; }
 
-        [Display(Name ="ID")]
-        [Required(ErrorMessage ="Требутеся поле ID навыка")]
+        [Display(Name = "ID")]
+        [Required(ErrorMessage = "Требутеся поле ID навыка")]
         [StringLength(100, ErrorMessage = "Максимальная длина - 100 символов")]
         [Remote(action: "CheckKeyUnique", controller: "Skills", AdditionalFields = nameof(Id))]
         public string Key { get; set; }
 
-        [Display(Name ="Алгоритм")]
+        [Display(Name = "Алгоритм")]
         public int Algorithm { get; set; }
 
-        //[Display(Name ="Активен")]
-        //public bool IsActive { get; set; }
+        public static Dictionary<int, string> algorithmDictionary = new Dictionary<int, string>
+        {
+            [0] = "Наиболее свободный без учета навыка",
+            [1] = "Наиболее свободный с учетом навыка",
+            [2] = "Наименее занятый без учета навыка",
+            [3] = "Наименее занятый с учетом навыка",
+        };
+
+        public string AlgorithmName
+        {
+            get
+            {
+                return algorithmDictionary[this.Algorithm];
+            }
+        }
+
 
         public List<Route> Routes { get; set; }
 
