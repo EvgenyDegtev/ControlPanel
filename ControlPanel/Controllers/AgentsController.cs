@@ -71,12 +71,7 @@ namespace ControlPanel.Controllers
         {
             logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
             ViewBag.Groups = new SelectList(await repository.GetGroupsAsync(), "Id", "Name");
-
-            var algorithm1 = new { Algorithm = 0, AlgorithmName = "Максимальная потребоность" };
-            var algorithm2 = new { Algorithm = 1, AlgorithmName = "Уровень навыка" };
-            var algorithm3 = new { Algorithm = 2, AlgorithmName = "Процентное распределение" };
-            var algorithms = new[] { algorithm1, algorithm2, algorithm3 };
-            ViewBag.Algorithms = new SelectList(algorithms, "Algorithm", "AlgorithmName");
+            ViewBag.Algorithms = new SelectList(Agent.algorithmDictionary.Select(algo=> new {Algorithm=algo.Key.ToString(),AlgorithmNAme=algo.Value }), "Algorithm", "AlgorithmName");
 
             logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
             return View();
@@ -151,12 +146,7 @@ namespace ControlPanel.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             }
             ViewBag.Groups = new SelectList(await repository.GetGroupsAsync(), "Id", "Name");
-
-            var algorithm1 = new { Algorithm = 0, AlgorithmName = "Максимальная потребоность" };
-            var algorithm2 = new { Algorithm = 1, AlgorithmName = "Уровень навыка" };
-            var algorithm3 = new { Algorithm = 2, AlgorithmName = "Процентное распределение" };
-            var algorithms = new[] { algorithm1, algorithm2, algorithm3 };
-            ViewBag.Algorithms = new SelectList(algorithms, "Algorithm", "AlgorithmName", agent.Algorithm);
+            ViewBag.Algorithms = new SelectList(Agent.algorithmDictionary.Select(algo => new { Algorithm = algo.Key.ToString(), AlgorithmNAme = algo.Value }), "Algorithm", "AlgorithmName", agent.Algorithm);
 
             logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
             return View(agent);
