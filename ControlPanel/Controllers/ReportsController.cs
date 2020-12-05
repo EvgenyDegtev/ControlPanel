@@ -38,17 +38,18 @@ namespace ControlPanel.Controllers
         [HttpPost]
         public async Task<FileResult> GetReport([Bind] Report report)
         {
-            string pathCsvFile=null;
+            string csvFilePath=null;
             switch (report.Name)
             {
                 case "AgentReport":
                     var agentsForReport = await agentRpository.GetAgentsAsync();
-                    pathCsvFile=CreateCsvReport<Agent>(report, agentsForReport);
+                    csvFilePath=CreateCsvReport<Agent>(report, agentsForReport);
                     break;
 
                 case "SkillReport":
-                    var skillsForReport = await skillRepository.GetSkillsAsync();
-                    pathCsvFile = CreateCsvReport<Skill>(report, skillsForReport);
+                    //var skillsForReport = await skillRepository.GetSkillsAsync();
+                    var skillsForReport = skillRepository.GetSkillsFromSqlQuery();
+                    csvFilePath = CreateCsvReport<Skill>(report, skillsForReport);
                     break;
                 default:
                     break;
@@ -56,7 +57,7 @@ namespace ControlPanel.Controllers
 
             string fileType = "application/csv";
             string fileName = $"{report.Name}_{report.DateFrom}_{report.DateTo}.csv";
-            return File(pathCsvFile, fileType, fileName);
+            return File(csvFilePath, fileType, fileName);
         }
 
         private string CreateCsvReport<T>(Report report, List<T> reportData)

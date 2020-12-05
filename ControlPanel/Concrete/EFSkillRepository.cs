@@ -31,6 +31,11 @@ namespace ControlPanel.Concrete
             return skills;
         }
 
+        public List<Skill> GetSkillsFromSqlQuery()
+        {
+            return context.Database.SqlQuery<Skill>("select * from Skills").ToList();
+        }
+
         public Skill FindSkillById(int? id)
         {
             var skill=context.Skills.Find(id);

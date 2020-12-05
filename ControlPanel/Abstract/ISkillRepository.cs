@@ -14,6 +14,8 @@ namespace ControlPanel.Abstract
 
         Task<List<Skill>> GetSkillsAsync();
 
+        List<Skill> GetSkillsFromSqlQuery();
+
         Skill FindSkillById(int? id);
 
         Task<Skill> FindSkillByIdAsync(int? id);
