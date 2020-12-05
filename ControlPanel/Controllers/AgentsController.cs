@@ -25,6 +25,13 @@ namespace ControlPanel.Controllers
         private static Logger logger = LogManager.GetCurrentClassLogger();
         IAgentRepository repository;
 
+        public static void logWriter(Controller controller)
+        {
+            string controllerName = controller.RouteData.Values["controller"].ToString();
+            string actionName= controller.RouteData.Values["action"].ToString();
+            logger.Info($"Action Start | Controller name: {controllerName} | Action name: {actionName}| zzz");
+        }
+
         public AgentsController (IAgentRepository agentRepository)
         {
             this.repository = agentRepository;
@@ -34,7 +41,8 @@ namespace ControlPanel.Controllers
         [ErrorLogger]
         public async Task<ActionResult> Index(string searchString, int? page, string sortOrder="asc")
         {
-            logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}| Input params: {nameof(searchString)}={searchString}, {nameof(page)}={page} ");
+            logWriter(this);
+            logger.Info($"Action Start | Controller name: {nameof(AgentsController)} | Action name: {nameof(Index)}| Input params: {nameof(searchString)}={searchString}, {nameof(page)}={page} ");
 
             int pageSize = 5;
             int pageNumber = page ?? 1;
@@ -49,7 +57,7 @@ namespace ControlPanel.Controllers
 
             if (String.IsNullOrEmpty(searchString))
             {
-                logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
+                logger.Info($"Action End | Controller name: {nameof(AgentsController)} | Action name: {nameof(Index)}");
                 return View(agentsIndexViewModel);
             }
             agents = await repository.SearchAgentsAsync(searchString);
@@ -59,7 +67,7 @@ namespace ControlPanel.Controllers
             ViewBag.searchString = searchString;
             ViewBag.sortOrder = "asc";
 
-            logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
+            logger.Info($"Action End | Controller name: {nameof(AgentsController)} | Action name: {nameof(Index)}");
 
             return View(agentsIndexViewModel);
             //return View(agents.ToPagedList(pageNumber, pageSize));
