@@ -37,20 +37,23 @@
 	<tr>
 		<th>
 			@Html.DisplayNameFor(model => model.PagedAgents.ToList().FirstOrDefault().Name)
-			@Html.Sort(Url.Action("Index",new {searchString=Model.SearchString, page=1,sortOrder="asc" }),Model.SortOrder)
-			@*<span class="sort"><i class="sort fa fa-sort-amount-desc"></i></span>*@
+			@Html.Sort(Url.Action("Index",new {searchString=Model.SearchString, page=1,sortOrder=Model.SortOrder=="asc"?"desc":"asc",selectedEntityName="Name" }),"Name",Model.SelectedEntityName,Model.SortOrder)
 		</th>
 		<th>
 			@Html.DisplayNameFor(model => model.PagedAgents.ToList().FirstOrDefault().Login)
+			@Html.Sort(Url.Action("Index", new { searchString = Model.SearchString, page = 1, sortOrder = Model.SortOrder == "asc" ? "desc" : "asc", selectedEntityName = "Login" }), "Login", Model.SelectedEntityName, Model.SortOrder)
 		</th>
 		<th>
 			@Html.DisplayNameFor(model => model.PagedAgents.ToList().FirstOrDefault().Algorithm)
+			@Html.Sort(Url.Action("Index", new { searchString = Model.SearchString, page = 1, sortOrder = Model.SortOrder == "asc" ? "desc" : "asc", selectedEntityName = "Algorithm" }), "Algorithm", Model.SelectedEntityName, Model.SortOrder)
 		</th>
 		<th>
 			@Html.DisplayNameFor(model => model.PagedAgents.ToList().FirstOrDefault().WorkloadMaxContactsCount)
+			@Html.Sort(Url.Action("Index", new { searchString = Model.SearchString, page = 1, sortOrder = Model.SortOrder == "asc" ? "desc" : "asc", selectedEntityName = "WorkloadMaxContactsCount" }), "WorkloadMaxContactsCount", Model.SelectedEntityName, Model.SortOrder)
 		</th>
 		<th>
 			@Html.DisplayNameFor(model => model.PagedAgents.ToList().FirstOrDefault().IsAlgorithmAllowServiceLevel)
+			@Html.Sort(Url.Action("Index", new { searchString = Model.SearchString, page = 1, sortOrder = Model.SortOrder == "asc" ? "desc" : "asc", selectedEntityName = "IsAlgorithmAllowServiceLevel" }), "IsAlgorithmAllowServiceLevel", Model.SelectedEntityName, Model.SortOrder)
 		</th>
 		<th>
 			@Html.DisplayNameFor(model => model.PagedAgents.ToList().FirstOrDefault().Group.Name)

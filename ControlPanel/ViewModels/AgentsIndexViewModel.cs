@@ -14,5 +14,7 @@ namespace ControlPanel.ViewModels
         public string SearchString { get; set; }
 
         public string SortOrder { get; set; }
+
+        public string SelectedEntityName { get; set; }
     }
 }
