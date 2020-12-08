@@ -23,7 +23,6 @@ namespace ControlPanel.Controllers
     public class RoutesController : Controller
     {
         private static Logger logger = LogManager.GetCurrentClassLogger();
-        //DataBaseContext db = new DataBaseContext();
         IRouteRepository repository;
 
         public RoutesController(IRouteRepository routeRepository)

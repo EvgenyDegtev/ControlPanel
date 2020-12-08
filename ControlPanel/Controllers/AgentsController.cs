@@ -64,14 +64,9 @@ namespace ControlPanel.Controllers
             agents = await repository.SearchAgentsAsync(searchString);
             agentsIndexViewModel.PagedAgents = agents.ToPagedList(pageNumber, pageSize);
 
-            //to del
-            ViewBag.searchString = searchString;
-            ViewBag.sortOrder = "asc";
-
             logger.Info($"Action End | Controller name: {nameof(AgentsController)} | Action name: {nameof(Index)}");
 
             return View(agentsIndexViewModel);
-            //return View(agents.ToPagedList(pageNumber, pageSize));
         }
 
         [HttpGet]
@@ -79,11 +74,18 @@ namespace ControlPanel.Controllers
         public async Task<ActionResult> Create()
         {
             logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
-            ViewBag.Groups = new SelectList(await repository.GetGroupsAsync(), "Id", "Name");
-            ViewBag.Algorithms = new SelectList(Agent.algorithmDictionary.Select(algo=> new {Algorithm=algo.Key.ToString(),AlgorithmNAme=algo.Value }), "Algorithm", "AlgorithmName");
+
+            AgentCreateViewModel agentCreateViewModel = new AgentCreateViewModel
+            {
+                Groups= new SelectList(await repository.GetGroupsAsync(), "Id", "Name"),
+                Algorithms= new SelectList(Agent.algorithmDictionary.Select(algo => new { Algorithm = algo.Key.ToString(), AlgorithmNAme = algo.Value }), "Algorithm", "AlgorithmName")
+
+            };
+            //ViewBag.Groups = new SelectList(await repository.GetGroupsAsync(), "Id", "Name");
+            //ViewBag.Algorithms = new SelectList(Agent.algorithmDictionary.Select(algo=> new {Algorithm=algo.Key.ToString(),AlgorithmNAme=algo.Value }), "Algorithm", "AlgorithmName");
 
             logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
-            return View();
+            return View(agentCreateViewModel);
         }
 
         [HttpPost]
@@ -154,11 +156,16 @@ namespace ControlPanel.Controllers
                 logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             }
-            ViewBag.Groups = new SelectList(await repository.GetGroupsAsync(), "Id", "Name");
-            ViewBag.Algorithms = new SelectList(Agent.algorithmDictionary.Select(algo => new { Algorithm = algo.Key.ToString(), AlgorithmNAme = algo.Value }), "Algorithm", "AlgorithmName", agent.Algorithm);
+
+            AgentCreateViewModel agentCreateViewModel = new AgentCreateViewModel
+            {
+                Agent = agent,
+                Groups = new SelectList(await repository.GetGroupsAsync(), "Id", "Name"),
+                Algorithms= new SelectList(Agent.algorithmDictionary.Select(algo => new { Algorithm = algo.Key.ToString(), AlgorithmNAme = algo.Value }), "Algorithm", "AlgorithmName", agent.Algorithm)
+            };
 
             logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
-            return View(agent);
+            return View(agentCreateViewModel);
         }
 
         [HttpPost]
@@ -184,7 +191,6 @@ namespace ControlPanel.Controllers
         public async Task<JsonResult> CheckLoginUnique (string login, int? id)
         {
             logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(login)}={login}, {nameof(id)}={id}");
-            //var agentsAlreadyInDb2 = db.Agents.Where(ag => ag.Login == login);
             var agentsAlreadyInDb = await repository.FindAgentsByLoginAsync(login);
 
             if(agentsAlreadyInDb.Count() <= 0)
@@ -238,7 +244,6 @@ namespace ControlPanel.Controllers
         {
             logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(id)}={id}");
             List<Skill> skills = await repository.GetSkillsAsync();
-            //List<Skill> skills = db.Skills.ToList();
             ViewBag.AgentId = id;
 
             logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
@@ -287,8 +292,6 @@ namespace ControlPanel.Controllers
             
             if(ModelState.IsValid)
             {
-                //agentToSkill.IsActive = true;
-
                 repository.CreateAgentToSkill(agentToSkill);
                 await repository.SaveAsync();
                 logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
