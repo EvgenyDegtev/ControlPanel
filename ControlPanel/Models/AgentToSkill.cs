@@ -15,6 +15,22 @@ namespace ControlPanel.Models
         [Required]
         public string Level { get; set; }
 
+        public static Dictionary<int, string> levelDictionary = new Dictionary<int, string>
+        {
+            [1] = "1",
+            [2] = "2",
+            [3] = "3",
+            [4] = "4",
+            [5] = "5",
+            [6] = "6",
+            [7] = "7",
+            [8] = "8",
+            [9] = "9",
+            [10]="10",
+            [-1]="R1",
+            [-2]="R2"
+        };
+
         [Display(Name ="Порядок")]
         [Required]
         public int OrderIndex { get; set; }
@@ -22,6 +38,13 @@ namespace ControlPanel.Models
         [Display(Name ="Режим прерываний")]
         [Required]
         public string BreakingMode { get; set; }
+
+        public static Dictionary<int, string> breakingModeDictionary = new Dictionary<int, string>
+        {
+            [1] = "Отключен",
+            [2] = "Автоматический",
+            [3] = "Ручной",
+        };
 
         [Display(Name ="Процент")]
         [Required]
