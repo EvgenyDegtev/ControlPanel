@@ -2,16 +2,18 @@
 @using PagedList
 @using ControlPanel.Helpers
 @using ControlPanel.ViewModels
-@*@model PagedList.PagedList<ControlPanel.Models.Agent>*@
 @model AgentsIndexViewModel
 
 
 <h2>Index</h2>
+<hr />
 
-<p>
-	@Html.ActionLink("Добавить", "Create")
-</p>
+@*<ol class="breadcrumb h4">
+	<li class="breadcrumb-item"><a href="#">Агенты</a></li>
+	<li class="breadcrumb-item active">6.47" Смартфон Huawei P30 Pro 256 ГБ черный</li>
+</ol>
 
+<hr />*@
 
 @*@using (Html.BeginForm("AddFormFile", "Agents", FormMethod.Post, new { enctype = "multipart/form-data" }))
 	{
@@ -21,23 +23,27 @@
 		</p>
 	}*@
 
+<div class="row">
+	<div class="col-md-1">
+		@Html.ActionLink("Добавить", "Create", new { }, new { @class = "btn btn-primary" })
+	</div>
+	<div class="col-md-11">
 
-
-@using (Html.BeginForm("Index", "Agents"))
-{
-	<p>
-		<strong>Логин: </strong> <input type="text" name="searchString" value="@Model.SearchString" />
-		<input type="submit" value="Поиск" />
-	</p>
-}
-
-
+		@using (Html.BeginForm("Index", "Agents"))
+		{
+			<div class="form-group">
+				<strong>Логин: </strong> <input type="text" name="searchString" value="@Model.SearchString" />
+				<input type="submit" value="Поиск" class="btn btn-primary" />
+			</div>
+		}
+	</div>
+</div>
 
 <table class="table table-hover">
 	<tr>
 		<th>
 			@Html.DisplayNameFor(model => model.PagedAgents.ToList().FirstOrDefault().Name)
-			@Html.Sort(Url.Action("Index",new {searchString=Model.SearchString, page=1,sortOrder=Model.SortOrder=="asc"?"desc":"asc",selectedEntityName="Name" }),"Name",Model.SelectedEntityName,Model.SortOrder)
+			@Html.Sort(Url.Action("Index", new { searchString = Model.SearchString, page = 1, sortOrder = Model.SortOrder == "asc" ? "desc" : "asc", selectedEntityName = "Name" }), "Name", Model.SelectedEntityName, Model.SortOrder)
 		</th>
 		<th>
 			@Html.DisplayNameFor(model => model.PagedAgents.ToList().FirstOrDefault().Login)
@@ -94,4 +100,4 @@
 </table>
 
 	Страница @(Model.PagedAgents.PageCount < Model.PagedAgents.PageNumber ?0: Model.PagedAgents.PageNumber) из @Model.PagedAgents.PageCount
-	@Html.PagedListPager(Model.PagedAgents, currentPage => Url.Action("Index", new { page=currentPage, searchString=@Model.SearchString }))
+	@Html.PagedListPager(Model.PagedAgents, currentPage => Url.Action("Index", new { page = currentPage, searchString = @Model.SearchString }))
