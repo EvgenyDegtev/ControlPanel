@@ -70,6 +70,13 @@ namespace ControlPanel.Controllers
             return View(agentsIndexViewModel);
         }
 
+        public async Task<ActionResult> AutocompleteSearch(string term)
+        {
+            var agents = await repository.SearchAgentsAsync(term);
+            var logins = agents.Select(agent => new { value = agent.Login }).Take(5).OrderByDescending(row=>row.value);
+            return Json(logins, JsonRequestBehavior.AllowGet);
+        }
+
         [HttpGet]
         [ErrorLogger]
         public async Task<ActionResult> Create()

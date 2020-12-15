@@ -29,6 +29,12 @@ namespace ControlPanel
 
             bundles.Add(new StyleBundle("~/Content/fontawesome").Include(
                 "~/Content/font-awesome.css"));
+
+            bundles.Add(new StyleBundle("~/Content/themes/base/all").Include(
+                "~/Content/themes/base/all.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/jquery-ui").Include(
+                        "~/Scripts/jquery-ui-{version}.js"));
         }
     }
 }
