@@ -32,7 +32,7 @@
 		@using (Html.BeginForm("Index", "Agents"))
 		{
 			<div class="form-group">
-				<strong>Логин: </strong> <input type="text" name="searchString" value="@Model.SearchString" data-autocomplete-source='@Url.Action("AutocompleteSearch","Agents")'/>
+				<strong>Логин: </strong> <input type="text" name="searchString" value="@Model.SearchString" data-autocomplete-source='@Url.Action("AutocompleteSearch","Agents")' class="form-control"/>
 				<input type="submit" value="Поиск" class="btn btn-primary" />
 			</div>
 		}

@@ -62,11 +62,13 @@ namespace ControlPanel.Controllers
                 logger.Info($"Action End | Controller name: {nameof(AgentsController)} | Action name: {nameof(Index)}");
                 return View(agentsIndexViewModel);
             }
-            agents = await repository.SearchAgentsAsync(searchString);
+            agents = agents.Where(ag => ag.Login.Contains(searchString)).ToList();
+            //agents = await repository.SearchAgentsAsync(searchString);
+            
+            
+            
             agentsIndexViewModel.PagedAgents = agents.ToPagedList(pageNumber, pageSize);
-
             logger.Info($"Action End | Controller name: {nameof(AgentsController)} | Action name: {nameof(Index)}");
-
             return View(agentsIndexViewModel);
         }
 

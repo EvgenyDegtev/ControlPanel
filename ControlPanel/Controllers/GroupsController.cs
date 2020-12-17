@@ -43,7 +43,7 @@ namespace ControlPanel.Controllers
                 logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
                 return View(groups.ToPagedList(pageNumber,pageSize));
             }
-            groups = await repository.SearchGroupsAsync(searchString);
+            groups = groups.Where(group => group.Name.Contains(searchString)).ToList();
 
             ViewBag.searchString = searchString;
 

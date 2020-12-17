@@ -43,7 +43,7 @@ namespace ControlPanel.Controllers
                 logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
                 return View(skills.ToPagedList(pageNumber,pageSize));
             }
-            skills = await repository.SearchSkillsAsync(searchString);
+            skills = skills.Where(skill => skill.Key.Contains(searchString)).ToList();
 
 
             ViewBag.searchString = searchString;
