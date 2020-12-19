@@ -32,7 +32,7 @@
 		@using (Html.BeginForm("Index", "Agents"))
 		{
 			<div class="form-group">
-				<strong>Логин: </strong> <input type="text" name="searchString" value="@Model.SearchString" data-autocomplete-source='@Url.Action("AutocompleteSearch","Agents")' class="form-control"/>
+				<strong>Логин: </strong> <input type="text" name="searchString" value="@Model.SearchString" data-autocomplete-source='@Url.Action("AutocompleteSearch","Agents")'/>
 				<input type="submit" value="Поиск" class="btn btn-primary" />
 			</div>
 		}
@@ -117,7 +117,7 @@
 </table>
 
 	Страница @(Model.PagedAgents.PageCount < Model.PagedAgents.PageNumber ?0: Model.PagedAgents.PageNumber) из @Model.PagedAgents.PageCount
-	@Html.PagedListPager(Model.PagedAgents, currentPage => Url.Action("Index", new { page = currentPage, searchString = @Model.SearchString }))
+	@Html.PagedListPager(Model.PagedAgents, currentPage => Url.Action("Index", new { page = currentPage, searchString = @Model.SearchString, sortOrder=@Model.SortOrder, selectedEntityName=@Model.SelectedEntityName }))
 
 <script type="text/javascript">
     $(function () {
