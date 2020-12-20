@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.WebPages;
 
 namespace ControlPanel.Helpers
 {
@@ -33,6 +34,21 @@ namespace ControlPanel.Helpers
             aTag.InnerHtml += iTag.ToString();
 
             return new MvcHtmlString(aTag.ToString());
+        }
+
+        public static string GetSortOrder(string prevSortOrder, string prevSelectedEntityName, string selectedEntityName)
+        {
+            if (prevSelectedEntityName == selectedEntityName)
+            {
+                if (prevSortOrder == "asc")
+                    return "desc";
+                else
+                    return "asc";
+            }
+            else
+            {
+                return "asc";
+            }
         }
     }
 }

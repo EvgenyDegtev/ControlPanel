@@ -372,6 +372,10 @@ namespace ControlPanel.Controllers
                 sortedAgents = sortedAgents.OrderBy(agents => agents.IsAlgorithmAllowServiceLevel).ToList();
             else if (sortOrder == "desc" && selectedEntityName == "IsAlgorithmAllowServiceLevel")
                 sortedAgents = sortedAgents.OrderByDescending(agent => agent.IsAlgorithmAllowServiceLevel).ToList();
+            else if (sortOrder == "asc" && selectedEntityName == "Group")
+                sortedAgents = sortedAgents.OrderBy(agent => agent.Group?.Name).ToList();
+            else if (sortOrder == "desc" && selectedEntityName == "Group")
+                sortedAgents = sortedAgents.OrderByDescending(agent => agent.Group?.Name).ToList();
             else
                 sortedAgents = sortedAgents.OrderBy(agent => agent.Name).ToList();
             return sortedAgents;
