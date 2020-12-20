@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.WebPages;
+using System.Web.Mvc.Routing;
+using System.Web.Routing;
 
 namespace ControlPanel.Helpers
 {
@@ -49,6 +51,25 @@ namespace ControlPanel.Helpers
             {
                 return "asc";
             }
+        }
+
+
+        public static MvcHtmlString Sort2(this HtmlHelper html)
+        {
+            //< a href = @Url.Action("Delete", new { id = agent.Id }) >< i class="fa fa-close"></i></a>
+
+            UrlHelper url = new UrlHelper(HttpContext.Current.Request.RequestContext);
+            var url2 = UrlHelper.GenerateUrl(null, "Index", "Groups", null, RouteTable.Routes, HttpContext.Current.Request.RequestContext, false);
+            var url3 = UrlHelper.GenerateUrl(null, "Edit", "Agents", new RouteValueDictionary { { "id", "52" } }, RouteTable.Routes, HttpContext.Current.Request.RequestContext, false);
+
+            TagBuilder aTag = new TagBuilder("a");
+            aTag.MergeAttribute("href", url3);
+
+           
+
+            aTag.InnerHtml += "QQQQ";
+
+            return new MvcHtmlString(aTag.ToString());
         }
     }
 }
