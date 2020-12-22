@@ -7,7 +7,6 @@
 
 <h2>Index</h2>
 <hr />
-@Html.Sort2()
 
 @*<ol class="breadcrumb h4">
 	<li class="breadcrumb-item"><a href="#">Агенты</a></li>
@@ -44,7 +43,8 @@
 	<tr>
 		<th>
 			@Html.DisplayNameFor(model => model.PagedAgents.ToList().FirstOrDefault().Name)
-			@Html.Sort(Url.Action("Index", new { searchString = Model.SearchString, page = Model.PagedAgents.PageNumber, sortOrder = SortHelper.GetSortOrder(Model.SortOrder,Model.SelectedEntityName,"Name"), selectedEntityName = "Name", prevSelectedEntityName=Model.SelectedEntityName }), "Name", Model.SelectedEntityName, Model.SortOrder)
+			@Html.Sort(Url.Action("Index", new { searchString = Model.SearchString, page = Model.PagedAgents.PageNumber, sortOrder = SortHelper.GetSortOrder(Model.SortOrder, Model.SelectedEntityName, "Name"), selectedEntityName = "Name", prevSelectedEntityName = Model.SelectedEntityName }), "Name", Model.SelectedEntityName, Model.SortOrder)
+			@Html.Sort(SortHelper.GenerateSortUrl(Model.SearchString,Model.PagedAgents.PageNumber.ToString(),Model.SortOrder, Model.SelectedEntityName,"Name"), "Name", Model.SelectedEntityName, Model.SortOrder)
 		</th>
 		<th>
 			@Html.DisplayNameFor(model => model.PagedAgents.ToList().FirstOrDefault().Login)

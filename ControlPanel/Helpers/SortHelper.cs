@@ -54,22 +54,23 @@ namespace ControlPanel.Helpers
         }
 
 
-        public static MvcHtmlString Sort2(this HtmlHelper html)
+        public static string GenerateSortUrl(string searchString,string page, string prevSortOrder, string prevSelectedEntityName, string selectedEntityName)
         {
-            //< a href = @Url.Action("Delete", new { id = agent.Id }) >< i class="fa fa-close"></i></a>
+            string sortOrder = GetSortOrder(prevSortOrder, prevSelectedEntityName, selectedEntityName);
 
-            UrlHelper url = new UrlHelper(HttpContext.Current.Request.RequestContext);
-            var url2 = UrlHelper.GenerateUrl(null, "Index", "Groups", null, RouteTable.Routes, HttpContext.Current.Request.RequestContext, false);
-            var url3 = UrlHelper.GenerateUrl(null, "Edit", "Agents", new RouteValueDictionary { { "id", "52" } }, RouteTable.Routes, HttpContext.Current.Request.RequestContext, false);
+            string hrefValue = UrlHelper.GenerateUrl(null, "Index", "Agents", new RouteValueDictionary 
+            {
+                { "searchString", searchString }, 
+                {"page", page },
+                {"sortOrder", sortOrder }, 
+                { "selectedEntityName", selectedEntityName },
+                { "prevSelectedEntityName",prevSelectedEntityName } 
+            }, 
+            RouteTable.Routes, 
+            HttpContext.Current.Request.RequestContext, 
+            false);
 
-            TagBuilder aTag = new TagBuilder("a");
-            aTag.MergeAttribute("href", url3);
-
-           
-
-            aTag.InnerHtml += "QQQQ";
-
-            return new MvcHtmlString(aTag.ToString());
+            return hrefValue;
         }
     }
 }
