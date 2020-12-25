@@ -43,28 +43,27 @@
 	<tr>
 		<th>
 			@Html.DisplayNameFor(model => model.PagedAgents.ToList().FirstOrDefault().Name)
-			@Html.Sort(Url.Action("Index", new { searchString = Model.SearchString, page = Model.PagedAgents.PageNumber, sortOrder = SortHelper.GetSortOrder(Model.SortOrder, Model.SelectedEntityName, "Name"), selectedEntityName = "Name", prevSelectedEntityName = Model.SelectedEntityName }), "Name", Model.SelectedEntityName, Model.SortOrder)
-			@Html.Sort(SortHelper.GenerateSortUrl(Model.SearchString,Model.PagedAgents.PageNumber.ToString(),Model.SortOrder, Model.SelectedEntityName,"Name"), "Name", Model.SelectedEntityName, Model.SortOrder)
+			@Html.Sort(Model.SearchString,Model.PagedAgents.PageNumber.ToString(),"Name",Model.SelectedEntityName,Model.SortOrder)
 		</th>
 		<th>
 			@Html.DisplayNameFor(model => model.PagedAgents.ToList().FirstOrDefault().Login)
-			@Html.Sort(Url.Action("Index", new { searchString = Model.SearchString, page = Model.PagedAgents.PageNumber, sortOrder = SortHelper.GetSortOrder(Model.SortOrder, Model.SelectedEntityName, "Login"), selectedEntityName = "Login", prevSelectedEntityName = Model.SelectedEntityName }), "Login", Model.SelectedEntityName, Model.SortOrder)
+			@Html.Sort(Model.SearchString, Model.PagedAgents.PageNumber.ToString(), "Login", Model.SelectedEntityName, Model.SortOrder)
 		</th>
 		<th>
 			@Html.DisplayNameFor(model => model.PagedAgents.ToList().FirstOrDefault().Algorithm)
-			@Html.Sort(Url.Action("Index", new { searchString = Model.SearchString, page =  Model.PagedAgents.PageNumber, sortOrder = SortHelper.GetSortOrder(Model.SortOrder, Model.SelectedEntityName, "Algorithm"), selectedEntityName = "Algorithm", prevSelectedEntityName = Model.SelectedEntityName }), "Algorithm", Model.SelectedEntityName, Model.SortOrder)
+			@Html.Sort(Model.SearchString, Model.PagedAgents.PageNumber.ToString(), "Algorithm", Model.SelectedEntityName, Model.SortOrder)
 		</th>
 		<th>
 			@Html.DisplayNameFor(model => model.PagedAgents.ToList().FirstOrDefault().WorkloadMaxContactsCount)
-			@Html.Sort(Url.Action("Index", new { searchString = Model.SearchString, page = Model.PagedAgents.PageNumber, sortOrder = SortHelper.GetSortOrder(Model.SortOrder, Model.SelectedEntityName, "WorkloadMaxContactsCount"), selectedEntityName = "WorkloadMaxContactsCount", prevSelectedEntityName = Model.SelectedEntityName }), "WorkloadMaxContactsCount", Model.SelectedEntityName, Model.SortOrder)
+			@Html.Sort(Model.SearchString, Model.PagedAgents.PageNumber.ToString(), "WorkloadMaxContactsCount", Model.SelectedEntityName, Model.SortOrder)
 		</th>
 		<th>
 			@Html.DisplayNameFor(model => model.PagedAgents.ToList().FirstOrDefault().IsAlgorithmAllowServiceLevel)
-			@Html.Sort(Url.Action("Index", new { searchString = Model.SearchString, page = Model.PagedAgents.PageNumber, sortOrder = SortHelper.GetSortOrder(Model.SortOrder, Model.SelectedEntityName, "IsAlgorithmAllowServiceLevel"), selectedEntityName = "IsAlgorithmAllowServiceLevel", prevSelectedEntityName = Model.SelectedEntityName }), "IsAlgorithmAllowServiceLevel", Model.SelectedEntityName, Model.SortOrder)
+			@Html.Sort(Model.SearchString, Model.PagedAgents.PageNumber.ToString(), "IsAlgorithmAllowServiceLevel", Model.SelectedEntityName, Model.SortOrder)
 		</th>
 		<th>
 			@Html.DisplayNameFor(model => model.PagedAgents.ToList().FirstOrDefault().Group.Name)
-			@Html.Sort(Url.Action("Index", new { searchString = Model.SearchString, page = Model.PagedAgents.PageNumber, sortOrder = SortHelper.GetSortOrder(Model.SortOrder, Model.SelectedEntityName, "Group"), selectedEntityName = "Group", prevSelectedEntityName = Model.SelectedEntityName }), "Group", Model.SelectedEntityName, Model.SortOrder)
+			@Html.Sort(Model.SearchString, Model.PagedAgents.PageNumber.ToString(), "Group", Model.SelectedEntityName, Model.SortOrder)
 		</th>
 		<th>
 

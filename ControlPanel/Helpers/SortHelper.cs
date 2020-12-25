@@ -11,36 +11,43 @@ namespace ControlPanel.Helpers
 {
     public static class SortHelper
     {
-        public static MvcHtmlString Sort(this HtmlHelper html, string hrefValue,string positionName, string selectedEntityName, string sortOrder)
+        public static MvcHtmlString Sort(this HtmlHelper html, string searchString, string page, string positionName, string prevSelectedEntityName, string prevSortOrder)
         {
-            //< a href = @Url.Action("Delete", new { id = agent.Id }) >< i class="fa fa-close"></i></a>
+            string hrefValue = GenerateSortUrl(searchString,page,prevSortOrder,prevSelectedEntityName,positionName);
 
             TagBuilder aTag = new TagBuilder("a");
             aTag.MergeAttribute("href", hrefValue);
 
             TagBuilder iTag = new TagBuilder("i");
 
-            if(positionName==selectedEntityName)
-            {
-                if (sortOrder == "asc")
-                {
-                    iTag.MergeAttribute("class", "fa fa-sort-asc");
-                }
-                else
-                {
-                    iTag.MergeAttribute("class", "fa fa-sort-desc");
-                }
-            }
-            iTag.MergeAttribute("class", "fa fa-sort");
-
+            iTag.MergeAttribute("class", GetClassAttribute(positionName,prevSelectedEntityName,prevSortOrder));
             aTag.InnerHtml += iTag.ToString();
 
             return new MvcHtmlString(aTag.ToString());
         }
 
-        public static string GetSortOrder(string prevSortOrder, string prevSelectedEntityName, string selectedEntityName)
+        public static string GenerateSortUrl(string searchString, string page, string positionName, string prevSelectedEntityName, string prevSortOrder)
         {
-            if (prevSelectedEntityName == selectedEntityName)
+            string sortOrder = GetSortOrder(prevSortOrder, prevSelectedEntityName, positionName);
+
+            string hrefValue = UrlHelper.GenerateUrl(null, "Index", "Agents", new RouteValueDictionary
+            {
+                { "searchString", searchString },
+                {"page", page },
+                {"sortOrder", sortOrder },
+                { "selectedEntityName", positionName },
+                { "prevSelectedEntityName",prevSelectedEntityName }
+            },
+            RouteTable.Routes,
+            HttpContext.Current.Request.RequestContext,
+            false);
+
+            return hrefValue;
+        }
+
+        public static string GetSortOrder(string positionName, string prevSelectedEntityName, string prevSortOrder)
+        {
+            if (prevSelectedEntityName == positionName)
             {
                 if (prevSortOrder == "asc")
                     return "desc";
@@ -53,24 +60,21 @@ namespace ControlPanel.Helpers
             }
         }
 
-
-        public static string GenerateSortUrl(string searchString,string page, string prevSortOrder, string prevSelectedEntityName, string selectedEntityName)
+        public static string GetClassAttribute(string positionName, string prevSelectedEntityName, string prevSortOrder)
         {
-            string sortOrder = GetSortOrder(prevSortOrder, prevSelectedEntityName, selectedEntityName);
-
-            string hrefValue = UrlHelper.GenerateUrl(null, "Index", "Agents", new RouteValueDictionary 
+            string classAttributeValue = "fa fa-sort";
+            if (positionName == prevSelectedEntityName)
             {
-                { "searchString", searchString }, 
-                {"page", page },
-                {"sortOrder", sortOrder }, 
-                { "selectedEntityName", selectedEntityName },
-                { "prevSelectedEntityName",prevSelectedEntityName } 
-            }, 
-            RouteTable.Routes, 
-            HttpContext.Current.Request.RequestContext, 
-            false);
-
-            return hrefValue;
+                if (prevSortOrder == "asc")
+                {
+                    classAttributeValue="fa fa-sort-asc";
+                }
+                else
+                {
+                    classAttributeValue = "fa fa-sort-desc";
+                }
+            }
+            return classAttributeValue;
         }
     }
 }
