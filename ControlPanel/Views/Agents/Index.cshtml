@@ -27,17 +27,19 @@
 	<div class="col-md-1">
 		@Html.ActionLink("Добавить", "Create", new { }, new { @class = "btn btn-primary" })
 	</div>
-	<div class="col-md-11">
+	<div class="col-md-11 form-inline">
 
 		@using (Html.BeginForm("Index", "Agents"))
 		{
 			<div class="form-group">
-				<strong>Логин: </strong> <input type="text" name="searchString" value="@Model.SearchString" data-autocomplete-source='@Url.Action("AutocompleteSearch","Agents")'/>
+				<label class="control-label">Логин: </label> 
+				<input type="text" name="searchString" value="@Model.SearchString" data-autocomplete-source='@Url.Action("AutocompleteSearch","Agents")' class="form-control"/>
 				<input type="submit" value="Поиск" class="btn btn-primary" />
 			</div>
 		}
 	</div>
 </div>
+<br />
 
 <table class="table table-hover">
 	<tr>
