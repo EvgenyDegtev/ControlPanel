@@ -45,27 +45,27 @@
 	<tr>
 		<th>
 			@Html.DisplayNameFor(model => model.PagedAgents.ToList().FirstOrDefault().Name)
-			@Html.Sort(Model.SearchString,Model.PagedAgents.PageNumber.ToString(),"Name",Model.SelectedEntityName,Model.SortOrder)
+			@Html.Sort(Model.SearchString,Model.PagedAgents.PageNumber.ToString(),"Name",Model.SelectedSortProperty,Model.SortOrder)
 		</th>
 		<th>
 			@Html.DisplayNameFor(model => model.PagedAgents.ToList().FirstOrDefault().Login)
-			@Html.Sort(Model.SearchString, Model.PagedAgents.PageNumber.ToString(), "Login", Model.SelectedEntityName, Model.SortOrder)
+			@Html.Sort(Model.SearchString, Model.PagedAgents.PageNumber.ToString(), "Login", Model.SelectedSortProperty, Model.SortOrder)
 		</th>
 		<th>
 			@Html.DisplayNameFor(model => model.PagedAgents.ToList().FirstOrDefault().Algorithm)
-			@Html.Sort(Model.SearchString, Model.PagedAgents.PageNumber.ToString(), "Algorithm", Model.SelectedEntityName, Model.SortOrder)
+			@Html.Sort(Model.SearchString, Model.PagedAgents.PageNumber.ToString(), "Algorithm", Model.SelectedSortProperty, Model.SortOrder)
 		</th>
 		<th>
 			@Html.DisplayNameFor(model => model.PagedAgents.ToList().FirstOrDefault().WorkloadMaxContactsCount)
-			@Html.Sort(Model.SearchString, Model.PagedAgents.PageNumber.ToString(), "WorkloadMaxContactsCount", Model.SelectedEntityName, Model.SortOrder)
+			@Html.Sort(Model.SearchString, Model.PagedAgents.PageNumber.ToString(), "WorkloadMaxContactsCount", Model.SelectedSortProperty, Model.SortOrder)
 		</th>
 		<th>
 			@Html.DisplayNameFor(model => model.PagedAgents.ToList().FirstOrDefault().IsAlgorithmAllowServiceLevel)
-			@Html.Sort(Model.SearchString, Model.PagedAgents.PageNumber.ToString(), "IsAlgorithmAllowServiceLevel", Model.SelectedEntityName, Model.SortOrder)
+			@Html.Sort(Model.SearchString, Model.PagedAgents.PageNumber.ToString(), "IsAlgorithmAllowServiceLevel", Model.SelectedSortProperty, Model.SortOrder)
 		</th>
 		<th>
 			@Html.DisplayNameFor(model => model.PagedAgents.ToList().FirstOrDefault().Group.Name)
-			@Html.Sort(Model.SearchString, Model.PagedAgents.PageNumber.ToString(), "Group", Model.SelectedEntityName, Model.SortOrder)
+			@Html.Sort(Model.SearchString, Model.PagedAgents.PageNumber.ToString(), "Group", Model.SelectedSortProperty, Model.SortOrder)
 		</th>
 		<th>
 
@@ -103,7 +103,7 @@
 </table>
 
 	Страница @(Model.PagedAgents.PageCount < Model.PagedAgents.PageNumber ?0: Model.PagedAgents.PageNumber) из @Model.PagedAgents.PageCount
-	@Html.PagedListPager(Model.PagedAgents, currentPage => Url.Action("Index", new { page = currentPage, searchString = @Model.SearchString, sortOrder=@Model.SortOrder, selectedEntityName=@Model.SelectedEntityName }))
+	@Html.PagedListPager(Model.PagedAgents, currentPage => Url.Action("Index", new { page = currentPage, searchString = @Model.SearchString, sortOrder=@Model.SortOrder, selectedEntityName=@Model.SelectedSortProperty }))
 
 <script type="text/javascript">
     $(function () {

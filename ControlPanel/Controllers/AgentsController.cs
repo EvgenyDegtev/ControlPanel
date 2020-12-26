@@ -40,7 +40,7 @@ namespace ControlPanel.Controllers
 
         //Get and Post
         [ErrorLogger]
-        public async Task<ActionResult> Index(string searchString, int? page, string selectedEntityName="Name", string sortOrder="asc", string prevSelectedEntityName=null)
+        public async Task<ActionResult> Index(string searchString, int? page, string selectedEntityName="Name", string sortOrder="asc")
         {
             logWriter(this);
             logger.Info($"Action Start | Controller name: {nameof(AgentsController)} | Action name: {nameof(Index)}| Input params: {nameof(searchString)}={searchString}, {nameof(page)}={page} ");
@@ -56,8 +56,7 @@ namespace ControlPanel.Controllers
                 PagedAgents = agents.ToPagedList(pageNumber, pageSize),
                 SearchString = searchString,
                 SortOrder = sortOrder,
-                SelectedEntityName=selectedEntityName,
-                PrevSelectedEntityName=prevSelectedEntityName
+                SelectedSortProperty=selectedEntityName
             };
 
             if (String.IsNullOrEmpty(searchString))
