@@ -35,7 +35,7 @@ namespace ControlPanel.Helpers
                 { "searchString", searchString },
                 {"page", page },
                 {"sortOrder", sortOrder },
-                { "selectedEntityName", positionName }
+                { "selectedSortProperty", positionName }
             },
             RouteTable.Routes,
             HttpContext.Current.Request.RequestContext,
