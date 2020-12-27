@@ -14,6 +14,7 @@ using NLog;
 using System.Reflection;
 using ControlPanel.Abstract;
 using System.Threading.Tasks;
+using ControlPanel.ViewModels;
 
 namespace ControlPanel.Controllers
 {
@@ -38,17 +39,23 @@ namespace ControlPanel.Controllers
             int pageSize = 5;
             int pageNumber = page ?? 1;
             var groups = await repository.GetGroupsAsync();
-            if(String.IsNullOrEmpty(searchString))
+
+            GroupsIndexViewModel groupsIndexViewModel = new GroupsIndexViewModel
+            {
+                PagedGroups = groups.ToPagedList(pageNumber, pageSize),
+                SearchString = searchString
+            };
+
+            if (String.IsNullOrEmpty(searchString))
             {
                 logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
-                return View(groups.ToPagedList(pageNumber,pageSize));
+                return View(groupsIndexViewModel);
             }
             groups = groups.Where(group => group.Name.Contains(searchString)).ToList();
 
-            ViewBag.searchString = searchString;
-
+            groupsIndexViewModel.PagedGroups = groups.ToPagedList(pageNumber, pageSize);
             logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
-            return View(groups.ToPagedList(pageNumber,pageSize));
+            return View(groupsIndexViewModel);
         }
 
         [HttpGet]

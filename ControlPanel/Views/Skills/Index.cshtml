@@ -1,5 +1,6 @@
-﻿@model PagedList.PagedList<ControlPanel.Models.Skill>
-@using PagedList.Mvc
+﻿@using PagedList.Mvc
+@using ControlPanel.ViewModels
+@model ControlPanel.ViewModels.SkillsIndexViewModel 
 
 <h2>Index</h2>
 <hr />
@@ -14,7 +15,7 @@
 		{
 			<div class="form-group">
 				<label class="control-label">ID навыка: </label>
-				<input type="text" name="searchString" value="@ViewBag.searchString" data-autocomplete-source='@Url.Action("AutocompleteSearch","Agents")' class="form-control" />
+				<input type="text" name="searchString" value="@Model.SearchString" data-autocomplete-source='@Url.Action("AutocompleteSearch","Agents")' class="form-control" />
 				<input type="submit" value="Поиск" class="btn btn-primary" />
 			</div>
 		}
@@ -25,18 +26,18 @@
 <table class="table table-hover">
 	<tr>
 		<th>
-			@Html.DisplayNameFor(model => model.ToList().FirstOrDefault().Name)
+			@Html.DisplayNameFor(model => model.PagedSkills.ToList().FirstOrDefault().Name)
 		</th>
 		<th>
-			@Html.DisplayNameFor(model => model.ToList().FirstOrDefault().Key)
+			@Html.DisplayNameFor(model => model.PagedSkills.ToList().FirstOrDefault().Key)
 		</th>
 		<th>
-			@Html.DisplayNameFor(model => model.ToList().FirstOrDefault().Algorithm)
+			@Html.DisplayNameFor(model => model.PagedSkills.ToList().FirstOrDefault().Algorithm)
 		</th>
 		<th></th>
 	</tr>
 
-	@foreach (var skill in Model)
+	@foreach (var skill in Model.PagedSkills)
 	{
 		<tr>
 			<td>
@@ -57,6 +58,6 @@
 	}
 </table>
 
-Страница @(Model.PageCount<Model.PageNumber?0:Model.PageNumber) из @Model.PageCount
-@Html.PagedListPager(Model, currentPage => Url.Action("Index", new { page = currentPage, searchString = ViewBag.searchString }))
+Страница @(Model.PagedSkills.PageCount<Model.PagedSkills.PageNumber?0:Model.PagedSkills.PageNumber) из @Model.PagedSkills.PageCount
+@Html.PagedListPager(Model.PagedSkills, currentPage => Url.Action("Index", new { page = currentPage, searchString = Model.SearchString }))
 

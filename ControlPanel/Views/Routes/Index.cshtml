@@ -1,5 +1,8 @@
-﻿@model PagedList.PagedList<ControlPanel.Models.Route>
-@using PagedList.Mvc
+﻿@using PagedList.Mvc
+@using ControlPanel.ViewModels
+@model ControlPanel.ViewModels.RoutesIndexViewModel
+@*@model PagedList.PagedList<ControlPanel.Models.Route>*@
+
 
 <h2>Index</h2>
 <hr />
@@ -14,7 +17,7 @@
 		{
 			<div class="form-group">
 				<label class="control-label">ID маршрута: </label>
-				<input type="text" name="searchString" value="@ViewBag.searchString" data-autocomplete-source='@Url.Action("AutocompleteSearch","Agents")' class="form-control" />
+				<input type="text" name="searchString" value="@Model.SearchString" data-autocomplete-source='@Url.Action("AutocompleteSearch","Agents")' class="form-control" />
 				<input type="submit" value="Поиск" class="btn btn-primary" />
 			</div>
 		}
@@ -25,18 +28,18 @@
 <table class="table table-hover">
 	<tr>
 		<th>
-			@Html.DisplayNameFor(model => model.ToList().FirstOrDefault().Name)
+			@Html.DisplayNameFor(model => model.PagedRoutes.ToList().FirstOrDefault().Name)
 		</th>
 		<th>
-			@Html.DisplayNameFor(model => model.ToList().FirstOrDefault().Key)
+			@Html.DisplayNameFor(model => model.PagedRoutes.ToList().FirstOrDefault().Key)
 		</th>
 		<th>
-			@Html.DisplayNameFor(model => model.ToList().FirstOrDefault().Skill.Name)
+			@Html.DisplayNameFor(model => model.PagedRoutes.ToList().FirstOrDefault().Skill.Name)
 		</th>
 		<th></th>
 	</tr>
 
-	@foreach (var route in Model)
+	@foreach (var route in Model.PagedRoutes)
 	{
 		<tr>
 			<td>
@@ -57,7 +60,7 @@
 	}
 </table>
 
-Страница @(Model.PageCount<Model.PageNumber?0:Model.PageNumber) из @Model.PageCount
-@Html.PagedListPager(Model, currentPage => Url.Action("Index", new { page = currentPage, searchString = ViewBag.searchString }))
+Страница @(Model.PagedRoutes.PageCount<Model.PagedRoutes.PageNumber?0:Model.PagedRoutes.PageNumber) из @Model.PagedRoutes.PageCount
+@Html.PagedListPager(Model.PagedRoutes, currentPage => Url.Action("Index", new { page = currentPage, searchString = Model.SearchString }))
 
 

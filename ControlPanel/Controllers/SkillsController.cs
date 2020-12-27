@@ -13,6 +13,7 @@ using NLog;
 using System.Reflection;
 using ControlPanel.Abstract;
 using System.Threading.Tasks;
+using ControlPanel.ViewModels;
 
 namespace ControlPanel.Controllers
 {
@@ -38,18 +39,24 @@ namespace ControlPanel.Controllers
             int pageSize = 5;
             int pageNumber = page ?? 1;
             var skills = await repository.GetSkillsAsync();
+
+            SkillsIndexViewModel skillsIndexViewModel = new SkillsIndexViewModel
+            {
+                PagedSkills=skills.ToPagedList(pageNumber,pageSize),
+                SearchString=searchString
+            };
+
             if(String.IsNullOrEmpty(searchString))
             {
                 logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
-                return View(skills.ToPagedList(pageNumber,pageSize));
+                return View(skillsIndexViewModel);
             }
             skills = skills.Where(skill => skill.Key.Contains(searchString)).ToList();
 
 
-            ViewBag.searchString = searchString;
-
+            skillsIndexViewModel.PagedSkills = skills.ToPagedList(pageNumber, pageSize);
             logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
-            return View(skills.ToPagedList(pageNumber,pageSize));
+            return View(skillsIndexViewModel);
         }
 
         [HttpGet]

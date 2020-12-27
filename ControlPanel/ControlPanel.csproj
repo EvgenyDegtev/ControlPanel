@@ -289,7 +289,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\AgentCreateViewModel.cs" />
     <Compile Include="ViewModels\AgentsIndexViewModel.cs" />
+    <Compile Include="ViewModels\GroupsIndexViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
+    <Compile Include="ViewModels\RoutesIndexViewModel.cs" />
+    <Compile Include="ViewModels\SkillsIndexViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />

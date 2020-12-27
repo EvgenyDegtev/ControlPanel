@@ -14,7 +14,7 @@ using System.Reflection;
 using ControlPanel.Infastructure;
 using ControlPanel.Abstract;
 using System.Threading.Tasks;
-//using System.Web.Routing;
+using ControlPanel.ViewModels;
 
 namespace ControlPanel.Controllers
 {
@@ -40,17 +40,23 @@ namespace ControlPanel.Controllers
             int pageSize = 5;
             int pageNumber = page ?? 1;
             var routes = await repository.GetRoutesIncludeSkillsAsync();
+
+            RoutesIndexViewModel routesIndexViewModel = new RoutesIndexViewModel
+            {
+                PagedRoutes = routes.ToPagedList(pageNumber, pageSize),
+                SearchString=searchString
+            };
+
             if(String.IsNullOrEmpty(searchString))
             {
                 logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
-                return View(routes.ToPagedList(pageNumber,pageSize));
+                return View(routesIndexViewModel);
             }
             routes = routes.Where(route => route.Key.Contains(searchString)).ToList();
 
-            ViewBag.searchString = searchString;
-
+            routesIndexViewModel.PagedRoutes = routes.ToPagedList(pageNumber, pageSize);
             logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
-            return View(routes.ToPagedList(pageNumber,pageSize));
+            return View(routesIndexViewModel);
         }
 
         [HttpGet]
