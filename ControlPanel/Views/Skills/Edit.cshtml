@@ -1,4 +1,4 @@
-﻿@model ControlPanel.Models.Skill
+﻿@model ControlPanel.ViewModels.SkillCreateViewModel
 
 <h2>Edit</h2>
 
@@ -8,28 +8,28 @@
 		<h4>Skill</h4>
 		<hr />
 
-		@Html.HiddenFor(model=>model.Id)
+		@Html.HiddenFor(model=>model.Skill.Id)
 
 		<div class="form-group">
-			@Html.LabelFor(model=>model.Name, new {@class="control-label col-md-2"})
+			@Html.LabelFor(model=>model.Skill.Name, new {@class="control-label col-md-2"})
 			<div class="col-md-10">
-				@Html.EditorFor(model=>model.Name, new {htmlAttributes=new {@class="form-control"} })
-				@Html.ValidationMessageFor(model=>model.Name,"",new { @class="text-danger"})
+				@Html.EditorFor(model=>model.Skill.Name, new {htmlAttributes=new {@class="form-control"} })
+				@Html.ValidationMessageFor(model=>model.Skill.Name,"",new { @class="text-danger"})
 			</div>
 		</div>
 
 		<div class="form-group">
-			@Html.LabelFor(model=>model.Key, new { @class="control-label col-md-2"})
+			@Html.LabelFor(model=>model.Skill.Key, new { @class="control-label col-md-2"})
 			<div class="col-md-10">
-				@Html.EditorFor(model=>model.Key, new { htmlAttributes=new {@class="form-control"}})
-				@Html.ValidationMessageFor(model=>model.Key,"",new { @class="text-danger"})
+				@Html.EditorFor(model=>model.Skill.Key, new { htmlAttributes=new {@class="form-control"}})
+				@Html.ValidationMessageFor(model=>model.Skill.Key,"",new { @class="text-danger"})
 			</div>
 		</div>
 
 		<div class="form-group">
-			@Html.LabelFor(model=>model.Algorithm, new { @class="control-label col-md-2"})
+			@Html.LabelFor(model=>model.Skill.Algorithm, new { @class="control-label col-md-2"})
 			<div class="col-md-10">
-				@Html.DropDownListFor(model => model.Algorithm, ViewBag.Algorithms as SelectList, htmlAttributes: new { @class = "form-control" })
+				@Html.DropDownListFor(model => model.Skill.Algorithm, Model.Algorithms as SelectList, htmlAttributes: new { @class = "form-control" })
 			</div>
 		</div>
 
@@ -45,5 +45,5 @@
 	@Html.ActionLink("Back to List", "Index")
 </div>
 <div>
-	@Html.ActionLink("Маршруты","SkillRoutes", new { id=Model.Id})
+	@Html.ActionLink("Маршруты","SkillRoutes", new { id=Model.Skill.Id})
 </div>

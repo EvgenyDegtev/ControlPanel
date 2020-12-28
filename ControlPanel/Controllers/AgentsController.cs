@@ -92,8 +92,6 @@ namespace ControlPanel.Controllers
                 Algorithms= new SelectList(Agent.algorithmDictionary.Select(algo => new { Algorithm = algo.Key.ToString(), AlgorithmNAme = algo.Value }), "Algorithm", "AlgorithmName")
 
             };
-            //ViewBag.Groups = new SelectList(await repository.GetGroupsAsync(), "Id", "Name");
-            //ViewBag.Algorithms = new SelectList(Agent.algorithmDictionary.Select(algo=> new {Algorithm=algo.Key.ToString(),AlgorithmNAme=algo.Value }), "Algorithm", "AlgorithmName");
 
             logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
             return View(agentCreateViewModel);

@@ -65,8 +65,12 @@ namespace ControlPanel.Controllers
         {
             logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
             logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
-            ViewBag.Skills = new SelectList(await repository.GetSkillsAsync(), "Id", "Name");
-            return View();
+
+            RouteCreateViewModel routeCreateViewModel = new RouteCreateViewModel
+            {
+                Skills = new SelectList(await repository.GetSkillsAsync(), "Id", "Name")
+            };
+            return View(routeCreateViewModel);
         }
 
         [HttpPost]
@@ -138,10 +142,15 @@ namespace ControlPanel.Controllers
                 logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             }
-            ViewBag.Skills = new SelectList(await repository.GetSkillsAsync(), "Id", "Name");
+
+            RouteCreateViewModel routeCreateViewModel = new RouteCreateViewModel
+            {
+                Route = route,
+                Skills = new SelectList(await repository.GetSkillsAsync(), "Id", "Name")
+            };
 
             logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
-            return View(route);
+            return View(routeCreateViewModel);
         }
 
         [HttpPost]

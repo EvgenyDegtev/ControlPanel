@@ -292,7 +292,9 @@
     <Compile Include="ViewModels\GroupsIndexViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\RoutesIndexViewModel.cs" />
+    <Compile Include="ViewModels\SkillCreateViewModel.cs" />
     <Compile Include="ViewModels\SkillsIndexViewModel.cs" />
+    <Compile Include="ViewModels\RouteCreateViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />

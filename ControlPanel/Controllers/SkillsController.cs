@@ -65,10 +65,13 @@ namespace ControlPanel.Controllers
         {
             logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
 
-            ViewBag.Algorithms = new SelectList(Skill.algorithmDictionary.Select(algo=> new {Algorithm=algo.Key.ToString(), AlgorithmName=algo.Value }), "Algorithm", "AlgorithmName",0);
+            SkillCreateViewModel skillCreateViewModel = new SkillCreateViewModel
+            {
+                Algorithms = new SelectList(Skill.algorithmDictionary.Select(algo => new { Algorithm = algo.Key.ToString(), AlgorithmName = algo.Value }), "Algorithm", "AlgorithmName", 0)
+            };
 
             logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
-            return View();
+            return View(skillCreateViewModel);
         }
 
         [HttpPost]
@@ -137,11 +140,14 @@ namespace ControlPanel.Controllers
                 logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             }
-
-            ViewBag.Algorithms = new SelectList(Skill.algorithmDictionary.Select(algo => new { Algorithm = algo.Key.ToString(), AlgorithmName = algo.Value }), "Algorithm", "AlgorithmName", skill.Algorithm);
+            SkillCreateViewModel skillCreateViewModel = new SkillCreateViewModel
+            {
+                Skill = skill,
+                Algorithms = new SelectList(Skill.algorithmDictionary.Select(algo => new { Algorithm = algo.Key.ToString(), AlgorithmName = algo.Value }), "Algorithm", "AlgorithmName", skill.Algorithm)
+            };
 
             logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
-            return View(skill);
+            return View(skillCreateViewModel);
         }
 
         [HttpPost]
