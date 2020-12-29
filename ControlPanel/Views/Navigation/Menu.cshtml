@@ -1,22 +1,24 @@
-﻿@{ 
+﻿@model ControlPanel.ViewModels.NavViewModel
+
+@{ 
 	string agentSelectionClass = null;
 	string groupSelectionClass = null;
 	string skillSelectionClass = null;
 	string routeSelectionClass = null;
 	string reportSelectionClass = null;
-	if (ViewBag.activeController=="Groups")
+	if (Model.ActiveController=="Groups")
 	{
 		groupSelectionClass = "active";
 	}
-	else if(ViewBag.activeController == "Skills")
+	else if(Model.ActiveController == "Skills")
 	{
 		skillSelectionClass = "active";
 	}
-	else if (ViewBag.activeController == "Routes")
+	else if (Model.ActiveController == "Routes")
 	{
 		routeSelectionClass = "active";
 	}
-	else if (ViewBag.activeController == "Reports")
+	else if (Model.ActiveController == "Reports")
 	{
 		reportSelectionClass = "active";
 	}
@@ -25,7 +27,7 @@
 		agentSelectionClass = "active";
 	}
 }
-<h4>@ViewBag.url</h4>
+<h4></h4>
 
 <nav>
 	<ul class="nav nav-tabs">
@@ -35,5 +37,4 @@
 		<li class="@routeSelectionClass">@Html.ActionLink("Маршруты", "Index", "Routes")</li>
 		<li class="@reportSelectionClass">@Html.ActionLink("Отчеты", "Index", "Reports")</li>
 	</ul>
-	<h4>@ViewBag.SelectedCategory</h4>
 </nav>

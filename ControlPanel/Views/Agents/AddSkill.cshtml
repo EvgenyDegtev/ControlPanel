@@ -1,4 +1,4 @@
-﻿@model List<ControlPanel.Models.Skill>
+﻿@model ControlPanel.ViewModels.AgentAddSkillViewModel
 
 <h2>AddSkill</h2>
 
@@ -9,7 +9,7 @@
 		<th>Алгоритм</th>
 		<th></th>
 	</tr>
-	@foreach(var item in Model)
+	@foreach(var item in Model.Skills)
 	{
 		<tr>
 			<td>
@@ -22,7 +22,7 @@
 				@Html.DisplayFor(skill=>item.Algorithm)
 			</td>
 			<td>
-				<a href=@Url.Action("SkillAddConfirmation", new { agentId = ViewBag.AgentId, skillId = item.Id })><i class="fa fa-plus-square"></i></a>
+				<a href=@Url.Action("SkillAddConfirmation", new { agentId = Model.Agent.Id, skillId = item.Id })><i class="fa fa-plus-square"></i></a>
 			</td>
 		</tr>
 	}

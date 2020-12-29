@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Runtime.Serialization.Formatters.Binary;
 using CsvHelper;
 using System.Globalization;
+using ControlPanel.ViewModels;
 
 namespace ControlPanel.Controllers
 {
@@ -31,8 +32,8 @@ namespace ControlPanel.Controllers
         public ActionResult Index()
         {
             string[] reports = new string[] { "AgentReport", "SkillReport" };
-            ViewBag.Reports = new SelectList(reports);
-            return View();
+            ReportsIndexViewModel reportsIndexViewModel = new ReportsIndexViewModel { ReportNames = new SelectList(reports) };
+            return View(reportsIndexViewModel);
         }
 
         [HttpPost]

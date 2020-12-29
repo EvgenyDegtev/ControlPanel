@@ -241,7 +241,6 @@ namespace ControlPanel.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             }
             List<AgentToSkill> agentToSkills = await repository.FindAgentToSkillForAgentByIdAsync(id);
-            ViewBag.AgentId = id;
 
             logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
             return View(agentToSkills);
@@ -253,10 +252,11 @@ namespace ControlPanel.Controllers
         {
             logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(id)}={id}");
             List<Skill> skills = await repository.GetSkillsAsync();
-            ViewBag.AgentId = id;
+
+            AgentAddSkillViewModel agentAddSkillViewModel = new AgentAddSkillViewModel { Agent = await repository.FindAgentByIdAsync(id), Skills = skills };
 
             logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
-            return View(skills);
+            return View(agentAddSkillViewModel);
         }
 
         [HttpGet]
@@ -266,13 +266,17 @@ namespace ControlPanel.Controllers
             logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(agentId)}={agentId}, {nameof(skillId)}={skillId}");
             AgentToSkill agentToSkill = new AgentToSkill { AgentId = agentId, SkillId = skillId };
             Skill skill = await repository.FindSkillByIdAsync(skillId);
-            ViewBag.SkillName = skill.Name;
 
-            ViewBag.levels = new SelectList(AgentToSkill.levelDictionary.Select(level=>new {Level=level.Key.ToString(), LevelName=level.Value}),"Level","LevelName",1);
-            ViewBag.modes = new SelectList(AgentToSkill.breakingModeDictionary.Select(mode => new { BreakingMode = mode.Key.ToString(), BreakingModeName = mode.Value }),"BreakingMode","BreakingModeName", 2);
+            AgentAddSkillConfirmationViewModel agentAddSkillConfirmationViewModel = new AgentAddSkillConfirmationViewModel
+            {
+                AgentToSkill= agentToSkill,
+                SkillName = skill.Name,
+                Levels = new SelectList(AgentToSkill.levelDictionary.Select(level => new { Level = level.Key.ToString(), LevelName = level.Value }), "Level", "LevelName", 1),
+                Modes = new SelectList(AgentToSkill.breakingModeDictionary.Select(mode => new { BreakingMode = mode.Key.ToString(), BreakingModeName = mode.Value }), "BreakingMode", "BreakingModeName", 2)
+            };
 
             logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
-            return View(agentToSkill);
+            return View(agentAddSkillConfirmationViewModel);
         }
 
         [HttpPost]
@@ -299,14 +303,19 @@ namespace ControlPanel.Controllers
         {
             logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(agentId)}={agentId}, {nameof(skillId)}={skillId}");
             AgentToSkill agentToSkill = await repository.FindAgentToSkillAsync(agentId, skillId);
-            Skill skill = await repository.FindSkillByIdAsync(skillId);
-            ViewBag.SkillName = skill.Name;
 
-            ViewBag.levels = new SelectList(AgentToSkill.levelDictionary.Select(level => new { Level = level.Key.ToString(), LevelName = level.Value }), "Level", "LevelName", agentToSkill.Level);
-            ViewBag.modes = new SelectList(AgentToSkill.breakingModeDictionary.Select(mode => new {BreakingMode=mode.Key.ToString(),BreakingModeName=mode.Value }),"BreakingMode","BreakingModeName",agentToSkill.BreakingMode);
+            Skill skill = await repository.FindSkillByIdAsync(skillId);
+
+            AgentAddSkillConfirmationViewModel agentAddSkillConfirmationViewModel = new AgentAddSkillConfirmationViewModel
+            {
+                AgentToSkill = agentToSkill,
+                SkillName = skill.Name,
+                Levels = new SelectList(AgentToSkill.levelDictionary.Select(level => new { Level = level.Key.ToString(), LevelName = level.Value }), "Level", "LevelName", agentToSkill.Level),
+                Modes = new SelectList(AgentToSkill.breakingModeDictionary.Select(mode => new { BreakingMode = mode.Key.ToString(), BreakingModeName = mode.Value }), "BreakingMode", "BreakingModeName", agentToSkill.BreakingMode)
+            };
 
             logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
-            return View(agentToSkill);
+            return View(agentAddSkillConfirmationViewModel);
         }
 
         [HttpPost]

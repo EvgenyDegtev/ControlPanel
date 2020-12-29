@@ -287,10 +287,14 @@
     <Compile Include="Models\Route.cs" />
     <Compile Include="Models\Skill.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\AgentAddSkillConfirmationViewModel.cs" />
+    <Compile Include="ViewModels\AgentAddSkillViewModel.cs" />
     <Compile Include="ViewModels\AgentCreateViewModel.cs" />
     <Compile Include="ViewModels\AgentsIndexViewModel.cs" />
     <Compile Include="ViewModels\GroupsIndexViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
+    <Compile Include="ViewModels\NavViewModel.cs" />
+    <Compile Include="ViewModels\ReportsIndexViewModel.cs" />
     <Compile Include="ViewModels\RoutesIndexViewModel.cs" />
     <Compile Include="ViewModels\SkillCreateViewModel.cs" />
     <Compile Include="ViewModels\SkillsIndexViewModel.cs" />

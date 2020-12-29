@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using ControlPanel.ViewModels;
 
 namespace ControlPanel.Controllers
 {
@@ -12,8 +13,8 @@ namespace ControlPanel.Controllers
         // GET: Navigation
         public PartialViewResult Menu()
         {
-            ViewBag.activeController = HttpContext.Request.RequestContext.RouteData.Values["Controller"];
-            return PartialView();
+            NavViewModel navViewModel = new NavViewModel {ActiveController= HttpContext.Request.RequestContext.RouteData.Values["Controller"].ToString() };
+            return PartialView(navViewModel);
         }
     }
 }

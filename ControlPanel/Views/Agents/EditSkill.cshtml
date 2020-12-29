@@ -1,46 +1,46 @@
-﻿@model ControlPanel.Models.AgentToSkill
+﻿@model ControlPanel.ViewModels.AgentAddSkillConfirmationViewModel
 
 <h2>EditSkill</h2>
 
 @using (Html.BeginForm())
 {
 	<div class="form-horizontal">
-		@Html.HiddenFor(model => model.Id)
-		@Html.HiddenFor(model => model.AgentId)
-		@Html.HiddenFor(model => model.SkillId)
+		@Html.HiddenFor(model => model.AgentToSkill.Id)
+		@Html.HiddenFor(model => model.AgentToSkill.AgentId)
+		@Html.HiddenFor(model => model.AgentToSkill.SkillId)
 
 		<div class="form-group">
 			@Html.Label("Навык", htmlAttributes: new { @class = "control-label col-md-2" })
 				<div class="col-md-10">
-					<span class="form-control">@ViewBag.SkillName</span>
+					<span class="form-control">@Model.SkillName</span>
 				</div>
 		</div>
 
 		<div class="form-group">
-			@Html.LabelFor(model => model.Level, htmlAttributes: new { @class = "control-label col-md-2" })
+			@Html.LabelFor(model => model.AgentToSkill.Level, htmlAttributes: new { @class = "control-label col-md-2" })
 			<div class="col-md-10">
-				@Html.DropDownListFor(model => model.Level, ViewBag.levels as SelectList, new { @class = "form-control" })
+				@Html.DropDownListFor(model => model.AgentToSkill.Level, Model.Levels as SelectList, new { @class = "form-control" })
 			</div>
 		</div>
 
 		<div class="form-group">
-			@Html.LabelFor(model => model.OrderIndex, htmlAttributes: new { @class = "control-label col-md-2" })
+			@Html.LabelFor(model => model.AgentToSkill.OrderIndex, htmlAttributes: new { @class = "control-label col-md-2" })
 			<div class="col-md-10">
-				@Html.EditorFor(model => model.OrderIndex, new { htmlAttributes = new { @class = "form-control" } })
+				@Html.EditorFor(model => model.AgentToSkill.OrderIndex, new { htmlAttributes = new { @class = "form-control" } })
 			</div>
 		</div>
 
 		<div class="form-group">
-			@Html.LabelFor(model => model.BreakingMode, htmlAttributes: new { @class = "control-label col-md-2" })
+			@Html.LabelFor(model => model.AgentToSkill.BreakingMode, htmlAttributes: new { @class = "control-label col-md-2" })
 			<div class="col-md-10">
-				@Html.DropDownListFor(model => model.BreakingMode, ViewBag.modes as SelectList, new { @class = "form-control" })
+				@Html.DropDownListFor(model => model.AgentToSkill.BreakingMode, Model.Modes as SelectList, new { @class = "form-control" })
 			</div>
 		</div>
 
 		<div class="form-group">
-			@Html.LabelFor(model => model.Percent, htmlAttributes: new { @class = "control-label col-md-2" })
+			@Html.LabelFor(model => model.AgentToSkill.Percent, htmlAttributes: new { @class = "control-label col-md-2" })
 			<div class="col-md-10">
-				@Html.EditorFor(model => model.Percent, new { htmlAttributes = new { @class = "form-control" } })
+				@Html.EditorFor(model => model.AgentToSkill.Percent, new { htmlAttributes = new { @class = "form-control" } })
 			</div>
 		</div>
 
