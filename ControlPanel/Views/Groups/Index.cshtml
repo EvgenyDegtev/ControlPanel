@@ -30,9 +30,11 @@
 	<tr>
 		<th>
 			@Html.DisplayNameFor(model => model.PagedGroups.ToList().FirstOrDefault().Name)
+			@Html.Sort(Model.SearchString, Model.PagedGroups.PageNumber.ToString(), "Name", Model.SelectedSortProperty, Model.SortOrder)
 		</th>
 		<th>
 			@Html.DisplayNameFor(model => model.PagedGroups.ToList().FirstOrDefault().Description)
+			@Html.Sort(Model.SearchString, Model.PagedGroups.PageNumber.ToString(), "Description", Model.SelectedSortProperty, Model.SortOrder)
 		</th>
 		<th></th>
 	</tr>

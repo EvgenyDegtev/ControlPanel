@@ -32,7 +32,7 @@ namespace ControlPanel.Controllers
 
         //Get and Post
         [ErrorLogger]
-        public async Task<ActionResult> Index(string searchString, int? page)
+        public async Task<ActionResult> Index(string searchString, int? page, string selectedSortProperty = "Name", string sortOrder = "asc")
         {
             logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}| Input params: {nameof(searchString)}={searchString}, {nameof(page)}={page} ");
 
@@ -40,10 +40,14 @@ namespace ControlPanel.Controllers
             int pageNumber = page ?? 1;
             var groups = await repository.GetGroupsAsync();
 
+            groups = SortGroups(groups, sortOrder, selectedSortProperty);
+
             GroupsIndexViewModel groupsIndexViewModel = new GroupsIndexViewModel
             {
                 PagedGroups = groups.ToPagedList(pageNumber, pageSize),
-                SearchString = searchString
+                SearchString = searchString,
+                SortOrder=sortOrder,
+                SelectedSortProperty=selectedSortProperty
             };
 
             if (String.IsNullOrEmpty(searchString))
@@ -231,6 +235,20 @@ namespace ControlPanel.Controllers
                 //db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        private static List<Group> SortGroups(List<Group> groups, string sortOrder, string selectedSortProperty)
+        {
+            List<Group> sortedGroups = groups;
+            if (sortOrder == "desc" && selectedSortProperty == "Name")
+                sortedGroups = sortedGroups.OrderByDescending(group => group.Name).ToList();
+            else if (sortOrder == "asc" && selectedSortProperty == "Description")
+                sortedGroups = sortedGroups.OrderBy(group => group.Description).ToList();
+            else if (sortOrder == "desc" && selectedSortProperty == "Description")
+                sortedGroups = sortedGroups.OrderByDescending(group => group.Description).ToList();
+            else
+                sortedGroups = sortedGroups.OrderBy(group => group.Name).ToList();
+            return sortedGroups;
         }
     }
 }

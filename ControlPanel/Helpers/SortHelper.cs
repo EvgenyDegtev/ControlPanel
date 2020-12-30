@@ -13,7 +13,8 @@ namespace ControlPanel.Helpers
     {
         public static MvcHtmlString Sort(this HtmlHelper html, string searchString, string page, string positionName, string prevSelectedEntityName, string prevSortOrder)
         {
-            string hrefValue = GenerateSortUrl(searchString,page, positionName, prevSelectedEntityName, prevSortOrder);
+            string controller = html.ViewContext.RouteData.Values["controller"].ToString();
+            string hrefValue = GenerateSortUrl(controller,searchString,page, positionName, prevSelectedEntityName, prevSortOrder);
 
             TagBuilder aTag = new TagBuilder("a");
             aTag.MergeAttribute("href", hrefValue);
@@ -26,11 +27,11 @@ namespace ControlPanel.Helpers
             return new MvcHtmlString(aTag.ToString());
         }
 
-        public static string GenerateSortUrl(string searchString, string page, string positionName, string prevSelectedEntityName, string prevSortOrder)
+        public static string GenerateSortUrl(string controller,string searchString, string page, string positionName, string prevSelectedEntityName, string prevSortOrder)
         {
             string sortOrder = GetSortOrder(positionName, prevSelectedEntityName, prevSortOrder);
 
-            string hrefValue = UrlHelper.GenerateUrl(null, "Index", "Agents", new RouteValueDictionary
+            string hrefValue = UrlHelper.GenerateUrl(null, "Index", controller, new RouteValueDictionary
             {
                 { "searchString", searchString },
                 {"page", page },

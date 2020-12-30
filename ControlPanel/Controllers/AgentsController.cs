@@ -65,9 +65,7 @@ namespace ControlPanel.Controllers
                 return View(agentsIndexViewModel);
             }
             agents = agents.Where(ag => ag.Login.Contains(searchString)).ToList();
-            
-            
-            
+                      
             agentsIndexViewModel.PagedAgents = agents.ToPagedList(pageNumber, pageSize);
             logger.Info($"Action End | Controller name: {nameof(AgentsController)} | Action name: {nameof(Index)}");
             return View(agentsIndexViewModel);
