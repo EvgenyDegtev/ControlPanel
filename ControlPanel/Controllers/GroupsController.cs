@@ -58,6 +58,13 @@ namespace ControlPanel.Controllers
             return View(groupsIndexViewModel);
         }
 
+        public async Task<ActionResult> AutocompleteSearch(string term)
+        {
+            var groups = await repository.SearchGroupsAsync(term);
+            var logins = groups.Select(group => new { value = group.Name }).Take(5).OrderByDescending(row => row.value);
+            return Json(logins, JsonRequestBehavior.AllowGet);
+        }
+
         [HttpGet]
         [ErrorLogger]
         public ActionResult Create()

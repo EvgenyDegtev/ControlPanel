@@ -17,7 +17,7 @@
 		{
 			<div class="form-group">
 				<label class="control-label">ID маршрута: </label>
-				<input type="text" name="searchString" value="@Model.SearchString" data-autocomplete-source='@Url.Action("AutocompleteSearch","Agents")' class="form-control" />
+				<input type="text" name="searchString" value="@Model.SearchString" data-autocomplete-source='@Url.Action("AutocompleteSearch","Routes")' class="form-control" />
 				<input type="submit" value="Поиск" class="btn btn-primary" />
 			</div>
 		}
@@ -63,4 +63,11 @@
 Страница @(Model.PagedRoutes.PageCount<Model.PagedRoutes.PageNumber?0:Model.PagedRoutes.PageNumber) из @Model.PagedRoutes.PageCount
 @Html.PagedListPager(Model.PagedRoutes, currentPage => Url.Action("Index", new { page = currentPage, searchString = Model.SearchString }))
 
-
+<script type="text/javascript">
+    $(function () {
+        $("[data-autocomplete-source]").each(function () {
+			var target = $(this);
+			target.autocomplete({ source: target.attr("data-autocomplete-source"), minLength: 1, classes: { "class": "btn btn-primary"} });
+        });
+    });
+</script>

@@ -59,6 +59,13 @@ namespace ControlPanel.Controllers
             return View(skillsIndexViewModel);
         }
 
+        public async Task<ActionResult> AutocompleteSearch(string term)
+        {
+            var skills = await repository.SearchSkillsAsync(term);
+            var logins = skills.Select(skill => new { value = skill.Key }).Take(5).OrderByDescending(row => row.value);
+            return Json(logins, JsonRequestBehavior.AllowGet);
+        }
+
         [HttpGet]
         [ErrorLogger]
         public ActionResult Create()

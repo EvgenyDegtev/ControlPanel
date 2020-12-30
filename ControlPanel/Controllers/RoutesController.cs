@@ -59,6 +59,13 @@ namespace ControlPanel.Controllers
             return View(routesIndexViewModel);
         }
 
+        public async Task<ActionResult> AutocompleteSearch(string term)
+        {
+            var routes = await repository.SearchRoutesAsync(term);
+            var logins = routes.Select(route => new { value = route.Key }).Take(5).OrderByDescending(row => row.value);
+            return Json(logins, JsonRequestBehavior.AllowGet);
+        }
+
         [HttpGet]
         [ErrorLogger]
         public async Task<ActionResult> Create ()
