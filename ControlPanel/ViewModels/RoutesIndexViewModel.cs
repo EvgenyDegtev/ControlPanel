@@ -13,8 +13,8 @@ namespace ControlPanel.ViewModels
 
         public string SearchString { get; set; }
 
-        //public string SortOrder { get; set; }
+        public string SortOrder { get; set; }
 
-        //public string SelectedSortProperty { get; set; }
+        public string SelectedSortProperty { get; set; }
     }
 }

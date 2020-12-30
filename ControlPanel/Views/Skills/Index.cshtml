@@ -1,5 +1,6 @@
 ﻿@using PagedList.Mvc
 @using ControlPanel.ViewModels
+@using ControlPanel.Helpers
 @model ControlPanel.ViewModels.SkillsIndexViewModel 
 
 <h2>Index</h2>
@@ -27,12 +28,15 @@
 	<tr>
 		<th>
 			@Html.DisplayNameFor(model => model.PagedSkills.ToList().FirstOrDefault().Name)
+			@Html.Sort(Model.SearchString, Model.PagedSkills.PageNumber.ToString(), "Name", Model.SelectedSortProperty, Model.SortOrder)
 		</th>
 		<th>
 			@Html.DisplayNameFor(model => model.PagedSkills.ToList().FirstOrDefault().Key)
+			@Html.Sort(Model.SearchString, Model.PagedSkills.PageNumber.ToString(), "Key", Model.SelectedSortProperty, Model.SortOrder)
 		</th>
 		<th>
 			@Html.DisplayNameFor(model => model.PagedSkills.ToList().FirstOrDefault().Algorithm)
+			@Html.Sort(Model.SearchString, Model.PagedSkills.PageNumber.ToString(), "Algorithm", Model.SelectedSortProperty, Model.SortOrder)
 		</th>
 		<th></th>
 	</tr>

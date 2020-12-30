@@ -32,7 +32,7 @@ namespace ControlPanel.Controllers
         //Get and Post
         [ErrorLogger]
         [ActionStart]
-        public async Task<ActionResult> Index(string searchString, int? page)
+        public async Task<ActionResult> Index(string searchString, int? page, string selectedSortProperty = "Name", string sortOrder = "asc")
         {
             logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}| Input params: {nameof(searchString)}={searchString}, {nameof(page)}={page} ");
 
@@ -40,10 +40,14 @@ namespace ControlPanel.Controllers
             int pageNumber = page ?? 1;
             var skills = await repository.GetSkillsAsync();
 
+            skills = SortSkills(skills, sortOrder, selectedSortProperty);
+
             SkillsIndexViewModel skillsIndexViewModel = new SkillsIndexViewModel
             {
                 PagedSkills=skills.ToPagedList(pageNumber,pageSize),
-                SearchString=searchString
+                SearchString=searchString,
+                SortOrder=sortOrder,
+                SelectedSortProperty=selectedSortProperty
             };
 
             if(String.IsNullOrEmpty(searchString))
@@ -241,5 +245,22 @@ namespace ControlPanel.Controllers
             base.Dispose(disposing);
         }
 
+        private static List<Skill> SortSkills(List<Skill> skills, string sortOrder, string selectedSortProperty)
+        {
+            List<Skill> sortedSkills = skills;
+            if (sortOrder == "desc" && selectedSortProperty == "Name")
+                sortedSkills = sortedSkills.OrderByDescending(skill => skill.Name).ToList();
+            else if (sortOrder == "asc" && selectedSortProperty == "Key")
+                sortedSkills = sortedSkills.OrderBy(skill => skill.Key).ToList();
+            else if (sortOrder == "desc" && selectedSortProperty == "Key")
+                sortedSkills = sortedSkills.OrderByDescending(skill => skill.Key).ToList();
+            else if (sortOrder == "asc" && selectedSortProperty == "Algorithm")
+                sortedSkills = sortedSkills.OrderBy(skill => skill.Algorithm).ToList();
+            else if (sortOrder == "desc" && selectedSortProperty == "Algorithm")
+                sortedSkills = sortedSkills.OrderByDescending(skill => skill.Algorithm).ToList();
+            else
+                sortedSkills = sortedSkills.OrderBy(skill => skill.Name).ToList();
+            return sortedSkills;
+        }
     }
 }

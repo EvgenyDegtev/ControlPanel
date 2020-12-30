@@ -33,7 +33,7 @@ namespace ControlPanel.Controllers
 
         //Get and Post
         [ErrorLogger]
-        public async Task<ActionResult> Index(string searchString, int? page)
+        public async Task<ActionResult> Index(string searchString, int? page, string selectedSortProperty = "Name", string sortOrder = "asc")
         {
             logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}| Input params: {nameof(searchString)}={searchString}, {nameof(page)}={page} ");
 
@@ -41,10 +41,14 @@ namespace ControlPanel.Controllers
             int pageNumber = page ?? 1;
             var routes = await repository.GetRoutesIncludeSkillsAsync();
 
+            routes = SortRoutes(routes, sortOrder, selectedSortProperty);
+
             RoutesIndexViewModel routesIndexViewModel = new RoutesIndexViewModel
             {
                 PagedRoutes = routes.ToPagedList(pageNumber, pageSize),
-                SearchString=searchString
+                SearchString=searchString,
+                SortOrder=sortOrder,
+                SelectedSortProperty=selectedSortProperty
             };
 
             if(String.IsNullOrEmpty(searchString))
@@ -214,6 +218,24 @@ namespace ControlPanel.Controllers
                 //db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        private static List<Route> SortRoutes(List<Route> routes, string sortOrder, string selectedSortProperty)
+        {
+            List<Route> sortedRoutes = routes;
+            if (sortOrder == "desc" && selectedSortProperty == "Name")
+                sortedRoutes = sortedRoutes.OrderByDescending(route => route.Name).ToList();
+            else if (sortOrder == "asc" && selectedSortProperty == "Key")
+                sortedRoutes = sortedRoutes.OrderBy(route => route.Key).ToList();
+            else if (sortOrder == "desc" && selectedSortProperty == "Key")
+                sortedRoutes = sortedRoutes.OrderByDescending(route => route.Key).ToList();
+            else if (sortOrder == "asc" && selectedSortProperty == "SkillName")
+                sortedRoutes = sortedRoutes.OrderBy(route => route?.Skill?.Name ?? null).ToList();
+            else if (sortOrder == "desc" && selectedSortProperty == "SkillName")
+                sortedRoutes = sortedRoutes.OrderByDescending(route => route?.Skill?.Name??null).ToList();
+            else
+                sortedRoutes = sortedRoutes.OrderBy(route => route.Name).ToList();
+            return sortedRoutes;
         }
     }
 }
