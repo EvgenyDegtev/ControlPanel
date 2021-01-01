@@ -240,11 +240,11 @@ namespace ControlPanel.Controllers
         private static List<Group> SortGroups(List<Group> groups, string sortOrder, string selectedSortProperty)
         {
             List<Group> sortedGroups = groups;
-            if (sortOrder == "desc" && selectedSortProperty == "Name")
+            if (sortOrder == "desc" && selectedSortProperty == nameof(Group.Name))
                 sortedGroups = sortedGroups.OrderByDescending(group => group.Name).ToList();
-            else if (sortOrder == "asc" && selectedSortProperty == "Description")
+            else if (sortOrder == "asc" && selectedSortProperty == nameof(Group.Description))
                 sortedGroups = sortedGroups.OrderBy(group => group.Description).ToList();
-            else if (sortOrder == "desc" && selectedSortProperty == "Description")
+            else if (sortOrder == "desc" && selectedSortProperty == nameof(Group.Description))
                 sortedGroups = sortedGroups.OrderByDescending(group => group.Description).ToList();
             else
                 sortedGroups = sortedGroups.OrderBy(group => group.Name).ToList();

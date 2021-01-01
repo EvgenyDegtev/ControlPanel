@@ -248,15 +248,15 @@ namespace ControlPanel.Controllers
         private static List<Skill> SortSkills(List<Skill> skills, string sortOrder, string selectedSortProperty)
         {
             List<Skill> sortedSkills = skills;
-            if (sortOrder == "desc" && selectedSortProperty == "Name")
+            if (sortOrder == "desc" && selectedSortProperty == nameof(Skill.Name))
                 sortedSkills = sortedSkills.OrderByDescending(skill => skill.Name).ToList();
-            else if (sortOrder == "asc" && selectedSortProperty == "Key")
+            else if (sortOrder == "asc" && selectedSortProperty == nameof(Skill.Key))
                 sortedSkills = sortedSkills.OrderBy(skill => skill.Key).ToList();
-            else if (sortOrder == "desc" && selectedSortProperty == "Key")
+            else if (sortOrder == "desc" && selectedSortProperty == nameof(Skill.Key))
                 sortedSkills = sortedSkills.OrderByDescending(skill => skill.Key).ToList();
-            else if (sortOrder == "asc" && selectedSortProperty == "Algorithm")
+            else if (sortOrder == "asc" && selectedSortProperty == nameof(Skill.Algorithm))
                 sortedSkills = sortedSkills.OrderBy(skill => skill.Algorithm).ToList();
-            else if (sortOrder == "desc" && selectedSortProperty == "Algorithm")
+            else if (sortOrder == "desc" && selectedSortProperty == nameof(Skill.Algorithm))
                 sortedSkills = sortedSkills.OrderByDescending(skill => skill.Algorithm).ToList();
             else
                 sortedSkills = sortedSkills.OrderBy(skill => skill.Name).ToList();

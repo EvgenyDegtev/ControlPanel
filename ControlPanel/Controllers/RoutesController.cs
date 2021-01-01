@@ -223,15 +223,15 @@ namespace ControlPanel.Controllers
         private static List<Route> SortRoutes(List<Route> routes, string sortOrder, string selectedSortProperty)
         {
             List<Route> sortedRoutes = routes;
-            if (sortOrder == "desc" && selectedSortProperty == "Name")
+            if (sortOrder == "desc" && selectedSortProperty == nameof(Route.Name))
                 sortedRoutes = sortedRoutes.OrderByDescending(route => route.Name).ToList();
-            else if (sortOrder == "asc" && selectedSortProperty == "Key")
+            else if (sortOrder == "asc" && selectedSortProperty == nameof(Route.Key))
                 sortedRoutes = sortedRoutes.OrderBy(route => route.Key).ToList();
-            else if (sortOrder == "desc" && selectedSortProperty == "Key")
+            else if (sortOrder == "desc" && selectedSortProperty == nameof(Route.Key))
                 sortedRoutes = sortedRoutes.OrderByDescending(route => route.Key).ToList();
-            else if (sortOrder == "asc" && selectedSortProperty == "SkillName")
+            else if (sortOrder == "asc" && selectedSortProperty == nameof(Route.Skill))
                 sortedRoutes = sortedRoutes.OrderBy(route => route?.Skill?.Name ?? null).ToList();
-            else if (sortOrder == "desc" && selectedSortProperty == "SkillName")
+            else if (sortOrder == "desc" && selectedSortProperty == nameof(Route.Skill))
                 sortedRoutes = sortedRoutes.OrderByDescending(route => route?.Skill?.Name??null).ToList();
             else
                 sortedRoutes = sortedRoutes.OrderBy(route => route.Name).ToList();

@@ -1,5 +1,6 @@
 ﻿@using PagedList.Mvc
 @using ControlPanel.ViewModels
+@using ControlPanel.Models
 @using ControlPanel.Helpers
 @model ControlPanel.ViewModels.RoutesIndexViewModel
 @*@model PagedList.PagedList<ControlPanel.Models.Route>*@
@@ -30,15 +31,15 @@
 	<tr>
 		<th>
 			@Html.DisplayNameFor(model => model.PagedRoutes.ToList().FirstOrDefault().Name)
-			@Html.Sort(Model.SearchString, Model.PagedRoutes.PageNumber.ToString(), "Name", Model.SelectedSortProperty, Model.SortOrder)
+			@Html.Sort(Model.SearchString, Model.PagedRoutes.PageNumber.ToString(), nameof(ControlPanel.Models.Route.Name), Model.SelectedSortProperty, Model.SortOrder)
 		</th>
 		<th>
 			@Html.DisplayNameFor(model => model.PagedRoutes.ToList().FirstOrDefault().Key)
-			@Html.Sort(Model.SearchString, Model.PagedRoutes.PageNumber.ToString(), "Key", Model.SelectedSortProperty, Model.SortOrder)
+			@Html.Sort(Model.SearchString, Model.PagedRoutes.PageNumber.ToString(), nameof(ControlPanel.Models.Route.Key), Model.SelectedSortProperty, Model.SortOrder)
 		</th>
 		<th>
 			@Html.DisplayNameFor(model => model.PagedRoutes.ToList().FirstOrDefault().Skill.Name)
-			@Html.Sort(Model.SearchString, Model.PagedRoutes.PageNumber.ToString(), "SkillName", Model.SelectedSortProperty, Model.SortOrder)
+			@Html.Sort(Model.SearchString, Model.PagedRoutes.PageNumber.ToString(), nameof(ControlPanel.Models.Route.Skill), Model.SelectedSortProperty, Model.SortOrder)
 		</th>
 		<th></th>
 	</tr>
