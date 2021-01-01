@@ -2,6 +2,7 @@
 @using PagedList
 @using ControlPanel.Helpers
 @using ControlPanel.ViewModels
+@using ControlPanel.Models
 @model AgentsIndexViewModel
 
 
@@ -45,27 +46,27 @@
 	<tr>
 		<th>
 			@Html.DisplayNameFor(model => model.PagedAgents.ToList().FirstOrDefault().Name)
-			@Html.Sort(Model.SearchString,Model.PagedAgents.PageNumber.ToString(),"Name",Model.SelectedSortProperty,Model.SortOrder)
+			@Html.Sort(Model.SearchString,Model.PagedAgents.PageNumber.ToString(), nameof(Agent.Name),Model.SelectedSortProperty,Model.SortOrder)
 		</th>
 		<th>
 			@Html.DisplayNameFor(model => model.PagedAgents.ToList().FirstOrDefault().Login)
-			@Html.Sort(Model.SearchString, Model.PagedAgents.PageNumber.ToString(), "Login", Model.SelectedSortProperty, Model.SortOrder)
+			@Html.Sort(Model.SearchString, Model.PagedAgents.PageNumber.ToString(), nameof(Agent.Login), Model.SelectedSortProperty, Model.SortOrder)
 		</th>
 		<th>
 			@Html.DisplayNameFor(model => model.PagedAgents.ToList().FirstOrDefault().Algorithm)
-			@Html.Sort(Model.SearchString, Model.PagedAgents.PageNumber.ToString(), "Algorithm", Model.SelectedSortProperty, Model.SortOrder)
+			@Html.Sort(Model.SearchString, Model.PagedAgents.PageNumber.ToString(), nameof(Agent.Algorithm), Model.SelectedSortProperty, Model.SortOrder)
 		</th>
 		<th>
 			@Html.DisplayNameFor(model => model.PagedAgents.ToList().FirstOrDefault().WorkloadMaxContactsCount)
-			@Html.Sort(Model.SearchString, Model.PagedAgents.PageNumber.ToString(), "WorkloadMaxContactsCount", Model.SelectedSortProperty, Model.SortOrder)
+			@Html.Sort(Model.SearchString, Model.PagedAgents.PageNumber.ToString(), nameof(Agent.WorkloadMaxContactsCount), Model.SelectedSortProperty, Model.SortOrder)
 		</th>
 		<th>
 			@Html.DisplayNameFor(model => model.PagedAgents.ToList().FirstOrDefault().IsAlgorithmAllowServiceLevel)
-			@Html.Sort(Model.SearchString, Model.PagedAgents.PageNumber.ToString(), "IsAlgorithmAllowServiceLevel", Model.SelectedSortProperty, Model.SortOrder)
+			@Html.Sort(Model.SearchString, Model.PagedAgents.PageNumber.ToString(), nameof(Agent.IsAlgorithmAllowServiceLevel), Model.SelectedSortProperty, Model.SortOrder)
 		</th>
 		<th>
 			@Html.DisplayNameFor(model => model.PagedAgents.ToList().FirstOrDefault().Group.Name)
-			@Html.Sort(Model.SearchString, Model.PagedAgents.PageNumber.ToString(), "Group", Model.SelectedSortProperty, Model.SortOrder)
+			@Html.Sort(Model.SearchString, Model.PagedAgents.PageNumber.ToString(),nameof(Agent.Group), Model.SelectedSortProperty, Model.SortOrder)
 		</th>
 		<th>
 
