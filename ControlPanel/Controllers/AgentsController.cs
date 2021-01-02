@@ -267,14 +267,14 @@ namespace ControlPanel.Controllers
 
             AgentAddSkillConfirmationViewModel agentAddSkillConfirmationViewModel = new AgentAddSkillConfirmationViewModel
             {
-                AgentToSkill= agentToSkill,
+                AgentToSkill = agentToSkill,
                 SkillName = skill.Name,
                 Levels = new SelectList(AgentToSkill.levelDictionary.Select(level => new { Level = level.Key.ToString(), LevelName = level.Value }), "Level", "LevelName", 1),
                 Modes = new SelectList(AgentToSkill.breakingModeDictionary.Select(mode => new { BreakingMode = mode.Key.ToString(), BreakingModeName = mode.Value }), "BreakingMode", "BreakingModeName", 2)
             };
 
             logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
-            return View(agentAddSkillConfirmationViewModel);
+            return PartialView(agentAddSkillConfirmationViewModel);
         }
 
         [HttpPost]

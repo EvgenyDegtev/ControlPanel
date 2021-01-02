@@ -415,12 +415,12 @@
     <Content Include="Views\Skills\SkillRoutes.cshtml" />
     <Content Include="Views\Agents\AgentSkills.cshtml" />
     <Content Include="Views\Agents\AddSkill.cshtml" />
-    <Content Include="Views\Agents\SkillAddConfirmation.cshtml" />
     <Content Include="Views\Agents\EditSkill.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Shared\_AdminLayout.cshtml" />
     <Content Include="Views\Reports\Index.cshtml" />
     <Content Include="Views\Navigation\Menu.cshtml" />
+    <Content Include="Views\Agents\SkillAddConfirmation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
