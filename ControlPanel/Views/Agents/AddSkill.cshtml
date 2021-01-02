@@ -19,7 +19,7 @@
 				@Html.DisplayFor(skill => item.Key)
 			</td>
 			<td>
-				@Html.DisplayFor(skill => item.Algorithm)
+				@Html.DisplayFor(skill => item.AlgorithmName)
 			</td>
 			<td>
 				<a href=@Url.Action("SkillAddConfirmation", new { agentId = Model.Agent.Id, skillId = item.Id }) class="skillAddConfirmationModal"><i class="fa fa-plus-square"></i></a>

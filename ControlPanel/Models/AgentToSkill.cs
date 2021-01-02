@@ -31,6 +31,14 @@ namespace ControlPanel.Models
             [-2]="R2"
         };
 
+        public string LevelName
+        {
+            get
+            {
+                return levelDictionary[Convert.ToInt32(this.Level)];
+            }
+        }
+
         [Display(Name ="Порядок")]
         [Required]
         public int OrderIndex { get; set; }
@@ -45,6 +53,14 @@ namespace ControlPanel.Models
             [2] = "Автоматический",
             [3] = "Ручной",
         };
+
+        public string BreakingModeName
+        {
+            get
+            {
+                return breakingModeDictionary[Convert.ToInt32(this.BreakingMode)];
+            }
+        }
 
         [Display(Name ="Процент")]
         [Required]
