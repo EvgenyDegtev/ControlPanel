@@ -12,14 +12,14 @@ namespace ControlPanel.Models
 
         [Required(ErrorMessage = "Требуется поле Логин")]
         [Display(Name = "Отчет")]
-        public string Name { get; set; } 
+        public string Name { get; set; }
 
-        [Display(Name ="C:")]
-        [DataType(DataType.DateTime, ErrorMessage ="Требуется начальный период")]
-        public DateTime DateFrom { get; set; }
+        [Required(ErrorMessage = "Требуется начальный период")]
+        [Display(Name ="C:")]        
+        public string DateFrom { get; set; }
 
-        [Display(Name = "По:")]
-        [DataType(DataType.DateTime, ErrorMessage = "Требуется начальный период")]
-        public DateTime DateTo { get; set; }
+        [Required(ErrorMessage = "Требуется конечный период")]
+        [Display(Name = "По:")]        
+        public string DateTo { get; set; }
     }
 }

@@ -32,7 +32,16 @@ namespace ControlPanel.Controllers
         public ActionResult Index()
         {
             string[] reports = new string[] { "AgentReport", "SkillReport" };
-            ReportsIndexViewModel reportsIndexViewModel = new ReportsIndexViewModel { ReportNames = new SelectList(reports) };
+            ReportsIndexViewModel reportsIndexViewModel = new ReportsIndexViewModel
+            {
+                ReportNames = new SelectList(reports),
+                Report = new Report 
+                { 
+                    Name = "SkillReport", 
+                    DateFrom= DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd") + "T" + DateTime.Now.AddDays(-1).ToString("HH:mm"),
+                    DateTo = DateTime.Now.ToString("yyyy-MM-dd")+"T"+ DateTime.Now.ToString("HH:mm") 
+                }
+            };
             return View(reportsIndexViewModel);
         }
 
