@@ -32,11 +32,14 @@
 
 		@using (Html.BeginForm("Index", "Agents"))
 		{
-			<div class="form-group">
-				<label class="control-label">Логин: </label> 
-				<input type="text" name="searchString" value="@Model.SearchString" data-autocomplete-source='@Url.Action("AutocompleteSearch","Agents")' class="form-control"/>
-				<input type="submit" value="Поиск" class="btn btn-primary" />
+		<div class="form-group">
+			@*<label class="control-label">Логин: </label>*@
+			<div class="input-group">
+				<span class="input-group-addon"><i class="fa fa-search"></i></span>
+				<input type="text" name="searchString" value="@Model.SearchString" data-autocomplete-source='@Url.Action("AutocompleteSearch","Agents")' class="form-control" placeholder="Введите логин" />
 			</div>
+			<input type="submit" value="Поиск" class="btn btn-primary" />
+		</div>
 		}
 	</div>
 </div>

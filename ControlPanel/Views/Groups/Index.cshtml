@@ -3,7 +3,6 @@
 @using ControlPanel.ViewModels
 @using ControlPanel.Models
 @model ControlPanel.ViewModels.GroupsIndexViewModel
-@*@model PagedList.PagedList<ControlPanel.Models.Group>*@
 
 
 <h2>Index</h2>
@@ -18,8 +17,11 @@
 		@using (Html.BeginForm("Index", "Groups"))
 		{
 			<div class="form-group">
-				<label class="control-label">Группа: </label>
-				<input type="text" name="searchString" value="@Model.SearchString" data-autocomplete-source='@Url.Action("AutocompleteSearch","Groups")' class="form-control" />
+				@*<label class="control-label">Группа: </label>*@
+				<div class="input-group">
+					<span class="input-group-addon"><i class="fa fa-search"></i></span>
+					<input type="text" name="searchString" value="@Model.SearchString" data-autocomplete-source='@Url.Action("AutocompleteSearch","Groups")' class="form-control" placeholder="Введите группу" />
+				</div>				
 				<input type="submit" value="Поиск" class="btn btn-primary" />
 			</div>
 		}

@@ -16,8 +16,11 @@
 		@using (Html.BeginForm("Index", "Skills"))
 		{
 			<div class="form-group">
-				<label class="control-label">ID навыка: </label>
-				<input type="text" name="searchString" value="@Model.SearchString" data-autocomplete-source='@Url.Action("AutocompleteSearch","Skills")' class="form-control" />
+				@*<label class="control-label">ID навыка: </label>*@
+				<div class="input-group">
+					<span class="input-group-addon"><i class="fa fa-search"></i> </span>
+					<input type="text" name="searchString" value="@Model.SearchString" data-autocomplete-source='@Url.Action("AutocompleteSearch","Skills")' class="form-control" placeholder="Введите ID навыка" />
+				</div>
 				<input type="submit" value="Поиск" class="btn btn-primary" />
 			</div>
 		}
