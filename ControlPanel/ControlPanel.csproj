@@ -174,6 +174,7 @@
     <Compile Include="Controllers\AgentsController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\GroupsController.cs" />
+    <Compile Include="Controllers\MonitoringController.cs" />
     <Compile Include="Controllers\NavigationController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\RoutesController.cs" />
@@ -421,6 +422,8 @@
     <Content Include="Views\Reports\Index.cshtml" />
     <Content Include="Views\Navigation\Menu.cshtml" />
     <Content Include="Views\Agents\SkillAddConfirmation.cshtml" />
+    <Content Include="Views\Monitoring\TopAgents.cshtml" />
+    <Content Include="Views\Monitoring\TopSkills.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

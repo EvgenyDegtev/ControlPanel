@@ -6,6 +6,7 @@
 	string skillSelectionClass = null;
 	string routeSelectionClass = null;
 	string reportSelectionClass = null;
+	string monitoringSelectionClass = null;
 	if (Model.ActiveController=="Groups")
 	{
 		groupSelectionClass = "active";
@@ -22,6 +23,10 @@
 	{
 		reportSelectionClass = "active";
 	}
+	else if(Model.ActiveController=="Monitoring")
+	{
+		monitoringSelectionClass = "active";
+	}
 	else
 	{
 		agentSelectionClass = "active";
@@ -36,5 +41,15 @@
 		<li class="@skillSelectionClass">@Html.ActionLink("Навыки", "Index", "Skills")</li>
 		<li class="@routeSelectionClass">@Html.ActionLink("Маршруты", "Index", "Routes")</li>
 		<li class="@reportSelectionClass">@Html.ActionLink("Отчеты", "Index", "Reports")</li>
+		<li class="dropdown @monitoringSelectionClass">
+			<a class="dropdown-toggle" data-toggle="dropdown">
+				Мониторинг <span class="caret"></span>
+			</a>
+			<ul class="dropdown-menu">
+				<li><a href=@Url.Action("TopAgents", "Monitoring")>Агенты</a></li>
+				<li role="separator" class="divider"></li>
+				<li><a href=@Url.Action("TopSkills", "Monitoring")>Навыки</a></li>
+			</ul>
+		</li>
 	</ul>
 </nav>

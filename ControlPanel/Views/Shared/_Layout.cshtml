@@ -15,7 +15,10 @@
 	@*<link href="@Url.Content("~/Content/PagedList.css")" rel="stylesheet" type="text/css"/>*@
 </head>
 <body>
-	@Html.Action("Menu", "Navigation")
-	@RenderBody()
+	<div class="container-fluid">
+		@Html.Action("Menu", "Navigation")
+		@RenderBody()
+	</div>
+
 </body>
 </html>

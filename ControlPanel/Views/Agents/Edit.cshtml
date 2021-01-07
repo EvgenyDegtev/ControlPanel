@@ -1,6 +1,8 @@
 ﻿@model ControlPanel.ViewModels.AgentCreateViewModel
 
 <h2>Edit</h2>
+<hr />
+
 
 @using (Html.BeginForm())
 {
@@ -68,5 +70,5 @@
 	<div>
 		@Html.ActionLink("Навыки", "AgentSkills", new { id = Model.Agent.Id })
 	</div>
-	 
+
 }

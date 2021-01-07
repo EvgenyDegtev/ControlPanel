@@ -1,54 +1,55 @@
 ﻿@model IEnumerable<ControlPanel.Models.AgentToSkill>
 
 <h2>AgentSkills</h2>
+<hr />
 
 <p>
-	@Html.ActionLink("Добавить навык", "AddSkill", new { id = Model.First().AgentId })
+	@Html.ActionLink("Добавить навык", "AddSkill", new { id = Model.First().AgentId }, new {@class="btn btn-primary" })
 </p>
 
 <table class="table table-hover">
 	<tr>
 		<th>
-			@Html.LabelFor(model=>model.FirstOrDefault().Skill.Name)
+			@Html.LabelFor(model => model.FirstOrDefault().Skill.Name)
 		</th>
 		<th>
-			@Html.LabelFor(model=>model.FirstOrDefault().Skill.Key)
+			@Html.LabelFor(model => model.FirstOrDefault().Skill.Key)
 		</th>
 		<th>
-			@Html.LabelFor(model=>model.FirstOrDefault().Level)
+			@Html.LabelFor(model => model.FirstOrDefault().Level)
 		</th>
 		<th>
-			@Html.LabelFor(model=>model.FirstOrDefault().BreakingMode)
+			@Html.LabelFor(model => model.FirstOrDefault().BreakingMode)
 		</th>
 		<th>
-			@Html.LabelFor(model=>model.FirstOrDefault().OrderIndex)
+			@Html.LabelFor(model => model.FirstOrDefault().OrderIndex)
 		</th>
 		<th>
-			@Html.LabelFor(model=>model.FirstOrDefault().Percent)
+			@Html.LabelFor(model => model.FirstOrDefault().Percent)
 		</th>
 		<th></th>
 	</tr>
 
-	@foreach(var item in Model)
+	@foreach (var item in Model)
 	{
 		<tr>
 			<td>
 				@Html.DisplayFor(skill => item.Skill.Name)
 			</td>
 			<td>
-				@Html.DisplayFor(skill=>item.Skill.Key)
+				@Html.DisplayFor(skill => item.Skill.Key)
 			</td>
 			<td>
-				@Html.DisplayFor(skill=> item.LevelName)
+				@Html.DisplayFor(skill => item.LevelName)
 			</td>
 			<td>
-				@Html.DisplayFor(skill=>item.BreakingModeName)
+				@Html.DisplayFor(skill => item.BreakingModeName)
 			</td>
 			<td>
-				@Html.DisplayFor(skill=>item.OrderIndex)
+				@Html.DisplayFor(skill => item.OrderIndex)
 			</td>
 			<td>
-				@Html.DisplayFor(skill=>item.Percent)
+				@Html.DisplayFor(skill => item.Percent)
 			</td>
 			<td>
 				<a href=@Url.Action("EditSkill", new { agentId = Model.First().AgentId, skillId = item.SkillId })><i class="fa fa-edit"></i></a>
