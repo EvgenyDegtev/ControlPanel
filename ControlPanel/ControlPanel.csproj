@@ -424,6 +424,8 @@
     <Content Include="Views\Agents\SkillAddConfirmation.cshtml" />
     <Content Include="Views\Monitoring\TopAgents.cshtml" />
     <Content Include="Views\Monitoring\TopSkills.cshtml" />
+    <Content Include="Views\Reports\GetAgentReport.cshtml" />
+    <Content Include="Views\Reports\GetSkillReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

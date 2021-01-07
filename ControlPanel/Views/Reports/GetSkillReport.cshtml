@@ -1,0 +1,36 @@
+﻿@using ControlPanel.Models
+@model List<Skill>
+
+<h2>Отчет по навыкам</h2>
+<br />
+
+<table class="table table-striped">
+	<tr>
+		<th>
+			@Html.DisplayNameFor(model => model.FirstOrDefault().Name)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.FirstOrDefault().Key)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.FirstOrDefault().Algorithm)
+		</th>
+	</tr>
+
+	@foreach (var skill in Model)
+	{
+		<tr>
+			<td>
+				@Html.DisplayFor(model => skill.Name)
+			</td>
+			<td>
+				@Html.DisplayFor(model => skill.Key)
+			</td>
+			<td>
+				@Html.DisplayFor(model => skill.AlgorithmName)
+			</td>
+		</tr>
+	}
+</table>
+
+

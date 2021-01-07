@@ -1,0 +1,52 @@
+﻿@using ControlPanel.Models
+@model List<Agent>
+
+<h2>Отчет по агентам</h2>
+<br/>
+
+<table class="table table-striped">
+	<tr>
+		<th>
+			@Html.DisplayNameFor(model => model.FirstOrDefault().Name)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.FirstOrDefault().Login)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.FirstOrDefault().Algorithm)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.FirstOrDefault().WorkloadMaxContactsCount)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.FirstOrDefault().IsAlgorithmAllowServiceLevel)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.FirstOrDefault().Group.Name)
+		</th>
+	</tr>
+
+	@foreach (var agent in Model)
+	{
+		<tr>
+			<td>
+				@Html.DisplayFor(model => agent.Name)
+			</td>
+			<td>
+				@Html.DisplayFor(model => agent.Login)
+			</td>
+			<td>
+				@Html.DisplayFor(model => agent.AlgorithmName)
+			</td>
+			<td>
+				@Html.DisplayFor(model => agent.WorkloadMaxContactsCount)
+			</td>
+			<td>
+				@Html.DisplayFor(model => agent.IsAlgorithmAllowServiceLevel)
+			</td>
+			<td>
+				@Html.DisplayFor(model => agent.Group.Name)
+			</td>
+		</tr>
+	}
+</table>

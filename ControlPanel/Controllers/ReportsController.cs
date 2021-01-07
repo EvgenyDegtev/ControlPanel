@@ -13,6 +13,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using CsvHelper;
 using System.Globalization;
 using ControlPanel.ViewModels;
+using System.Net;
 
 namespace ControlPanel.Controllers
 {
@@ -46,8 +47,24 @@ namespace ControlPanel.Controllers
         }
 
         [HttpPost]
-        public async Task<FileResult> GetReport([Bind] Report report)
+        public async Task<ActionResult> GetReport(string actionName, [Bind] Report report)
         {
+            if(actionName.ToLower()=="preview")
+            {
+                if(report.Name== "AgentReport")
+                {
+                    var agentsForReport = await agentRpository.GetAgentsIncludeGroupAsync();
+                    agentsForReport = agentsForReport.Take(10).OrderBy(agent => agent.Login).ToList();
+                    return View("GetAgentReport",agentsForReport);
+                }
+                else
+                {
+                    var skillsForReport = skillRepository.GetSkillsFromSqlQuery();
+                    skillsForReport = skillsForReport.Take(10).OrderBy(skill => skill.Key).ToList();
+                    return View("GetSkillReport", skillsForReport);
+                }
+            }
+                
             string csvFilePath=null;
             switch (report.Name)
             {
@@ -64,9 +81,9 @@ namespace ControlPanel.Controllers
                 default:
                     break;
             }
-
             string fileType = "application/csv";
             string fileName = $"{report.Name}_{report.DateFrom}_{report.DateTo}.csv";
+
             return File(csvFilePath, fileType, fileName);
         }
 
