@@ -1,7 +1,8 @@
 ﻿<h2>Мониторинг агентов</h2>
+<div id="time"></div>
 <br />
 
-<table class="table table-striped">
+<table class="table table-striped" id="table">
 	<thead>
 		<tr>
 			<th>Имя</th>
@@ -22,39 +23,62 @@
 		constructor(name, login, algorithm) {
 			this.name = name;
 			this.login = login;
-			this.algorithm = algorithm
-		
+			this.algorithm = algorithm		
 		}
 
 	}
-	var jsonResponse;
-	//http req
-	var request = new XMLHttpRequest();
-	//request.responseType = 'json';
-	request.open("GET", "https://localhost:44355/Monitoring/GetTopAgents", false);
-	request.onload = function(){
-		jsonResponse = request.response;
+
+	function updateTable() {
+		console.log("to remove");
+		var table = document.getElementById("table");
+		var tableBody = document.getElementById("qq");
+		table.removeChild(tableBody);
+
+		//http req
+		var jsonResponse;
+		var request = new XMLHttpRequest();
+		//request.responseType = 'json';
+		request.open("GET", "https://localhost:44355/Monitoring/GetTopAgents", false);
+		request.onload = function () {
+			jsonResponse = request.response;
+		}
+		request.send();
+		console.log("send req");
+		console.log(jsonResponse);
+		var responseAgentsArray = JSON.parse(jsonResponse);
+		var status = request.status;
+
+		var table = document.getElementById("table");
+		var elem = document.createElement("tbody");
+		elem.setAttribute("id", "qq");
+		table.appendChild(elem);
+		var tableBody = document.getElementById("qq");
+
+		for (var i = 0; i < responseAgentsArray.length; i++) {
+			var newRow = document.createElement("tr");
+			var nameTag = document.createElement("td");
+			nameTag.textContent = responseAgentsArray[i].name;
+			var loginTag = document.createElement("td");
+			loginTag.textContent = responseAgentsArray[i].login;
+			var algoTag = document.createElement("td");
+			algoTag.textContent = responseAgentsArray[i].algorithm;
+
+			newRow.appendChild(nameTag);
+			newRow.appendChild(loginTag);
+			newRow.appendChild(algoTag);
+
+			tableBody.appendChild(newRow);
+			console.log("for circle");
+		}	
 	}
-	request.send();
-	console.log(jsonResponse);
-	var responseAgentsArray = JSON.parse(jsonResponse);
-	var status = request.status;
 
-	var tableBody = document.getElementById("qq");
+	console.log("script start");
+	updateTable();
+	setInterval(updateTable, 10000);
 
-	for (var i = 0; i < responseAgentsArray.length;i++) {
-		var newRow = document.createElement("tr");
-		var nameTag = document.createElement("td");
-		nameTag.textContent = responseAgentsArray[i].name;
-		var loginTag = document.createElement("td");
-		loginTag.textContent = responseAgentsArray[i].login;
-		var algoTag = document.createElement("td");
-		algoTag.textContent = responseAgentsArray[i].algorithm;
-
-		newRow.appendChild(nameTag);
-		newRow.appendChild(loginTag);
-		newRow.appendChild(algoTag);
-
-		tableBody.appendChild(newRow);
+	function updateTime() {
+		document.getElementById("time").innerHTML = new Date().toTimeString();
+		console.log("timerUpdate");
 	}
+	setInterval(updateTime, 10000);
 </script>
