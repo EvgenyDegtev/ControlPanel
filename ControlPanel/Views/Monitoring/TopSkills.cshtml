@@ -1,2 +1,106 @@
-﻿
-<h2>QQ</h2>
+﻿<h2>Мониторинг навыков</h2>
+<div id="time"></div>
+<br />
+
+<table class="table table-striped" id="tableId">
+	<thead>
+		<tr>
+			<th>Навык</th>
+			<th>ID</th>
+			<th>Алгоритм</th>
+		</tr>
+	</thead>
+	<tbody id="tableBodyId">
+	</tbody>
+</table>
+
+<script>
+	"use strict";
+
+	//Agent class
+	class Skill {
+		constructor(name, key, algorithm) {
+			this.name = name;
+			this.key = key; 
+			this.algorithm = algorithm
+		}
+
+	}
+
+	function updateTable() {
+		console.log(new Date().toTimeString() + " Func updateTable started");
+
+		removeTableBody();
+		var responseSkillsArray = getDataFromApi();
+		var tableBody = createTableBody();
+		fillInTable(tableBody, responseSkillsArray);
+	}
+
+	function removeTableBody(){
+		console.log(new Date().toTimeString() + " Func clearTableBody started");
+		var table = document.getElementById("tableId");
+		var tableBody = document.getElementById("tableBodyId");
+		table.removeChild(tableBody);
+	}
+
+	function getDataFromApi() {
+		console.log(new Date().toTimeString() + " Func getDataFromApi started");
+		var jsonResponse;
+		var request = new XMLHttpRequest();
+		//request.responseType = 'json';
+		request.open("GET", "https://localhost:44355/Monitoring/GetTopSkills", false);
+		request.onload = function () {
+			jsonResponse = request.response;
+		}
+		request.send();
+		console.log(new Date().toTimeString() + " HTTP REQ to https://localhost:44355/Monitoring/GetTopAgents started");
+		//console.log(jsonResponse);
+		console.log(new Date().toTimeString() + " JSON parse started");
+		var responseSkillsArray = JSON.parse(jsonResponse);
+		console.log(new Date().toTimeString() + " Func getDataFromApi ended");
+		return responseSkillsArray;
+	}
+
+	function createTableBody() {
+		console.log(new Date().toTimeString() + " Func createTableBody started");
+		var table = document.getElementById("tableId");
+		var elem = document.createElement("tbody");
+		elem.setAttribute("id", "tableBodyId");
+		table.appendChild(elem);
+		var tableBody = document.getElementById("tableBodyId");
+		return tableBody;
+	}
+
+	function fillInTable(tableBody, responseSkillsArray) {
+		console.log(new Date().toTimeString() + " Func fillInTable started");
+		for (var i = 0; i < responseSkillsArray.length; i++) {
+			var newRow = document.createElement("tr");
+			var nameTag = document.createElement("td");
+			nameTag.textContent = responseSkillsArray[i].name;
+			var keyTag = document.createElement("td");
+			keyTag.textContent = responseSkillsArray[i].key;
+			var algoTag = document.createElement("td");
+			algoTag.textContent = responseSkillsArray[i].algorithm;
+
+			newRow.appendChild(nameTag);
+			newRow.appendChild(keyTag);
+			newRow.appendChild(algoTag);
+
+			tableBody.appendChild(newRow);
+			console.log(new Date().toTimeString() + " Table row added");
+		}
+
+	}
+
+	function updateTime() {
+		document.getElementById("time").innerHTML = new Date().toTimeString();
+		console.log(new Date().toTimeString() +" Func updateTime started");
+	}
+
+	//Action
+	console.log(new Date().toTimeString() + " Script started");
+	updateTime();
+	updateTable();
+	setInterval(updateTime, 10000);
+	setInterval(updateTable, 10000);
+</script>
