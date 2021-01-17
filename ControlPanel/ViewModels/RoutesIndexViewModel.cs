@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using ControlPanel.Models;
 using PagedList;
+using System.Web.Mvc;
 
 namespace ControlPanel.ViewModels
 {
@@ -16,5 +17,7 @@ namespace ControlPanel.ViewModels
         public string SortOrder { get; set; }
 
         public string SelectedSortProperty { get; set; }
+
+        public SelectList Skills { get; set; }
     }
 }

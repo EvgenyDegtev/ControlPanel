@@ -33,7 +33,7 @@ namespace ControlPanel.Controllers
 
         //Get and Post
         [ErrorLogger]
-        public async Task<ActionResult> Index(string searchString, int? page, string selectedSortProperty = "Name", string sortOrder = "asc")
+        public async Task<ActionResult> Index(string searchString, int? skillId, int? page, string selectedSortProperty = "Name", string sortOrder = "asc")
         {
             logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}| Input params: {nameof(searchString)}={searchString}, {nameof(page)}={page} ");
 
@@ -45,11 +45,19 @@ namespace ControlPanel.Controllers
 
             RoutesIndexViewModel routesIndexViewModel = new RoutesIndexViewModel
             {
-                PagedRoutes = routes.ToPagedList(pageNumber, pageSize),
+                //PagedRoutes = routes.ToPagedList(pageNumber, pageSize),
                 SearchString=searchString,
                 SortOrder=sortOrder,
-                SelectedSortProperty=selectedSortProperty
+                SelectedSortProperty=selectedSortProperty,
+                Skills= new SelectList(await repository.GetSkillsAsync(), "Id", "Name")
             };
+
+            if(skillId!=null)
+            {
+                routes = routes.Where(route => route.SkillId == skillId).ToList();
+                logger.Info($"ww {skillId}");
+            }
+            routesIndexViewModel.PagedRoutes = routes.ToPagedList(pageNumber, pageSize);
 
             if(String.IsNullOrEmpty(searchString))
             {

@@ -17,10 +17,13 @@
 		@using (Html.BeginForm("Index", "Routes"))
 		{
 			<div class="form-group">
-				@*<label class="control-label">ID маршрута: </label>*@
 				<div class="input-group">
 					<span class="input-group-addon"><i class="fa fa-search"></i></span>
 					<input type="text" name="searchString" value="@Model.SearchString" data-autocomplete-source='@Url.Action("AutocompleteSearch","Routes")' class="form-control" placeholder="Введите ID маршрута" />
+				</div>
+				<div class="input-group">
+					<span class="input-group-addon">Навык</span>
+					@Html.DropDownList("skillId", Model.Skills as SelectList,"--", new { @class = "form-control" })
 				</div>
 				<input type="submit" value="Поиск" class="btn btn-primary" />
 			</div>
