@@ -19,5 +19,7 @@ namespace ControlPanel.ViewModels
         public string SelectedSortProperty { get; set; }
 
         public SelectList Skills { get; set; }
+
+        public int? SelectedSkillId { get; set; }
     }
 }

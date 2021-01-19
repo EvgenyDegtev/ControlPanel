@@ -11,10 +11,10 @@ namespace ControlPanel.Helpers
 {
     public static class SortHelper
     {
-        public static MvcHtmlString Sort(this HtmlHelper html, string searchString, string page, string positionName, string prevSelectedEntityName, string prevSortOrder)
+        public static MvcHtmlString Sort(this HtmlHelper html, string searchString, string page, string positionName, string prevSelectedEntityName, string prevSortOrder, int? selectedSkillId=null)
         {
             string controller = html.ViewContext.RouteData.Values["controller"].ToString();
-            string hrefValue = GenerateSortUrl(controller,searchString,page, positionName, prevSelectedEntityName, prevSortOrder);
+            string hrefValue = GenerateSortUrl(controller,searchString,page, positionName, prevSelectedEntityName, prevSortOrder, selectedSkillId);
 
             TagBuilder aTag = new TagBuilder("a");
             aTag.MergeAttribute("href", hrefValue);
@@ -27,7 +27,7 @@ namespace ControlPanel.Helpers
             return new MvcHtmlString(aTag.ToString());
         }
 
-        public static string GenerateSortUrl(string controller,string searchString, string page, string positionName, string prevSelectedEntityName, string prevSortOrder)
+        public static string GenerateSortUrl(string controller,string searchString, string page, string positionName, string prevSelectedEntityName, string prevSortOrder, int? selectedSkillId)
         {
             string sortOrder = GetSortOrder(positionName, prevSelectedEntityName, prevSortOrder);
 
@@ -36,7 +36,8 @@ namespace ControlPanel.Helpers
                 { "searchString", searchString },
                 {"page", page },
                 {"sortOrder", sortOrder },
-                { "selectedSortProperty", positionName }
+                { "selectedSortProperty", positionName },
+                {"skillId",selectedSkillId }
             },
             RouteTable.Routes,
             HttpContext.Current.Request.RequestContext,

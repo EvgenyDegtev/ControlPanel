@@ -45,11 +45,11 @@ namespace ControlPanel.Controllers
 
             RoutesIndexViewModel routesIndexViewModel = new RoutesIndexViewModel
             {
-                //PagedRoutes = routes.ToPagedList(pageNumber, pageSize),
                 SearchString=searchString,
                 SortOrder=sortOrder,
                 SelectedSortProperty=selectedSortProperty,
-                Skills= new SelectList(await repository.GetSkillsAsync(), "Id", "Name")
+                Skills= new SelectList(await repository.GetSkillsAsync(), "Id", "Name",skillId),
+                SelectedSkillId=skillId
             };
 
             if(skillId!=null)
@@ -59,12 +59,11 @@ namespace ControlPanel.Controllers
             }
             routesIndexViewModel.PagedRoutes = routes.ToPagedList(pageNumber, pageSize);
 
-            if(String.IsNullOrEmpty(searchString))
+            if(!String.IsNullOrEmpty(searchString))
             {
-                logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
-                return View(routesIndexViewModel);
+                routes = routes.Where(route => route.Key.Contains(searchString)).ToList();
             }
-            routes = routes.Where(route => route.Key.Contains(searchString)).ToList();
+            
 
             routesIndexViewModel.PagedRoutes = routes.ToPagedList(pageNumber, pageSize);
             logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
