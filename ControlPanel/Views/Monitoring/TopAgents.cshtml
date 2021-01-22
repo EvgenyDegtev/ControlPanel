@@ -32,55 +32,68 @@
 		console.log(new Date().toTimeString() + " Func updateTable started");
 
 		removeTableBody();
-		var responseAgentsArray = getDataFromApi();
-		var tableBody = createTableBody();
+		let responseAgentsArray = getDataFromApi();
+		let tableBody = createTableBody();
 		fillInTable(tableBody, responseAgentsArray);
 	}
 
 	function removeTableBody(){
 		console.log(new Date().toTimeString() + " Func clearTableBody started");
-		var table = document.getElementById("tableId");
-		var tableBody = document.getElementById("tableBodyId");
+		let table = document.getElementById("tableId");
+		let tableBody = document.getElementById("tableBodyId");
 		table.removeChild(tableBody);
 	}
 
 	function getDataFromApi() {
 		console.log(new Date().toTimeString() + " Func getDataFromApi started");
-		var jsonResponse;
-		var request = new XMLHttpRequest();
+		let jsonResponse;
+		let request = new XMLHttpRequest();
 		//request.responseType = 'json';
-		request.open("GET", "https://localhost:44355/Monitoring/GetTopAgents", false);
+		let dataUrl = "/Monitoring/GetTopAgents";
+		request.open("GET", dataUrl, false);
+
+
 		request.onload = function () {
 			jsonResponse = request.response;
 		}
 		request.send();
-		console.log(new Date().toTimeString() + " HTTP REQ to https://localhost:44355/Monitoring/GetTopAgents started");
+		request.onprogress = (event) => {
+			console.log(`Отправлено ${event.loaded} из ${event.total}`);
+		};
+
+
+
+
+
+
+
+		console.log(new Date().toTimeString() + " HTTP REQ to " + dataUrl+" started");
 		//console.log(jsonResponse);
 		console.log(new Date().toTimeString() + " JSON parse started");
-		var responseAgentsArray = JSON.parse(jsonResponse);
+		let responseAgentsArray = JSON.parse(jsonResponse);
 		console.log(new Date().toTimeString() + " Func getDataFromApi ended");
 		return responseAgentsArray;
 	}
 
 	function createTableBody() {
 		console.log(new Date().toTimeString() + " Func createTableBody started");
-		var table = document.getElementById("tableId");
-		var elem = document.createElement("tbody");
+		let table = document.getElementById("tableId");
+		let elem = document.createElement("tbody");
 		elem.setAttribute("id", "tableBodyId");
 		table.appendChild(elem);
-		var tableBody = document.getElementById("tableBodyId");
+		let tableBody = document.getElementById("tableBodyId");
 		return tableBody;
 	}
 
 	function fillInTable(tableBody, responseAgentsArray) {
 		console.log(new Date().toTimeString() + " Func fillInTable started");
 		for (var i = 0; i < responseAgentsArray.length; i++) {
-			var newRow = document.createElement("tr");
-			var nameTag = document.createElement("td");
+			let newRow = document.createElement("tr");
+			let nameTag = document.createElement("td");
 			nameTag.textContent = responseAgentsArray[i].name;
-			var loginTag = document.createElement("td");
+			let loginTag = document.createElement("td");
 			loginTag.textContent = responseAgentsArray[i].login;
-			var algoTag = document.createElement("td");
+			let algoTag = document.createElement("td");
 			algoTag.textContent = responseAgentsArray[i].algorithm;
 
 			newRow.appendChild(nameTag);
@@ -103,5 +116,6 @@
 	updateTime();
 	updateTable();
 	setInterval(updateTime, 10000);
-	setInterval(updateTable, 10000);	
+	setInterval(updateTable, 10000);
+	
 </script>

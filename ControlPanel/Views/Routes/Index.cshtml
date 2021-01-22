@@ -48,6 +48,20 @@
 		</th>
 		<th></th>
 	</tr>
+	<tr>
+		@*<th>
+			<input type="text"class="form-control"/>
+		</th>
+		<th>
+			<input type="text"class="form-control"/>
+		</th>
+		<th>
+			@Html.DropDownList("skillId", Model.Skills as SelectList, "--", new { @class = "form-control" })
+		</th>
+		<th>
+			<input type="submit" class="form-control" />
+		</th>*@
+	</tr>
 
 	@foreach (var route in Model.PagedRoutes)
 	{

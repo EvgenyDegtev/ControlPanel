@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Threading.Tasks;
+using System.Threading;
 using NLog;
 using ControlPanel.Abstract;
 
@@ -39,6 +40,7 @@ namespace ControlPanel.Controllers
         {
             var agents = await agentRepository.GetAgentsIncludeGroupAsync();
             var monitoringAgents = agents.Select(agent => new { name = agent.Name, login = agent.Login, algorithm = agent.Algorithm }).Take(10).ToList();
+            //Thread.Sleep(5000);
             return Json(monitoringAgents, JsonRequestBehavior.AllowGet);
         }
 
