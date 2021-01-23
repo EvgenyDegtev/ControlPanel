@@ -23,7 +23,7 @@
 				</div>
 				<div class="input-group">
 					<span class="input-group-addon">Навык</span>
-					@Html.DropDownList("skillId", Model.Skills as SelectList,"--", new { @class = "form-control" })
+					@Html.DropDownList(nameof(Model.SelectedSkillId), Model.Skills as SelectList,"--", new { @class = "form-control" })
 				</div>
 				<input type="submit" value="Поиск" class="btn btn-primary" />
 			</div>
@@ -36,15 +36,15 @@
 	<tr>
 		<th>
 			@Html.DisplayNameFor(model => model.PagedRoutes.ToList().FirstOrDefault().Name)
-			@Html.Sort(Model.SearchString, Model.PagedRoutes.PageNumber.ToString(), nameof(ControlPanel.Models.Route.Name), Model.SelectedSortProperty, Model.SortOrder, Model.SelectedSkillId)
+			@Html.Sort(Model.SearchString, Model.PagedRoutes.PageNumber.ToString(), nameof(ControlPanel.Models.Route.Name), Model.SelectedSortProperty, Model.SortOrder, (nameof(Model.SelectedSkillId), Model.SelectedSkillId.ToString()))
 		</th>
 		<th>
 			@Html.DisplayNameFor(model => model.PagedRoutes.ToList().FirstOrDefault().Key)
-			@Html.Sort(Model.SearchString, Model.PagedRoutes.PageNumber.ToString(), nameof(ControlPanel.Models.Route.Key), Model.SelectedSortProperty, Model.SortOrder, Model.SelectedSkillId)
+			@Html.Sort(Model.SearchString, Model.PagedRoutes.PageNumber.ToString(), nameof(ControlPanel.Models.Route.Key), Model.SelectedSortProperty, Model.SortOrder, (nameof(Model.SelectedSkillId), Model.SelectedSkillId.ToString()))
 		</th>
 		<th>
 			@Html.DisplayNameFor(model => model.PagedRoutes.ToList().FirstOrDefault().Skill.Name)
-			@Html.Sort(Model.SearchString, Model.PagedRoutes.PageNumber.ToString(), nameof(ControlPanel.Models.Route.Skill), Model.SelectedSortProperty, Model.SortOrder, Model.SelectedSkillId)
+			@Html.Sort(Model.SearchString, Model.PagedRoutes.PageNumber.ToString(), nameof(ControlPanel.Models.Route.Skill), Model.SelectedSortProperty, Model.SortOrder, (nameof(Model.SelectedSkillId), Model.SelectedSkillId.ToString()))
 		</th>
 		<th></th>
 	</tr>
@@ -85,7 +85,7 @@
 </table>
 
 Страница @(Model.PagedRoutes.PageCount<Model.PagedRoutes.PageNumber?0:Model.PagedRoutes.PageNumber) из @Model.PagedRoutes.PageCount
-@Html.PagedListPager(Model.PagedRoutes, currentPage => Url.Action("Index", new { page = currentPage, searchString = Model.SearchString, sortOrder = Model.SortOrder, selectedEntityName = Model.SelectedSortProperty, skillId=Model.SelectedSkillId }))
+@Html.PagedListPager(Model.PagedRoutes, currentPage => Url.Action("Index", new { page = currentPage, searchString = Model.SearchString, sortOrder = Model.SortOrder, selectedEntityName = Model.SelectedSortProperty, selectedSkillId=Model.SelectedSkillId.ToString() }))
 
 <script type="text/javascript">
     $(function () {

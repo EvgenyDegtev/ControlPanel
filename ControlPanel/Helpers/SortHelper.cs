@@ -11,10 +11,10 @@ namespace ControlPanel.Helpers
 {
     public static class SortHelper
     {
-        public static MvcHtmlString Sort(this HtmlHelper html, string searchString, string page, string positionName, string prevSelectedEntityName, string prevSortOrder, int? selectedSkillId=null)
+        public static MvcHtmlString Sort(this HtmlHelper html, string searchString, string page, string positionName, string prevSelectedEntityName, string prevSortOrder, params (string,string)[] filterParams)
         {
             string controller = html.ViewContext.RouteData.Values["controller"].ToString();
-            string hrefValue = GenerateSortUrl(controller,searchString,page, positionName, prevSelectedEntityName, prevSortOrder, selectedSkillId);
+            string hrefValue = GenerateSortUrl(controller,searchString,page, positionName, prevSelectedEntityName, prevSortOrder, filterParams);
 
             TagBuilder aTag = new TagBuilder("a");
             aTag.MergeAttribute("href", hrefValue);
@@ -27,22 +27,25 @@ namespace ControlPanel.Helpers
             return new MvcHtmlString(aTag.ToString());
         }
 
-        public static string GenerateSortUrl(string controller,string searchString, string page, string positionName, string prevSelectedEntityName, string prevSortOrder, int? selectedSkillId)
+        public static string GenerateSortUrl(string controller,string searchString, string page, string positionName, string prevSelectedEntityName, string prevSortOrder, params (string, string)[] filterParams)
         {
             string sortOrder = GetSortOrder(positionName, prevSelectedEntityName, prevSortOrder);
 
-            string hrefValue = UrlHelper.GenerateUrl(null, "Index", controller, new RouteValueDictionary
+            
+            RouteValueDictionary routeDictionary = new RouteValueDictionary
             {
-                { "searchString", searchString },
+               { "searchString", searchString },
                 {"page", page },
                 {"sortOrder", sortOrder },
-                { "selectedSortProperty", positionName },
-                {"skillId",selectedSkillId }
-            },
-            RouteTable.Routes,
-            HttpContext.Current.Request.RequestContext,
-            false);
+                { "selectedSortProperty", positionName }
+            };
 
+            foreach(var filter in filterParams)
+            {
+                routeDictionary.Add(filter.Item1, filter.Item2);
+            }
+
+            string hrefValue = UrlHelper.GenerateUrl(null, "Index", controller, routeDictionary, RouteTable.Routes, HttpContext.Current.Request.RequestContext, false);
             return hrefValue;
         }
 

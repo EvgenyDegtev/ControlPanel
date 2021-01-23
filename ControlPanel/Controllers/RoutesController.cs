@@ -33,7 +33,7 @@ namespace ControlPanel.Controllers
 
         //Get and Post
         [ErrorLogger]
-        public async Task<ActionResult> Index(string searchString, int? skillId, int? page, string selectedSortProperty = "Name", string sortOrder = "asc")
+        public async Task<ActionResult> Index(string searchString, int? selectedSkillId, int? page, string selectedSortProperty = "Name", string sortOrder = "asc")
         {
             logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}| Input params: {nameof(searchString)}={searchString}, {nameof(page)}={page} ");
 
@@ -48,14 +48,14 @@ namespace ControlPanel.Controllers
                 SearchString=searchString,
                 SortOrder=sortOrder,
                 SelectedSortProperty=selectedSortProperty,
-                Skills= new SelectList(await repository.GetSkillsAsync(), "Id", "Name",skillId),
-                SelectedSkillId=skillId
+                Skills= new SelectList(await repository.GetSkillsAsync(), "Id", "Name",selectedSkillId),
+                SelectedSkillId=selectedSkillId
             };
 
-            if(skillId!=null)
+            if(selectedSkillId!=null)
             {
-                routes = routes.Where(route => route.SkillId == skillId).ToList();
-                logger.Info($"ww {skillId}");
+                routes = routes.Where(route => route.SkillId == selectedSkillId).ToList();
+                logger.Info($"ww {selectedSkillId}");
             }
             routesIndexViewModel.PagedRoutes = routes.ToPagedList(pageNumber, pageSize);
 
