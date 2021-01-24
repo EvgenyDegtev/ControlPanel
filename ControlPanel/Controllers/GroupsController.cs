@@ -32,7 +32,7 @@ namespace ControlPanel.Controllers
 
         //Get and Post
         [ErrorLogger]
-        public async Task<ActionResult> Index(string searchString, int? page, string selectedSortProperty = "Name", string sortOrder = "asc")
+        public async Task<ActionResult> Index(string searchString, int? page,string description, string selectedSortProperty = "Name", string sortOrder = "asc")
         {
             logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}| Input params: {nameof(searchString)}={searchString}, {nameof(page)}={page} ");
 
@@ -44,18 +44,21 @@ namespace ControlPanel.Controllers
 
             GroupsIndexViewModel groupsIndexViewModel = new GroupsIndexViewModel
             {
-                PagedGroups = groups.ToPagedList(pageNumber, pageSize),
                 SearchString = searchString,
                 SortOrder=sortOrder,
-                SelectedSortProperty=selectedSortProperty
+                SelectedSortProperty=selectedSortProperty,
+                Description=description
             };
 
-            if (String.IsNullOrEmpty(searchString))
+            if (!String.IsNullOrEmpty(description))
             {
-                logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
-                return View(groupsIndexViewModel);
+                groups = groups.Where(group => group.Description.Contains(description)).ToList();
             }
-            groups = groups.Where(group => group.Name.Contains(searchString)).ToList();
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                groups = groups.Where(group => group.Name.Contains(searchString)).ToList();
+            }            
 
             groupsIndexViewModel.PagedGroups = groups.ToPagedList(pageNumber, pageSize);
             logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
@@ -67,6 +70,13 @@ namespace ControlPanel.Controllers
             var groups = await repository.SearchGroupsAsync(term);
             var logins = groups.Select(group => new { value = group.Name }).Take(5).OrderByDescending(row => row.value);
             return Json(logins, JsonRequestBehavior.AllowGet);
+        }
+
+        public async Task<ActionResult> AutocompleteDescription(string term)
+        {
+            var groups = await repository.SearchGroupsByDescriptionAsync(term);
+            var descriptions = groups.Select(group => new { value = group.Description }).Take(5).OrderByDescending(row => row.value);
+            return Json(descriptions, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]

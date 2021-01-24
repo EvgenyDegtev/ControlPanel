@@ -40,7 +40,7 @@ namespace ControlPanel.Controllers
 
         //Get and Post
         [ErrorLogger]
-        public async Task<ActionResult> Index(string searchString, int? page, string selectedSortProperty="Name", string sortOrder="asc")
+        public async Task<ActionResult> Index(string searchString, int? page, int? selectedGroupId,int? selectedAlgorithmId,string selectedSortProperty="Name", string sortOrder="asc")
         {
             logWriter(this);
             logger.Info($"Action Start | Controller name: {nameof(AgentsController)} | Action name: {nameof(Index)}| Input params: {nameof(searchString)}={searchString}, {nameof(page)}={page} ");
@@ -53,19 +53,30 @@ namespace ControlPanel.Controllers
 
             AgentsIndexViewModel agentsIndexViewModel = new AgentsIndexViewModel
             {
-                PagedAgents = agents.ToPagedList(pageNumber, pageSize),
                 SearchString = searchString,
                 SortOrder = sortOrder,
-                SelectedSortProperty=selectedSortProperty
+                SelectedSortProperty = selectedSortProperty,
+                Groups = new SelectList(await repository.GetGroupsAsync(), "Id", "Name", selectedGroupId),
+                SelectedGroupId=selectedGroupId,
+                Algorithms = new SelectList(Agent.algorithmDictionary.Select(algo => new { Algorithm = algo.Key.ToString(), AlgorithmNAme = algo.Value }), "Algorithm", "AlgorithmName"),
+                SelectedAlgorithmId=selectedAlgorithmId
             };
 
-            if (String.IsNullOrEmpty(searchString))
+            if(selectedGroupId!=null)
             {
-                logger.Info($"Action End | Controller name: {nameof(AgentsController)} | Action name: {nameof(Index)}");
-                return View(agentsIndexViewModel);
+                agents = agents.Where(agent => agent.GroupId == selectedGroupId).ToList();
             }
-            agents = agents.Where(ag => ag.Login.Contains(searchString)).ToList();
-                      
+
+            if(selectedAlgorithmId!=null)
+            {
+                agents = agents.Where(agent => agent.Algorithm == selectedAlgorithmId).ToList();
+            }
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                agents = agents.Where(ag => ag.Login.Contains(searchString)).ToList();
+            }
+                                  
             agentsIndexViewModel.PagedAgents = agents.ToPagedList(pageNumber, pageSize);
             logger.Info($"Action End | Controller name: {nameof(AgentsController)} | Action name: {nameof(Index)}");
             return View(agentsIndexViewModel);

@@ -46,6 +46,6 @@ namespace ControlPanel.Abstract
 
         Task<List<Models.Group>> SearchGroupsAsync(string searchString);
 
-
+        Task<List<Models.Group>> SearchGroupsByDescriptionAsync(string description);
     }
 }

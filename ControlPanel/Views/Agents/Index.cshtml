@@ -25,10 +25,17 @@
 		@using (Html.BeginForm("Index", "Agents"))
 		{
 		<div class="form-group">
-			@*<label class="control-label">Логин: </label>*@
 			<div class="input-group">
 				<span class="input-group-addon"><i class="fa fa-search"></i></span>
 				<input type="text" name="searchString" value="@Model.SearchString" data-autocomplete-source='@Url.Action("AutocompleteSearch","Agents")' class="form-control" placeholder="Введите логин" />
+			</div>
+			<div class="input-group">
+				<span class="input-group-addon">Группа</span>
+				@Html.DropDownList(nameof(Model.SelectedGroupId), Model.Groups as SelectList, "--", new { @class = "form-control" })
+			</div>
+			<div class="input-group">
+				<span class="input-group-addon">Алгоритм</span>
+				@Html.DropDownList(nameof(Model.SelectedAlgorithmId), Model.Algorithms as SelectList, "--", new { @class = "form-control" })
 			</div>
 			<input type="submit" value="Поиск" class="btn btn-primary" />
 		</div>
@@ -41,27 +48,27 @@
 	<tr>
 		<th>
 			@Html.DisplayNameFor(model => model.PagedAgents.ToList().FirstOrDefault().Name)
-			@Html.Sort(Model.SearchString,Model.PagedAgents.PageNumber.ToString(), nameof(Agent.Name),Model.SelectedSortProperty,Model.SortOrder)
+			@Html.Sort(Model.SearchString,Model.PagedAgents.PageNumber.ToString(), nameof(Agent.Name),Model.SelectedSortProperty,Model.SortOrder, (nameof(Model.SelectedGroupId), Model.SelectedGroupId.ToString()), (nameof(Model.SelectedAlgorithmId), Model.SelectedAlgorithmId.ToString()))
 		</th>
 		<th>
 			@Html.DisplayNameFor(model => model.PagedAgents.ToList().FirstOrDefault().Login)
-			@Html.Sort(Model.SearchString, Model.PagedAgents.PageNumber.ToString(), nameof(Agent.Login), Model.SelectedSortProperty, Model.SortOrder)
+			@Html.Sort(Model.SearchString, Model.PagedAgents.PageNumber.ToString(), nameof(Agent.Login), Model.SelectedSortProperty, Model.SortOrder, (nameof(Model.SelectedGroupId), Model.SelectedGroupId.ToString()), (nameof(Model.SelectedAlgorithmId), Model.SelectedAlgorithmId.ToString()))
 		</th>
 		<th>
 			@Html.DisplayNameFor(model => model.PagedAgents.ToList().FirstOrDefault().Algorithm)
-			@Html.Sort(Model.SearchString, Model.PagedAgents.PageNumber.ToString(), nameof(Agent.Algorithm), Model.SelectedSortProperty, Model.SortOrder)
+			@Html.Sort(Model.SearchString, Model.PagedAgents.PageNumber.ToString(), nameof(Agent.Algorithm), Model.SelectedSortProperty, Model.SortOrder, (nameof(Model.SelectedGroupId), Model.SelectedGroupId.ToString()), (nameof(Model.SelectedAlgorithmId), Model.SelectedAlgorithmId.ToString()))
 		</th>
 		<th>
 			@Html.DisplayNameFor(model => model.PagedAgents.ToList().FirstOrDefault().WorkloadMaxContactsCount)
-			@Html.Sort(Model.SearchString, Model.PagedAgents.PageNumber.ToString(), nameof(Agent.WorkloadMaxContactsCount), Model.SelectedSortProperty, Model.SortOrder)
+			@Html.Sort(Model.SearchString, Model.PagedAgents.PageNumber.ToString(), nameof(Agent.WorkloadMaxContactsCount), Model.SelectedSortProperty, Model.SortOrder, (nameof(Model.SelectedGroupId), Model.SelectedGroupId.ToString()), (nameof(Model.SelectedAlgorithmId), Model.SelectedAlgorithmId.ToString()))
 		</th>
 		<th>
 			@Html.DisplayNameFor(model => model.PagedAgents.ToList().FirstOrDefault().IsAlgorithmAllowServiceLevel)
-			@Html.Sort(Model.SearchString, Model.PagedAgents.PageNumber.ToString(), nameof(Agent.IsAlgorithmAllowServiceLevel), Model.SelectedSortProperty, Model.SortOrder)
+			@Html.Sort(Model.SearchString, Model.PagedAgents.PageNumber.ToString(), nameof(Agent.IsAlgorithmAllowServiceLevel), Model.SelectedSortProperty, Model.SortOrder, (nameof(Model.SelectedGroupId), Model.SelectedGroupId.ToString()), (nameof(Model.SelectedAlgorithmId), Model.SelectedAlgorithmId.ToString()))
 		</th>
 		<th>
 			@Html.DisplayNameFor(model => model.PagedAgents.ToList().FirstOrDefault().Group.Name)
-			@Html.Sort(Model.SearchString, Model.PagedAgents.PageNumber.ToString(),nameof(Agent.Group), Model.SelectedSortProperty, Model.SortOrder)
+			@Html.Sort(Model.SearchString, Model.PagedAgents.PageNumber.ToString(),nameof(Agent.Group), Model.SelectedSortProperty, Model.SortOrder, (nameof(Model.SelectedGroupId), Model.SelectedGroupId.ToString()), (nameof(Model.SelectedAlgorithmId), Model.SelectedAlgorithmId.ToString()))
 		</th>
 		<th>
 
@@ -99,7 +106,7 @@
 </table>
 
 	Страница @(Model.PagedAgents.PageCount < Model.PagedAgents.PageNumber ?0: Model.PagedAgents.PageNumber) из @Model.PagedAgents.PageCount
-	@Html.PagedListPager(Model.PagedAgents, currentPage => Url.Action("Index", new { page = currentPage, searchString = @Model.SearchString, sortOrder=@Model.SortOrder, selectedEntityName=@Model.SelectedSortProperty }))
+	@Html.PagedListPager(Model.PagedAgents, currentPage => Url.Action("Index", new { page = currentPage, searchString = Model.SearchString, sortOrder=Model.SortOrder, selectedEntityName=Model.SelectedSortProperty, selectedGroupId=Model.SelectedGroupId.ToString(), selectedAlgorithmId=Model.SelectedAlgorithmId }))
 
 <script type="text/javascript">
     $(function () {

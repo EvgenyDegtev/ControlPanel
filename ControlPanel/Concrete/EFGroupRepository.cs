@@ -127,5 +127,11 @@ namespace ControlPanel.Concrete
             List<Models.Group> groups = await context.Groups.Where(gr => gr.Name.Contains(searchString)).ToListAsync();
             return groups;
         }
+
+        public async Task<List<Models.Group>> SearchGroupsByDescriptionAsync(string description)
+        {
+            List<Models.Group> groups = await context.Groups.Where(gr => gr.Description.Contains(description)).ToListAsync();
+            return groups;
+        }
     }
 }

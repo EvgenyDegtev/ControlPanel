@@ -55,9 +55,8 @@ namespace ControlPanel.Controllers
             if(selectedSkillId!=null)
             {
                 routes = routes.Where(route => route.SkillId == selectedSkillId).ToList();
-                logger.Info($"ww {selectedSkillId}");
             }
-            routesIndexViewModel.PagedRoutes = routes.ToPagedList(pageNumber, pageSize);
+            //routesIndexViewModel.PagedRoutes = routes.ToPagedList(pageNumber, pageSize);
 
             if(!String.IsNullOrEmpty(searchString))
             {

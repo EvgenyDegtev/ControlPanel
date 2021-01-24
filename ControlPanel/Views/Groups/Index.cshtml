@@ -16,14 +16,18 @@
 
 		@using (Html.BeginForm("Index", "Groups"))
 		{
-			<div class="form-group">
-				@*<label class="control-label">Группа: </label>*@
-				<div class="input-group">
-					<span class="input-group-addon"><i class="fa fa-search"></i></span>
-					<input type="text" name="searchString" value="@Model.SearchString" data-autocomplete-source='@Url.Action("AutocompleteSearch","Groups")' class="form-control" placeholder="Введите группу" />
-				</div>				
-				<input type="submit" value="Поиск" class="btn btn-primary" />
+		<div class="form-group">
+			@*<label class="control-label">Группа: </label>*@
+			<div class="input-group">
+				<span class="input-group-addon"><i class="fa fa-search"></i></span>
+				<input type="text" name="searchString" value="@Model.SearchString" data-autocomplete-source='@Url.Action("AutocompleteSearch","Groups")' class="form-control" placeholder="Введите группу" id="searchId" />
 			</div>
+			<div class="input-group">
+				<span class="input-group-addon">Комментарий</span>
+				<input type="text" name="description" value="@Model.Description" data-autocomplete-source='@Url.Action("AutocompleteDescription","Groups")' class="form-control" placeholder="Введите комментарий" id="description" />
+			</div>
+			<input type="submit" value="Поиск" class="btn btn-primary" />
+		</div>
 		}
 	</div>
 </div>
@@ -65,9 +69,14 @@
 
 <script type="text/javascript">
     $(function () {
-        $("[data-autocomplete-source]").each(function () {
+		$("#searchId").each(function () {
 			var target = $(this);
 			target.autocomplete({ source: target.attr("data-autocomplete-source"), minLength: 3, classes: { "class": "btn btn-primary"} });
-        });
-    });
+		});
+
+		$("#description").each(function () {
+			var target = $(this);
+			target.autocomplete({ source: target.attr("data-autocomplete-source"), minLength: 1, classes: { "class": "btn btn-primary" } });
+		});
+	});
 </script>
