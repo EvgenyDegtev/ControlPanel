@@ -52,7 +52,8 @@ namespace ControlPanel.Controllers
 
             if (!String.IsNullOrEmpty(description))
             {
-                groups = groups.Where(group => group.Description.Contains(description)).ToList();
+                var groupsWithDescription = groups.Where(group => group.Description != null).ToList();
+                groups = groupsWithDescription.Where(group => group.Description.ToLower().Contains(description.ToLower())).ToList();
             }
 
             if (!String.IsNullOrEmpty(searchString))

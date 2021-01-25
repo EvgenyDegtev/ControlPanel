@@ -71,12 +71,12 @@
     $(function () {
 		$("#searchId").each(function () {
 			var target = $(this);
-			target.autocomplete({ source: target.attr("data-autocomplete-source"), minLength: 3, classes: { "class": "btn btn-primary"} });
+			target.autocomplete({ source: target.attr("data-autocomplete-source"), minLength: 3, classes: { "class": "dropdown" } });
 		});
 
 		$("#description").each(function () {
 			var target = $(this);
-			target.autocomplete({ source: target.attr("data-autocomplete-source"), minLength: 1, classes: { "class": "btn btn-primary" } });
+			target.autocomplete({ source: target.attr("data-autocomplete-source"), minLength: 1, classes: { "ui-autocomplete": "highlight" } });
 		});
 	});
 </script>
