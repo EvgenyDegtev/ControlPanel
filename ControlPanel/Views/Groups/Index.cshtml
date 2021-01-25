@@ -37,11 +37,11 @@
 	<tr>
 		<th>
 			@Html.DisplayNameFor(model => model.PagedGroups.ToList().FirstOrDefault().Name)
-			@Html.Sort(Model.SearchString, Model.PagedGroups.PageNumber.ToString(), nameof(Group.Name), Model.SelectedSortProperty, Model.SortOrder)
+			@Html.Sort(Model.SearchString, Model.PagedGroups.PageNumber.ToString(), nameof(Group.Name), Model.SelectedSortProperty, Model.SortOrder,(nameof(Model.Description),Model.Description))
 		</th>
 		<th>
 			@Html.DisplayNameFor(model => model.PagedGroups.ToList().FirstOrDefault().Description)
-			@Html.Sort(Model.SearchString, Model.PagedGroups.PageNumber.ToString(), nameof(Group.Description), Model.SelectedSortProperty, Model.SortOrder)
+			@Html.Sort(Model.SearchString, Model.PagedGroups.PageNumber.ToString(), nameof(Group.Description), Model.SelectedSortProperty, Model.SortOrder,(nameof(Model.Description), Model.Description))
 		</th>
 		<th></th>
 	</tr>
@@ -65,7 +65,7 @@
 </table>
 
 Страница @(Model.PagedGroups.PageCount< Model.PagedGroups.PageNumber?0:Model.PagedGroups.PageNumber) из @Model.PagedGroups.PageCount
-@Html.PagedListPager(Model.PagedGroups, currentPage => Url.Action("Index", new { page = currentPage, searchString = Model.SearchString }))
+@Html.PagedListPager(Model.PagedGroups, currentPage => Url.Action("Index", new { page = currentPage, searchString = Model.SearchString, description=Model.Description }))
 
 <script type="text/javascript">
     $(function () {

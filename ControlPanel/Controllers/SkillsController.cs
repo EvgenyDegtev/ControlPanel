@@ -32,7 +32,7 @@ namespace ControlPanel.Controllers
         //Get and Post
         [ErrorLogger]
         [ActionStart]
-        public async Task<ActionResult> Index(string searchString, int? page, string selectedSortProperty = "Name", string sortOrder = "asc")
+        public async Task<ActionResult> Index(string searchString, int? page, int? selectedAlgorithmId, string selectedSortProperty = "Name", string sortOrder = "asc")
         {
             logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}| Input params: {nameof(searchString)}={searchString}, {nameof(page)}={page} ");
 
@@ -44,18 +44,23 @@ namespace ControlPanel.Controllers
 
             SkillsIndexViewModel skillsIndexViewModel = new SkillsIndexViewModel
             {
-                PagedSkills=skills.ToPagedList(pageNumber,pageSize),
                 SearchString=searchString,
                 SortOrder=sortOrder,
-                SelectedSortProperty=selectedSortProperty
+                SelectedSortProperty=selectedSortProperty,
+                Algorithms = new SelectList(Skill.algorithmDictionary.Select(algo => new { Algorithm = algo.Key.ToString(), AlgorithmNAme = algo.Value }), "Algorithm", "AlgorithmName"),
+                SelectedAlgorithmId =selectedAlgorithmId
             };
 
-            if(String.IsNullOrEmpty(searchString))
+            if(!String.IsNullOrEmpty(searchString))
             {
-                logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
-                return View(skillsIndexViewModel);
+                skills = skills.Where(skill => skill.Key.Contains(searchString)).ToList();
             }
-            skills = skills.Where(skill => skill.Key.Contains(searchString)).ToList();
+
+            if(selectedAlgorithmId!=null)
+            {
+                skills = skills.Where(skill => skill.Algorithm == selectedAlgorithmId).ToList();
+            }
+            
 
 
             skillsIndexViewModel.PagedSkills = skills.ToPagedList(pageNumber, pageSize);

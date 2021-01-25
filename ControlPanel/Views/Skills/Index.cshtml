@@ -15,14 +15,18 @@
 
 		@using (Html.BeginForm("Index", "Skills"))
 		{
-			<div class="form-group">
-				@*<label class="control-label">ID навыка: </label>*@
-				<div class="input-group">
-					<span class="input-group-addon"><i class="fa fa-search"></i> </span>
-					<input type="text" name="searchString" value="@Model.SearchString" data-autocomplete-source='@Url.Action("AutocompleteSearch","Skills")' class="form-control" placeholder="Введите ID навыка" />
-				</div>
-				<input type="submit" value="Поиск" class="btn btn-primary" />
+		<div class="form-group">
+			@*<label class="control-label">ID навыка: </label>*@
+			<div class="input-group">
+				<span class="input-group-addon"><i class="fa fa-search"></i> </span>
+				<input type="text" name="searchString" value="@Model.SearchString" data-autocomplete-source='@Url.Action("AutocompleteSearch","Skills")' class="form-control" placeholder="Введите ID навыка" />
 			</div>
+			<div class="input-group">
+				<span class="input-group-addon">Алгоритм</span>
+				@Html.DropDownList(nameof(Model.SelectedAlgorithmId), Model.Algorithms as SelectList, "--", new { @class = "form-control" })
+			</div>
+			<input type="submit" value="Поиск" class="btn btn-primary" />
+		</div>
 		}
 	</div>
 </div>
@@ -32,15 +36,15 @@
 	<tr>
 		<th>
 			@Html.DisplayNameFor(model => model.PagedSkills.ToList().FirstOrDefault().Name)
-			@Html.Sort(Model.SearchString, Model.PagedSkills.PageNumber.ToString(), nameof(Skill.Name), Model.SelectedSortProperty, Model.SortOrder)
+			@Html.Sort(Model.SearchString, Model.PagedSkills.PageNumber.ToString(), nameof(Skill.Name), Model.SelectedSortProperty, Model.SortOrder, (nameof(Model.SelectedAlgorithmId),Model.SelectedAlgorithmId.ToString()))
 		</th>
 		<th>
 			@Html.DisplayNameFor(model => model.PagedSkills.ToList().FirstOrDefault().Key)
-			@Html.Sort(Model.SearchString, Model.PagedSkills.PageNumber.ToString(), nameof(Skill.Key), Model.SelectedSortProperty, Model.SortOrder)
+			@Html.Sort(Model.SearchString, Model.PagedSkills.PageNumber.ToString(), nameof(Skill.Key), Model.SelectedSortProperty, Model.SortOrder, (nameof(Model.SelectedAlgorithmId), Model.SelectedAlgorithmId.ToString()))
 		</th>
 		<th>
 			@Html.DisplayNameFor(model => model.PagedSkills.ToList().FirstOrDefault().Algorithm)
-			@Html.Sort(Model.SearchString, Model.PagedSkills.PageNumber.ToString(), nameof(Skill.Algorithm), Model.SelectedSortProperty, Model.SortOrder)
+			@Html.Sort(Model.SearchString, Model.PagedSkills.PageNumber.ToString(), nameof(Skill.Algorithm), Model.SelectedSortProperty, Model.SortOrder, (nameof(Model.SelectedAlgorithmId), Model.SelectedAlgorithmId.ToString()))
 		</th>
 		<th></th>
 	</tr>
@@ -67,7 +71,7 @@
 </table>
 
 Страница @(Model.PagedSkills.PageCount<Model.PagedSkills.PageNumber?0:Model.PagedSkills.PageNumber) из @Model.PagedSkills.PageCount
-@Html.PagedListPager(Model.PagedSkills, currentPage => Url.Action("Index", new { page = currentPage, searchString = Model.SearchString }))
+@Html.PagedListPager(Model.PagedSkills, currentPage => Url.Action("Index", new { page = currentPage, searchString = Model.SearchString, selectedAlgorithmId=Model.SelectedAlgorithmId }))
 
 <script type="text/javascript">
     $(function () {
