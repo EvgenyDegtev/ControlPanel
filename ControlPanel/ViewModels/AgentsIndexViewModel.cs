@@ -25,5 +25,15 @@ namespace ControlPanel.ViewModels
         public SelectList Algorithms { get; set; }
 
         public int? SelectedAlgorithmId { get; set; }
+
+        public SelectList IsServiceLevelList { get; set; }
+
+        public bool? IsServiceLevel { get; set; }
+
+        public static Dictionary<bool, string> IsServiceLevelListDictionary = new Dictionary<bool, string>
+        {
+            [true] = "Выбран",
+            [false] = "Не выбран",
+        };
     }
 }

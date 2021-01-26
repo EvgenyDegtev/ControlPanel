@@ -40,10 +40,10 @@ namespace ControlPanel.Controllers
 
         //Get and Post
         [ErrorLogger]
-        public async Task<ActionResult> Index(string searchString, int? page, int? selectedGroupId,int? selectedAlgorithmId,string selectedSortProperty="Name", string sortOrder="asc")
+        public async Task<ActionResult> Index(string searchString, int? page, int? selectedGroupId,int? selectedAlgorithmId,string isServiceLevel,string selectedSortProperty="Name", string sortOrder="asc")
         {
             logWriter(this);
-            logger.Info($"Action Start | Controller name: {nameof(AgentsController)} | Action name: {nameof(Index)}| Input params: {nameof(searchString)}={searchString}, {nameof(page)}={page} ");
+            logger.Info($"Action Start | Controller name: {nameof(AgentsController)} | Action name: {nameof(Index)}| Input params: {nameof(searchString)}={searchString}, {nameof(page)}={page}, {nameof(isServiceLevel)}={isServiceLevel}");
 
             int pageSize = 5;
             int pageNumber = page ?? 1;
@@ -51,25 +51,39 @@ namespace ControlPanel.Controllers
 
             agents = SortAgents(agents, sortOrder, selectedSortProperty);
 
+            bool? isServiceLevelBool = null;
+            if(!String.IsNullOrEmpty(isServiceLevel))
+            {
+                isServiceLevelBool = Convert.ToBoolean(isServiceLevel);
+            }
+                
+
             AgentsIndexViewModel agentsIndexViewModel = new AgentsIndexViewModel
             {
                 SearchString = searchString,
                 SortOrder = sortOrder,
                 SelectedSortProperty = selectedSortProperty,
                 Groups = new SelectList(await repository.GetGroupsAsync(), "Id", "Name", selectedGroupId),
-                SelectedGroupId=selectedGroupId,
+                SelectedGroupId = selectedGroupId,
                 Algorithms = new SelectList(Agent.algorithmDictionary.Select(algo => new { Algorithm = algo.Key.ToString(), AlgorithmNAme = algo.Value }), "Algorithm", "AlgorithmName"),
-                SelectedAlgorithmId=selectedAlgorithmId
+                SelectedAlgorithmId = selectedAlgorithmId,
+                IsServiceLevelList = new SelectList(AgentsIndexViewModel.IsServiceLevelListDictionary.Select(pair=>new {Flag=pair.Key.ToString(), Name=pair.Value }), "Flag", "Name"),
+                IsServiceLevel=isServiceLevelBool
             };
 
             if(selectedGroupId!=null)
             {
                 agents = agents.Where(agent => agent.GroupId == selectedGroupId).ToList();
             }
-
-            if(selectedAlgorithmId!=null)
+            
+            if (selectedAlgorithmId!=null)
             {
                 agents = agents.Where(agent => agent.Algorithm == selectedAlgorithmId).ToList();
+            }
+            logger.Info($"rrrr {isServiceLevel} qq");
+            if (isServiceLevelBool!= null)
+            {
+                agents = agents.Where(agent => agent.IsAlgorithmAllowServiceLevel == isServiceLevelBool).ToList();
             }
 
             if (!String.IsNullOrEmpty(searchString))
