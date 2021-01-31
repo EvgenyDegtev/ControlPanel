@@ -16,16 +16,16 @@ namespace ControlPanel.Filters
 
         public void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            foreach(var qq in filterContext.ActionParameters)
-            {
-                logger.Debug(qq.Key);
-                logger.Error(qq.Value);
-            }
-            string logString = filterContext.RouteData.Values["controller"].ToString()
-                + " || "
-                + filterContext.RouteData.Values["action"].ToString()
-                + " || ";
-            logger.Info($"QQQ {logString}");
+            //foreach(var qq in filterContext.ActionParameters)
+            //{
+            //    logger.Debug(qq.Key);
+            //    logger.Error(qq.Value);
+            //}
+            //string logString = filterContext.RouteData.Values["controller"].ToString()
+            //    + " || "
+            //    + filterContext.RouteData.Values["action"].ToString()
+            //    + " || ";
+            //logger.Info($"QQQ {logString}");
         }
     }
 }

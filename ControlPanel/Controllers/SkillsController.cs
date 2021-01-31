@@ -34,7 +34,8 @@ namespace ControlPanel.Controllers
         [ActionStart]
         public async Task<ActionResult> Index(string searchString, int? page, int? selectedAlgorithmId, string selectedSortProperty = "Name", string sortOrder = "asc")
         {
-            logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}| Input params: {nameof(searchString)}={searchString}, {nameof(page)}={page} ");
+            logger.Info($"Action Start | Controller name: {nameof(SkillsController)} | Action name: {nameof(Index)}| Input params: {nameof(searchString)}={searchString}, {nameof(page)}={page}," +
+                $"{nameof(selectedAlgorithmId)}={selectedAlgorithmId}, {nameof(selectedSortProperty)}={selectedSortProperty}, {nameof(sortOrder)}={sortOrder} ");
 
             int pageSize = 5;
             int pageNumber = page ?? 1;
@@ -64,14 +65,16 @@ namespace ControlPanel.Controllers
 
 
             skillsIndexViewModel.PagedSkills = skills.ToPagedList(pageNumber, pageSize);
-            logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
+            logger.Info($"Action End | Controller name: {nameof(SkillsController)} | Action name: {nameof(Index)}");
             return View(skillsIndexViewModel);
         }
 
         public async Task<ActionResult> AutocompleteSearch(string term)
         {
+            logger.Info($"Action Start | Controller name: {nameof(SkillsController)} | Action name: {nameof(AutocompleteSearch)}| Input params: {nameof(term)}={term}");
             var skills = await repository.SearchSkillsAsync(term);
             var logins = skills.Select(skill => new { value = skill.Key }).Take(5).OrderByDescending(row => row.value);
+            logger.Info($"Action End | Controller name: {nameof(SkillsController)} | Action name: {nameof(AutocompleteSearch)}");
             return Json(logins, JsonRequestBehavior.AllowGet);
         }
 
@@ -79,14 +82,14 @@ namespace ControlPanel.Controllers
         [ErrorLogger]
         public ActionResult Create()
         {
-            logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
+            logger.Info($"Action Start | Controller name: {nameof(SkillsController)} | Action name: {nameof(Create)}");
 
             SkillCreateViewModel skillCreateViewModel = new SkillCreateViewModel
             {
                 Algorithms = new SelectList(Skill.algorithmDictionary.Select(algo => new { Algorithm = algo.Key.ToString(), AlgorithmName = algo.Value }), "Algorithm", "AlgorithmName", 0)
             };
 
-            logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
+            logger.Info($"Action End | Controller name: {nameof(SkillsController)} | Action name: {nameof(Create)}");
             return View(skillCreateViewModel);
         }
 
@@ -94,18 +97,18 @@ namespace ControlPanel.Controllers
         [ErrorLogger]
         public async Task<ActionResult> Create([Bind] Skill skill)
         {
-            logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(skill.Name)}={skill.Name}, {nameof(skill.Key)}={skill.Key}, {nameof(skill.Algorithm)}={skill.Algorithm}");
+            logger.Info($"Action Start | Controller name: {nameof(SkillsController)} | Action name: {nameof(Create)} | Input params: {nameof(skill.Name)}={skill.Name}, {nameof(skill.Key)}={skill.Key}, {nameof(skill.Algorithm)}={skill.Algorithm}");
 
             if (ModelState.IsValid)
             {
                 repository.Create(skill);
                 await repository.SaveAsync();
 
-                logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
+                logger.Info($"Action End | Controller name: {nameof(SkillsController)} | Action name: {nameof(Create)}");
                 return RedirectToAction("Index");
             }
 
-            logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
+            logger.Info($"Action End | Controller name: {nameof(SkillsController)} | Action name: {nameof(Create)}");
             return View(skill);
         }
 
@@ -113,19 +116,19 @@ namespace ControlPanel.Controllers
         [ErrorLogger]
         public async Task<ActionResult> Delete (int? id)
         {
-            logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(id)}={id}");
+            logger.Info($"Action Start | Controller name: {nameof(SkillsController)} | Action name: {nameof(Delete)} | Input params: {nameof(id)}={id}");
             if (id==null)
             {
-                logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
+                logger.Info($"Action End | Controller name: {nameof(SkillsController)} | Action name: {nameof(Delete)}");
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Skill skill = await repository.FindSkillByIdAsync(id);
             if(skill==null)
             {
-                logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
+                logger.Info($"Action End | Controller name: {nameof(SkillsController)} | Action name: {nameof(Delete)}");
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             }
-            logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
+            logger.Info($"Action End | Controller name: {nameof(SkillsController)} | Action name: {nameof(Delete)}");
             return View(skill);
         }
 
@@ -133,10 +136,10 @@ namespace ControlPanel.Controllers
         [ErrorLogger]
         public async Task<ActionResult> Delete(int id)
         {
-            logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(id)}={id}");
+            logger.Info($"Action Start | Controller name: {nameof(SkillsController)} | Action name: {nameof(Delete)} | Input params: {nameof(id)}={id}");
             await repository.DeleteAsync(id);
             await repository.SaveAsync();
-            logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
+            logger.Info($"Action End | Controller name: {nameof(SkillsController)} | Action name: {nameof(Delete)}");
             return RedirectToAction("Index");
         }
 
@@ -144,16 +147,16 @@ namespace ControlPanel.Controllers
         [ErrorLogger]
         public async Task<ActionResult> Edit (int? id)
         {
-            logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(id)}={id}");
+            logger.Info($"Action Start | Controller name: {nameof(SkillsController)} | Action name: {nameof(Edit)} | Input params: {nameof(id)}={id}");
             if (id==null)
             {
-                logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
+                logger.Info($"Action End | Controller name: {nameof(SkillsController)} | Action name: {nameof(Edit)}");
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Skill skill = await repository.FindSkillByIdAsync(id);
             if(skill==null)
             {
-                logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
+                logger.Info($"Action End | Controller name: {nameof(SkillsController)} | Action name: {nameof(Edit)}");
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             }
             SkillCreateViewModel skillCreateViewModel = new SkillCreateViewModel
@@ -162,7 +165,7 @@ namespace ControlPanel.Controllers
                 Algorithms = new SelectList(Skill.algorithmDictionary.Select(algo => new { Algorithm = algo.Key.ToString(), AlgorithmName = algo.Value }), "Algorithm", "AlgorithmName", skill.Algorithm)
             };
 
-            logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
+            logger.Info($"Action End | Controller name: {nameof(SkillsController)} | Action name: {nameof(Edit)}");
             return View(skillCreateViewModel);
         }
 
@@ -170,16 +173,16 @@ namespace ControlPanel.Controllers
         [ErrorLogger]
         public async Task<ActionResult> Edit ([Bind] Skill skill)
         {
-            logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(skill.Id)}={skill.Id}, {nameof(skill.Name)}={skill.Name}, {nameof(skill.Key)}={skill.Key}, {nameof(skill.Algorithm)}={skill.Algorithm}");
+            logger.Info($"Action Start | Controller name: {nameof(SkillsController)} | Action name: {nameof(Edit)} | Input params: {nameof(skill.Id)}={skill.Id}, {nameof(skill.Name)}={skill.Name}, {nameof(skill.Key)}={skill.Key}, {nameof(skill.Algorithm)}={skill.Algorithm}");
             if (ModelState.IsValid)
             {
                 repository.Update(skill);
                 await repository.SaveAsync();
 
-                logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
+                logger.Info($"Action End | Controller name: {nameof(SkillsController)} | Action name: {nameof(Edit)}");
                 return RedirectToAction("Index");
             }
-            logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
+            logger.Info($"Action End | Controller name: {nameof(SkillsController)} | Action name: {nameof(Edit)}");
             return View(skill);
         }
 
@@ -187,12 +190,12 @@ namespace ControlPanel.Controllers
         [ErrorLogger]
         public async Task<JsonResult> CheckKeyUnique(string key, int? id)
         {
-            logger.Info($"Action Start | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name} | Input params: {nameof(key)}={key}, {nameof(id)}={id}");
+            logger.Info($"Action Start | Controller name: {nameof(SkillsController)} | Action name: {nameof(CheckKeyUnique)} | Input params: {nameof(key)}={key}, {nameof(id)}={id}");
             var skillsAlreadyInDb=await repository.FindSkillsByKeyAsync(key);
 
             if (skillsAlreadyInDb.Count() <= 0)
             {
-                logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
+                logger.Info($"Action End | Controller name: {nameof(SkillsController)} | Action name: {nameof(CheckKeyUnique)}");
                 return Json(true, JsonRequestBehavior.AllowGet);
             }
             else
@@ -201,12 +204,12 @@ namespace ControlPanel.Controllers
                 //check login corresponds id
                 if (modifiedSkill.Id == id)
                 {
-                    logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
+                    logger.Info($"Action End | Controller name: {nameof(SkillsController)} | Action name: {nameof(CheckKeyUnique)}");
                     return Json(true, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
-                    logger.Info($"Action End | Controller name: {MethodBase.GetCurrentMethod().ReflectedType.Name} | Action name: {MethodBase.GetCurrentMethod().Name}");
+                    logger.Info($"Action End | Controller name: {nameof(SkillsController)} | Action name: {nameof(CheckKeyUnique)}");
                     return Json($"Навык с названием {key} уже существует", JsonRequestBehavior.AllowGet);
                 }
             }
@@ -216,15 +219,19 @@ namespace ControlPanel.Controllers
         [ErrorLogger]
         public async Task<ActionResult> SkillRoutes(int? id)
         {
-            if(id==null)
+            logger.Info($"Action Start | Controller name: {nameof(SkillsController)} | Action name: {nameof(SkillRoutes)} | Input params: {nameof(id)}={id}");
+            if (id==null)
             {
+                logger.Info($"Action End | Controller name: {nameof(SkillsController)} | Action name: {nameof(SkillRoutes)}");
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Skill skill = await repository.FindSkillByIdIncludeRoutesAsync(id);
             if(skill==null)
             {
+                logger.Info($"Action End | Controller name: {nameof(SkillsController)} | Action name: {nameof(SkillRoutes)}");
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             }
+            logger.Info($"Action End | Controller name: {nameof(SkillsController)} | Action name: {nameof(SkillRoutes)}");
             return View(skill);
         }
 
@@ -232,12 +239,14 @@ namespace ControlPanel.Controllers
         [ErrorLogger]
         public async Task<ActionResult> RemoveRoute(int skillId, int routeId)
         {
+            logger.Info($"Action Start | Controller name: {nameof(SkillsController)} | Action name: {nameof(RemoveRoute)} | Input params: {nameof(skillId)}={skillId}, {nameof(routeId)}={routeId}");
             Skill skill = await repository.FindSkillByIdIncludeRoutesAsync(skillId);
             Route routeToRemove=skill.Routes.Find(route=>route.Id==routeId);
             skill.Routes.Remove(routeToRemove);            
             repository.Update(skill);
             await repository.SaveAsync();
-          
+
+            logger.Info($"Action End | Controller name: {nameof(SkillsController)} | Action name: {nameof(RemoveRoute)}");
             return RedirectToAction("SkillRoutes", skill);
         }
 
