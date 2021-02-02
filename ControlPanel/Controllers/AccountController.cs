@@ -5,9 +5,12 @@ using System.Web;
 using System.Web.Mvc;
 using ControlPanel.Infastructure.Abstract;
 using ControlPanel.ViewModels;
+using ControlPanel.Filters;
 
 namespace ControlPanel.Controllers
 {
+    [ActionEnd]
+    [ErrorLogger]
     public class AccountController : Controller
     {
         IAuthProvider authProvider;

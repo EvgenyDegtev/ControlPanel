@@ -7,10 +7,13 @@ using System.Threading.Tasks;
 using System.Threading;
 using NLog;
 using ControlPanel.Abstract;
+using ControlPanel.Filters;
 
 namespace ControlPanel.Controllers
 {
     [Authorize]
+    [ErrorLogger]
+    [ActionEnd]
     public class MonitoringController: Controller
     {
         private static Logger logger = LogManager.GetCurrentClassLogger();

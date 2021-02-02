@@ -20,6 +20,7 @@ namespace ControlPanel.Controllers
 {
     [Authorize]
     [SessionState(SessionStateBehavior.Disabled)]
+    [ActionEnd]
     public class RoutesController : Controller
     {
         private static Logger logger = LogManager.GetCurrentClassLogger();
@@ -65,7 +66,6 @@ namespace ControlPanel.Controllers
             
 
             routesIndexViewModel.PagedRoutes = routes.ToPagedList(pageNumber, pageSize);
-            logger.Info($"Action End | Controller name: {nameof(RoutesController)} | Action name: {nameof(Index)}");
             return View(routesIndexViewModel);
         }
 
@@ -74,7 +74,6 @@ namespace ControlPanel.Controllers
             logger.Info($"Action Start | Controller name: {nameof(RoutesController)} | Action name: {nameof(AutocompleteSearch)}| Input params: {nameof(term)}={term}");
             var routes = await repository.SearchRoutesAsync(term);
             var logins = routes.Select(route => new { value = route.Key }).Take(5).OrderByDescending(row => row.value);
-            logger.Info($"Action End | Controller name: {nameof(RoutesController)} | Action name: {nameof(AutocompleteSearch)}");
             return Json(logins, JsonRequestBehavior.AllowGet);
         }
 
@@ -88,7 +87,6 @@ namespace ControlPanel.Controllers
             {
                 Skills = new SelectList(await repository.GetSkillsAsync(), "Id", "Name")
             };
-            logger.Info($"Action End | Controller name: {nameof(RoutesController)} | Action name: {nameof(Create)}");
             return View(routeCreateViewModel);
         }
 
@@ -102,12 +100,8 @@ namespace ControlPanel.Controllers
             {
                 repository.Create(route);
                 await repository.SaveAsync();
-
-                logger.Info($"Action End | Controller name: {nameof(RoutesController)} | Action name: {nameof(Create)}");
                 return RedirectToAction("Index");
             }
-
-            logger.Info($"Action End | Controller name: {nameof(RoutesController)} | Action name: {nameof(Create)}");
             return View(route);
         }
         
@@ -118,16 +112,13 @@ namespace ControlPanel.Controllers
             logger.Info($"Action Start | Controller name: {nameof(RoutesController)} | Action name: {nameof(Delete)} | Input params: {nameof(id)}={id}");
             if (id==null)
             {
-                logger.Info($"Action End | Controller name: {nameof(RoutesController)} | Action name: {nameof(Delete)}");
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Route route = await repository.FindRouteByIdIncludeSkillAsync(id);
             if(route==null)
             {
-                logger.Info($"Action End | Controller name: {nameof(RoutesController)} | Action name: {nameof(Delete)}");
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             }
-            logger.Info($"Action End | Controller name: {nameof(RoutesController)} | Action name: {nameof(Delete)}");
             return View(route);
         }
 
@@ -139,8 +130,6 @@ namespace ControlPanel.Controllers
 
             await repository.DeleteAsync(id);
             await repository.SaveAsync();
-
-            logger.Info($"Action End | Controller name: {nameof(RoutesController)} | Action name: {nameof(Delete)}");
             return RedirectToAction("Index");
         }
 
@@ -166,8 +155,6 @@ namespace ControlPanel.Controllers
                 Route = route,
                 Skills = new SelectList(await repository.GetSkillsAsync(), "Id", "Name")
             };
-
-            logger.Info($"Action End | Controller name: {nameof(RoutesController)} | Action name: {nameof(Edit)}");
             return View(routeCreateViewModel);
         }
 
@@ -181,11 +168,8 @@ namespace ControlPanel.Controllers
             {
                 repository.Update(route);
                 await repository.SaveAsync();
-
-                logger.Info($"Action End | Controller name: Controller name: {nameof(RoutesController)} | Action name: {nameof(Edit)}");
                 return RedirectToAction("Index");
             }
-            logger.Info($"Action End | Controller name: Controller name: {nameof(RoutesController)} | Action name: {nameof(Edit)}");
             return View(route);
         }
 
@@ -198,7 +182,6 @@ namespace ControlPanel.Controllers
 
             if (routesAlreadyInDb.Count() <= 0)
             {
-                logger.Info($"Action End | Controller name: {nameof(RoutesController)} | Action name: {nameof(CheckKeyUnique)}");
                 return Json(true, JsonRequestBehavior.AllowGet);
             }
             else
@@ -207,12 +190,10 @@ namespace ControlPanel.Controllers
                 //check key corresponds id
                 if (modifiedRoute.Id == id)
                 {
-                    logger.Info($"Action End | Controller name: {nameof(RoutesController)} | Action name: {nameof(CheckKeyUnique)}");
                     return Json(true, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
-                    logger.Info($"Action End | Controller name: {nameof(RoutesController)} | Action name: {nameof(CheckKeyUnique)}");
                     return Json($"Маршрут с названием {key} уже существует", JsonRequestBehavior.AllowGet);
                 }
             }

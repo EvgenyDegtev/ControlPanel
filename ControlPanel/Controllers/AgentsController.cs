@@ -21,6 +21,7 @@ namespace ControlPanel.Controllers
 {
     [Authorize]
     [SessionState(SessionStateBehavior.Disabled)]
+    [ActionEnd]
     public class AgentsController : Controller
     {
         private static Logger logger = LogManager.GetCurrentClassLogger();
@@ -94,7 +95,6 @@ namespace ControlPanel.Controllers
             }
                                   
             agentsIndexViewModel.PagedAgents = agents.ToPagedList(pageNumber, pageSize);
-            logger.Info($"Action End | Controller name: {nameof(AgentsController)} | Action name: {nameof(Index)}");
             return View(agentsIndexViewModel);
         }
 
@@ -103,7 +103,6 @@ namespace ControlPanel.Controllers
             logger.Info($"Action Start | Controller name: {nameof(AgentsController)} | Action name: {nameof(AutocompleteSearch)}| Input params: {nameof(term)}={term}");
             var agents = await repository.SearchAgentsAsync(term);
             var logins = agents.Select(agent => new { value = agent.Login }).Take(5).OrderByDescending(row=>row.value);
-            logger.Info($"Action End | Controller name: {nameof(AgentsController)} | Action name: {nameof(AutocompleteSearch)}");
             return Json(logins, JsonRequestBehavior.AllowGet);
         }
 
@@ -120,7 +119,6 @@ namespace ControlPanel.Controllers
 
             };
 
-            logger.Info($"Action End | Controller name: {nameof(AgentsController)} | Action name: {nameof(Create)}");
             return View(agentCreateViewModel);
         }
 
@@ -134,12 +132,9 @@ namespace ControlPanel.Controllers
             {
                 repository.Create(agent);
                 await repository.SaveAsync();
-
-                logger.Info($"Action End | Controller name: {nameof(AgentsController)} | Action name: {nameof(Create)}");
                 return RedirectToAction("Index");
             }
 
-            logger.Info($"Action End | Controller name: {nameof(AgentsController)} | Action name: {nameof(Create)}");
             return View(agent);
         }
 
@@ -150,16 +145,13 @@ namespace ControlPanel.Controllers
             logger.Info($"Action Start | Controller name: {nameof(AgentsController)} | Action name: {nameof(Delete)} | Input params: {nameof(id)}={id}");
             if (id == null)
             {
-                logger.Info($"Action End | Controller name: {nameof(AgentsController)} | Action name: {nameof(Delete)}");
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var agent = await repository.FindAgentByIdIncludeGroupAsync(id);
             if (agent == null)
             {
-                logger.Info($"Action End | Controller name: {nameof(AgentsController)} | Action name: {nameof(Delete)}");
                 return HttpNotFound();
             }
-            logger.Info($"Action End | Controller name: {nameof(AgentsController)} | Action name: {nameof(Delete)}");
             return View(agent);
 
         }
@@ -172,7 +164,6 @@ namespace ControlPanel.Controllers
             await repository.DeleteAsync(id);
             await repository.SaveAsync();
 
-            logger.Info($"Action Start | Controller name: {nameof(AgentsController)} | Action name: {nameof(Delete)}");
             return RedirectToAction("Index");
         }
 
@@ -183,13 +174,11 @@ namespace ControlPanel.Controllers
             logger.Info($"Action Start | Controller name: {nameof(AgentsController)} | Action name: {nameof(Edit)} | Input params: {nameof(id)}={id}");
             if (id == null)
             {
-                logger.Info($"Action End | Controller name: {nameof(AgentsController)} | Action name: {nameof(Edit)}");
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Agent agent = await repository.FindAgentByIdAsync(id);
             if (agent == null)
             {
-                logger.Info($"Action End | Controller name: {nameof(AgentsController)} | Action name: {nameof(Edit)}");
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             }
 
@@ -200,7 +189,6 @@ namespace ControlPanel.Controllers
                 Algorithms= new SelectList(Agent.algorithmDictionary.Select(algo => new { Algorithm = algo.Key.ToString(), AlgorithmNAme = algo.Value }), "Algorithm", "AlgorithmName", agent.Algorithm)
             };
 
-            logger.Info($"Action End | Controller name: {nameof(AgentsController)} | Action name: {nameof(Edit)}");
             return View(agentCreateViewModel);
         }
 
@@ -213,12 +201,8 @@ namespace ControlPanel.Controllers
             {
                 repository.Update(agent);
                 await repository.SaveAsync();
-
-                logger.Info($"Action End | Controller name: {nameof(AgentsController)} | Action name: {nameof(Edit)}");
                 return RedirectToAction("Index");
             }
-
-            logger.Info($"Action End | Controller name: {nameof(AgentsController)} | Action name: {nameof(Edit)}");
             return View(agent);
         }
 
@@ -231,7 +215,6 @@ namespace ControlPanel.Controllers
 
             if(agentsAlreadyInDb.Count() <= 0)
             {
-                logger.Info($"Action End | Controller name: {nameof(AgentsController)} | Action name: {nameof(CheckLoginUnique)}");
                 return Json(true, JsonRequestBehavior.AllowGet);
             }
             else
@@ -240,12 +223,10 @@ namespace ControlPanel.Controllers
                 //check login corresponds id
                 if (modifiedAgent.Id == id)
                 {
-                    logger.Info($"Action End | Controller name: {nameof(AgentsController)} | Action name: {nameof(CheckLoginUnique)}");
                     return Json(true, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
-                    logger.Info($"Action End | Controller name: {nameof(AgentsController)} | Action name: {nameof(CheckLoginUnique)}");
                     return Json($"Агент с логином {login} уже существует", JsonRequestBehavior.AllowGet);
                 }
             }
@@ -258,18 +239,14 @@ namespace ControlPanel.Controllers
             logger.Info($"Action Start | Controller name: {nameof(AgentsController)} | Action name: {nameof(AgentSkills)} | Input params: {nameof(id)}={id}");
             if (id==null)
             {
-                logger.Info($"Action End | Controller name: {nameof(AgentsController)} | Action name: {nameof(AgentSkills)}");
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Agent agent = await repository.FindAgentByIdIncludeSkillsAsync(id);
             if(agent==null)
             {
-                logger.Info($"Action End | Controller name: {nameof(AgentsController)} | Action name: {nameof(AgentSkills)}");
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             }
             List<AgentToSkill> agentToSkills = await repository.FindAgentToSkillForAgentByIdAsync(id);
-
-            logger.Info($"Action End | Controller name: {nameof(AgentsController)} | Action name: {nameof(AgentSkills)}");
             return View(agentToSkills);
         }
 
@@ -281,8 +258,6 @@ namespace ControlPanel.Controllers
             List<Skill> skills = await repository.GetSkillsAsync();
 
             AgentAddSkillViewModel agentAddSkillViewModel = new AgentAddSkillViewModel { Agent = await repository.FindAgentByIdAsync(id), Skills = skills };
-
-            logger.Info($"Action End | Controller name: {nameof(AgentsController)} | Action name: {nameof(AddSkill)}");
             return View(agentAddSkillViewModel);
         }
 
@@ -301,8 +276,6 @@ namespace ControlPanel.Controllers
                 Levels = new SelectList(AgentToSkill.levelDictionary.Select(level => new { Level = level.Key.ToString(), LevelName = level.Value }), "Level", "LevelName", 1),
                 Modes = new SelectList(AgentToSkill.breakingModeDictionary.Select(mode => new { BreakingMode = mode.Key.ToString(), BreakingModeName = mode.Value }), "BreakingMode", "BreakingModeName", 2)
             };
-
-            logger.Info($"Action End | Controller name: {nameof(AgentsController)} | Action name: {nameof(SkillAddConfirmation)}");
             return PartialView(agentAddSkillConfirmationViewModel);
         }
 
@@ -311,16 +284,13 @@ namespace ControlPanel.Controllers
         public async Task<ActionResult> SkillAddConfirmation([Bind] AgentToSkill agentToSkill)
         {
             logger.Info($"Action Start | Controller name: {nameof(AgentsController)} | Action name: {nameof(SkillAddConfirmation)} | Input params: {nameof(agentToSkill.AgentId)}={agentToSkill.AgentId}, {nameof(agentToSkill.SkillId)}={agentToSkill.SkillId}, {nameof(agentToSkill.Level)}={agentToSkill.Level}, {nameof(agentToSkill.OrderIndex)}={agentToSkill.OrderIndex}, {nameof(agentToSkill.BreakingMode)}={agentToSkill.BreakingMode}, {nameof(agentToSkill.Percent)}={agentToSkill.Percent}");
-            
-            if(ModelState.IsValid)
+
+            if (ModelState.IsValid)
             {
                 repository.CreateAgentToSkill(agentToSkill);
                 await repository.SaveAsync();
-                logger.Info($"Action End | Controller name: {nameof(AgentsController)} | Action name: {nameof(SkillAddConfirmation)}");
                 return RedirectToAction("AgentSkills", new { id = agentToSkill.AgentId });
             }
-
-            logger.Info($"Action End | Controller name: {nameof(AgentsController)} | Action name: {nameof(SkillAddConfirmation)}");
             return View(agentToSkill);
         }
 
@@ -340,8 +310,6 @@ namespace ControlPanel.Controllers
                 Levels = new SelectList(AgentToSkill.levelDictionary.Select(level => new { Level = level.Key.ToString(), LevelName = level.Value }), "Level", "LevelName", agentToSkill.Level),
                 Modes = new SelectList(AgentToSkill.breakingModeDictionary.Select(mode => new { BreakingMode = mode.Key.ToString(), BreakingModeName = mode.Value }), "BreakingMode", "BreakingModeName", agentToSkill.BreakingMode)
             };
-
-            logger.Info($"Action End | Controller name: {nameof(AgentsController)} | Action name: {nameof(EditSkill)}");
             return View(agentAddSkillConfirmationViewModel);
         }
 
@@ -357,8 +325,6 @@ namespace ControlPanel.Controllers
                 await repository.SaveAsync();
                 return RedirectToAction("AgentSkills", new { id = agentToSkill.AgentId });
             }
-
-            logger.Info($"Action End | Controller name: {nameof(AgentsController)} | Action name: {nameof(EditSkill)}");
             return View(agentToSkill);
         } 
 
@@ -371,7 +337,6 @@ namespace ControlPanel.Controllers
             await repository.DeleteAgentToSkillAsync(agentToSkill.Id);
             await repository.SaveAsync();
 
-            logger.Info($"Action End | Controller name: {nameof(AgentsController)} | Action name: {nameof(RemoveSkill)}");
             return RedirectToAction("AgentSkills", new { id=agentId });
         }
 

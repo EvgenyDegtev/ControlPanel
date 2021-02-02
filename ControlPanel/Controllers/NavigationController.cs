@@ -5,9 +5,12 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using ControlPanel.ViewModels;
+using ControlPanel.Filters;
 
 namespace ControlPanel.Controllers
 {
+    [ErrorLogger]
+    [ActionEnd]
     public class NavigationController : Controller
     {
         // GET: Navigation

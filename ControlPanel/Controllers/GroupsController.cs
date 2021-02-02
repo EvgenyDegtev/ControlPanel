@@ -20,6 +20,7 @@ namespace ControlPanel.Controllers
 {
     [Authorize]
     [SessionState(SessionStateBehavior.Disabled)]
+    [ActionEnd]
     public class GroupsController : Controller
     {
         private static Logger logger = LogManager.GetCurrentClassLogger();
@@ -63,7 +64,6 @@ namespace ControlPanel.Controllers
             }            
 
             groupsIndexViewModel.PagedGroups = groups.ToPagedList(pageNumber, pageSize);
-            logger.Info($"Action End | Controller name: {nameof(GroupsController)} | Action name: {nameof(Index)}");
             return View(groupsIndexViewModel);
         }
 
@@ -72,7 +72,6 @@ namespace ControlPanel.Controllers
             logger.Info($"Action Start | Controller name: {nameof(GroupsController)} | Action name: {nameof(AutocompleteSearch)}| Input params: {nameof(term)}={term}");
             var groups = await repository.SearchGroupsAsync(term);
             var logins = groups.Select(group => new { value = group.Name }).Take(5).OrderByDescending(row => row.value);
-            logger.Info($"Action End | Controller name: {nameof(GroupsController)} | Action name: {nameof(AutocompleteSearch)}");
             return Json(logins, JsonRequestBehavior.AllowGet);
         }
 
@@ -81,7 +80,6 @@ namespace ControlPanel.Controllers
             logger.Info($"Action Start | Controller name: {nameof(GroupsController)} | Action name: {nameof(AutocompleteDescription)}| Input params: {nameof(term)}={term}");
             var groups = await repository.SearchGroupsByDescriptionAsync(term);
             var descriptions = groups.Select(group => new { value = group.Description }).Take(5).OrderByDescending(row => row.value);
-            logger.Info($"Action End | Controller name: {nameof(GroupsController)} | Action name: {nameof(AutocompleteDescription)}");
             return Json(descriptions, JsonRequestBehavior.AllowGet);
         }
 
@@ -90,7 +88,6 @@ namespace ControlPanel.Controllers
         public ActionResult Create()
         {
             logger.Info($"Action Start | Controller name: {nameof(GroupsController)} | Action name: {nameof(Create)}");
-            logger.Info($"Action End | Controller name: {nameof(GroupsController)} | Action name: {nameof(Create)}");
             return View();
         }
 
@@ -104,12 +101,8 @@ namespace ControlPanel.Controllers
             {
                 repository.Create(group);
                 await repository.SaveAsync();
-
-                logger.Info($"Action End | Controller name: {nameof(GroupsController)} | Action name: {nameof(Create)}");
                 return RedirectToAction("Index");
             }
-
-            logger.Info($"Action End | Controller name: {nameof(GroupsController)} | Action name: {nameof(Create)}");
             return View(group);
         }
 
@@ -120,16 +113,13 @@ namespace ControlPanel.Controllers
             logger.Info($"Action Start | Controller name: {nameof(GroupsController)} | Action name: {nameof(Delete)} | Input params: {nameof(id)}={id}");
             if (id == null)
             {
-                logger.Info($"Action End | Controller name: {nameof(GroupsController)} | Action name: {nameof(Delete)}");
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Group group = await repository.FindGroupByIdAsync(id);
             if (group == null)
             {
-                logger.Info($"Action End | Controller name: {nameof(GroupsController)} | Action name: {nameof(Delete)}");
                 return HttpNotFound();
             }
-            logger.Info($"Action End | Controller name: {nameof(GroupsController)} | Action name: {nameof(Delete)}");
             return View(group);
         }
 
@@ -141,7 +131,6 @@ namespace ControlPanel.Controllers
             await repository.DeleteAsync(id);
             await repository.SaveAsync();
 
-            logger.Info($"Action End | Controller name: {nameof(GroupsController)} | Action name: {nameof(Delete)}");
             return RedirectToAction("Index");
         }
 
@@ -152,17 +141,13 @@ namespace ControlPanel.Controllers
             logger.Info($"Action Start | Controller name: {nameof(GroupsController)} | Action name: {nameof(Edit)} | Input params: {nameof(id)}={id}");
             if (id == null)
             {
-                logger.Info($"Action End | Controller name: {nameof(GroupsController)} | Action name: {nameof(Edit)}");
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Group group = await repository.FindGroupByIdAsync(id);
             if (group == null)
             {
-                logger.Info($"Action End | Controller name: {nameof(GroupsController)} | Action name: {nameof(Edit)}");
                 return HttpNotFound();
             }
-
-            logger.Info($"Action End | Controller name: {nameof(GroupsController)} | Action name: {nameof(Edit)}");
             return View(group);
         }
 
@@ -176,11 +161,8 @@ namespace ControlPanel.Controllers
             {
                 repository.Update(group);
                 await repository.SaveAsync();
-
-                logger.Info($"Action End | Controller name: {nameof(GroupsController)} | Action name: {nameof(Edit)}");
                 return RedirectToAction("Index");
             }
-            logger.Info($"Action End | Controller name: {nameof(GroupsController)} | Action name: {nameof(Edit)}");
             return View(group);
         }
 
@@ -191,16 +173,13 @@ namespace ControlPanel.Controllers
             logger.Info($"Action Start | Controller name: {nameof(GroupsController)} | Action name: {nameof(GroupAgents)} | Input params: {nameof(id)}={id}");
             if (id == null)
             {
-                logger.Info($"Action End | Controller name: {nameof(GroupsController)} | Action name: {nameof(GroupAgents)}");
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Group group = await repository.FindGroupByIdIncludeAgentsAsync(id);
             if (group == null)
             {
-                logger.Info($"Action End | Controller name: {nameof(GroupsController)}  | Action name:  {nameof(GroupAgents)}");
                 return HttpNotFound();
             }
-            logger.Info($"Action End | Controller name: {nameof(GroupsController)}  | Action name:  {nameof(GroupAgents)}");
             return View(group);
         }
 
@@ -213,7 +192,6 @@ namespace ControlPanel.Controllers
 
             if (groupsAlreadyInDb.Count() <= 0)
             {
-                logger.Info($"Action End | Controller name: {nameof(GroupsController)} | Action name: {nameof(CheckNameUnique)}");
                 return Json(true, JsonRequestBehavior.AllowGet);
             }
             else
@@ -222,12 +200,10 @@ namespace ControlPanel.Controllers
                 //check name corresponds id
                 if (modifiedGroup.Id == id)
                 {
-                    logger.Info($"Action End | Controller name: {nameof(GroupsController)} | Action name: {nameof(CheckNameUnique)}");
                     return Json(true, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
-                    logger.Info($"Action End | Controller name: {nameof(GroupsController)} | Action name: {nameof(CheckNameUnique)}");
                     return Json($"Группа с названием {name} уже существует", JsonRequestBehavior.AllowGet);
                 }
             }
@@ -241,7 +217,6 @@ namespace ControlPanel.Controllers
             var group = await repository.FindGroupByIdAsync(groupId);
             await repository.RemoveAgentFromGroupAsync(agentId);
             await repository.SaveAsync();
-            logger.Info($"Action End | Controller name: {nameof(GroupsController)} | Action name: {nameof(RemoveAgent)}");
             return RedirectToAction("GroupAgents",group);
         }
 

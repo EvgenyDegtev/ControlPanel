@@ -14,9 +14,13 @@ using CsvHelper;
 using System.Globalization;
 using ControlPanel.ViewModels;
 using System.Net;
+using ControlPanel.Filters;
 
 namespace ControlPanel.Controllers
 {
+    [Authorize]
+    [ErrorLogger]
+    [ActionEnd]
     public class ReportsController : Controller
     {
         IAgentRepository agentRpository;
