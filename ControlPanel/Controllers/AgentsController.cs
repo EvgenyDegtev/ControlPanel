@@ -60,7 +60,6 @@ namespace ControlPanel.Controllers
                 isServiceLevelBool = Convert.ToBoolean(isServiceLevel);
             }
                 
-
             AgentsIndexViewModel agentsIndexViewModel = new AgentsIndexViewModel
             {
                 SearchString = searchString,
@@ -74,26 +73,8 @@ namespace ControlPanel.Controllers
                 IsServiceLevel=isServiceLevelBool
             };
 
-            if(selectedGroupId!=null)
-            {
-                agents = agents.Where(agent => agent.GroupId == selectedGroupId).ToList();
-            }
+            agents = FilterAgents(agents, selectedGroupId, selectedAlgorithmId, isServiceLevelBool, searchString);
             
-            if (selectedAlgorithmId!=null)
-            {
-                agents = agents.Where(agent => agent.Algorithm == selectedAlgorithmId).ToList();
-            }
-
-            if (isServiceLevelBool!= null)
-            {
-                agents = agents.Where(agent => agent.IsAlgorithmAllowServiceLevel == isServiceLevelBool).ToList();
-            }
-
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                agents = agents.Where(ag => ag.Login.Contains(searchString)).ToList();
-            }
-                                  
             agentsIndexViewModel.PagedAgents = agents.ToPagedList(pageNumber, pageSize);
             return View(agentsIndexViewModel);
         }
@@ -379,5 +360,29 @@ namespace ControlPanel.Controllers
             return sortedAgents;
         }
 
+        private static List<Agent> FilterAgents(List<Agent> agents, int? selectedGroupId, int? selectedAlgorithmId, bool? isServiceLevelBool, string searchString)
+        {
+            List<Agent> filtredAgents = agents;
+            if (selectedGroupId != null)
+            {
+                filtredAgents = filtredAgents.Where(agent => agent.GroupId == selectedGroupId).ToList();
+            }
+
+            if (selectedAlgorithmId != null)
+            {
+                filtredAgents = filtredAgents.Where(agent => agent.Algorithm == selectedAlgorithmId).ToList();
+            }
+
+            if (isServiceLevelBool != null)
+            {
+                filtredAgents = filtredAgents.Where(agent => agent.IsAlgorithmAllowServiceLevel == isServiceLevelBool).ToList();
+            }
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                filtredAgents = filtredAgents.Where(ag => ag.Login.ToLower().Contains(searchString.ToLower())).ToList();
+            }
+            return filtredAgents;
+        }
     }
 }

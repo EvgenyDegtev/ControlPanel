@@ -54,16 +54,7 @@ namespace ControlPanel.Controllers
                 SelectedSkillId=selectedSkillId
             };
 
-            if(selectedSkillId!=null)
-            {
-                routes = routes.Where(route => route.SkillId == selectedSkillId).ToList();
-            }
-
-            if(!String.IsNullOrEmpty(searchString))
-            {
-                routes = routes.Where(route => route.Key.Contains(searchString)).ToList();
-            }
-            
+            routes = FilterRoutes(routes, selectedSkillId, searchString);
 
             routesIndexViewModel.PagedRoutes = routes.ToPagedList(pageNumber, pageSize);
             return View(routesIndexViewModel);
@@ -224,6 +215,23 @@ namespace ControlPanel.Controllers
             else
                 sortedRoutes = sortedRoutes.OrderBy(route => route.Name).ToList();
             return sortedRoutes;
+        }
+
+        private static List<Route> FilterRoutes(List<Route> routes, int? selectedSkillId, string searchString)
+        {
+            List<Route> filtredRoutes = routes;
+
+            if (selectedSkillId != null)
+            {
+                filtredRoutes = filtredRoutes.Where(route => route.SkillId == selectedSkillId).ToList();
+            }
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                filtredRoutes = filtredRoutes.Where(route => route.Key.ToLower().Contains(searchString.ToLower())).ToList();
+            }
+
+            return filtredRoutes;
         }
     }
 }

@@ -52,17 +52,7 @@ namespace ControlPanel.Controllers
                 SelectedAlgorithmId =selectedAlgorithmId
             };
 
-            if(!String.IsNullOrEmpty(searchString))
-            {
-                skills = skills.Where(skill => skill.Key.Contains(searchString)).ToList();
-            }
-
-            if(selectedAlgorithmId!=null)
-            {
-                skills = skills.Where(skill => skill.Algorithm == selectedAlgorithmId).ToList();
-            }
-            
-
+            skills = FilterSkills(skills, searchString, selectedAlgorithmId);
 
             skillsIndexViewModel.PagedSkills = skills.ToPagedList(pageNumber, pageSize);
             return View(skillsIndexViewModel);
@@ -253,6 +243,22 @@ namespace ControlPanel.Controllers
             else
                 sortedSkills = sortedSkills.OrderBy(skill => skill.Name).ToList();
             return sortedSkills;
+        }
+
+        private static List<Skill> FilterSkills(List<Skill> skills,string searchString ,int? selectedAlgorithmId)
+        {
+            List<Skill> filtredSkills = skills;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                filtredSkills = filtredSkills.Where(skill => skill.Key.ToLower().Contains(searchString.ToLower())).ToList();
+            }
+
+            if (selectedAlgorithmId != null)
+            {
+                filtredSkills = filtredSkills.Where(skill => skill.Algorithm == selectedAlgorithmId).ToList();
+            }
+            return filtredSkills;
         }
     }
 }

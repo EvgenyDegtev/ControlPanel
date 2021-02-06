@@ -52,16 +52,7 @@ namespace ControlPanel.Controllers
                 Description=description
             };
 
-            if (!String.IsNullOrEmpty(description))
-            {
-                var groupsWithDescription = groups.Where(group => group.Description != null).ToList();
-                groups = groupsWithDescription.Where(group => group.Description.ToLower().Contains(description.ToLower())).ToList();
-            }
-
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                groups = groups.Where(group => group.Name.Contains(searchString)).ToList();
-            }            
+            groups = FilterGroups(groups, searchString, description);
 
             groupsIndexViewModel.PagedGroups = groups.ToPagedList(pageNumber, pageSize);
             return View(groupsIndexViewModel);
@@ -241,6 +232,22 @@ namespace ControlPanel.Controllers
             else
                 sortedGroups = sortedGroups.OrderBy(group => group.Name).ToList();
             return sortedGroups;
+        }
+
+        private static List<Group> FilterGroups(List<Group> groups, string searchString, string description)
+        {
+            List<Group> filtredGroups = groups;
+            if (!String.IsNullOrEmpty(description))
+            {
+                var groupsWithDescription = filtredGroups.Where(group => group.Description != null).ToList();
+                filtredGroups = groupsWithDescription.Where(group => group.Description.ToLower().Contains(description.ToLower())).ToList();
+            }
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                filtredGroups = filtredGroups.Where(group => group.Name.ToLower().Contains(searchString.ToLower())).ToList();
+            }
+            return filtredGroups;
         }
     }
 }

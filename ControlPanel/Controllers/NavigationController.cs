@@ -10,7 +10,7 @@ using ControlPanel.Filters;
 namespace ControlPanel.Controllers
 {
     [ErrorLogger]
-    [ActionEnd]
+    //[ActionEnd]
     public class NavigationController : Controller
     {
         // GET: Navigation
