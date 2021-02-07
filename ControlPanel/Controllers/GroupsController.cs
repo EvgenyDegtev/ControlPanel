@@ -33,26 +33,27 @@ namespace ControlPanel.Controllers
 
         //Get and Post
         [ErrorLogger]
-        public async Task<ActionResult> Index(string searchString, int? page,string description, string selectedSortProperty = "Name", string sortOrder = "asc")
+        public async Task<ActionResult> Index([Bind] GroupsIndexViewModel groupsIndexModel)
         {
-            logger.Info($"Action Start | Controller name: {nameof(GroupsController)} | Action name: {nameof(Index)}| Input params: {nameof(searchString)}={searchString}, {nameof(page)}={page}," +
-                $"{nameof(description)}={description}, {nameof(selectedSortProperty)}={selectedSortProperty}, {nameof(sortOrder)}={sortOrder} ");
+            logger.Info($"Action Start | Controller name: {nameof(GroupsController)} | Action name: {nameof(Index)}| Input params: {nameof(groupsIndexModel.SearchString)}={groupsIndexModel.SearchString}, " +
+                $"{nameof(groupsIndexModel.Page)}={groupsIndexModel.Page}, {nameof(groupsIndexModel.Description)}={groupsIndexModel.Description}, " +
+                $"{nameof(groupsIndexModel.SelectedSortProperty)}={groupsIndexModel.SelectedSortProperty}, {nameof(groupsIndexModel.SortOrder)}={groupsIndexModel.SortOrder} ");
 
             int pageSize = 5;
-            int pageNumber = page ?? 1;
+            int pageNumber = groupsIndexModel.Page ?? 1;
             var groups = await repository.GetGroupsAsync();
 
-            groups = SortGroups(groups, sortOrder, selectedSortProperty);
+            groups = SortGroups(groups, groupsIndexModel.SortOrder, groupsIndexModel.SelectedSortProperty);
 
             GroupsIndexViewModel groupsIndexViewModel = new GroupsIndexViewModel
             {
-                SearchString = searchString,
-                SortOrder=sortOrder,
-                SelectedSortProperty=selectedSortProperty,
-                Description=description
+                SearchString = groupsIndexModel.SearchString,
+                SortOrder=groupsIndexModel.SortOrder,
+                SelectedSortProperty=groupsIndexModel.SelectedSortProperty,
+                Description=groupsIndexModel.Description
             };
 
-            groups = FilterGroups(groups, searchString, description);
+            groups = FilterGroups(groups, groupsIndexModel.SearchString, groupsIndexModel.Description);
 
             groupsIndexViewModel.PagedGroups = groups.ToPagedList(pageNumber, pageSize);
             return View(groupsIndexViewModel);

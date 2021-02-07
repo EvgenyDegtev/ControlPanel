@@ -32,27 +32,28 @@ namespace ControlPanel.Controllers
 
         //Get and Post
         [ErrorLogger]        
-        public async Task<ActionResult> Index(string searchString, int? page, int? selectedAlgorithmId, string selectedSortProperty = "Name", string sortOrder = "asc")
+        public async Task<ActionResult> Index([Bind] SkillsIndexViewModel skillsIndexModel)
         {
-            logger.Info($"Action Start | Controller name: {nameof(SkillsController)} | Action name: {nameof(Index)}| Input params: {nameof(searchString)}={searchString}, {nameof(page)}={page}," +
-                $"{nameof(selectedAlgorithmId)}={selectedAlgorithmId}, {nameof(selectedSortProperty)}={selectedSortProperty}, {nameof(sortOrder)}={sortOrder} ");
+            logger.Info($"Action Start | Controller name: {nameof(SkillsController)} | Action name: {nameof(Index)}| Input params: {nameof(skillsIndexModel.SearchString)}={skillsIndexModel.SearchString}, " +
+                $"{nameof(skillsIndexModel.Page)}={skillsIndexModel.Page}, {nameof(skillsIndexModel.SelectedAlgorithmId)}={skillsIndexModel.SelectedAlgorithmId}, " +
+                $"{nameof(skillsIndexModel.SelectedSortProperty)}={skillsIndexModel.SelectedSortProperty}, {nameof(skillsIndexModel.SortOrder)}={skillsIndexModel.SortOrder} ");
 
             int pageSize = 5;
-            int pageNumber = page ?? 1;
+            int pageNumber = skillsIndexModel.Page ?? 1;
             var skills = await repository.GetSkillsAsync();
 
-            skills = SortSkills(skills, sortOrder, selectedSortProperty);
+            skills = SortSkills(skills, skillsIndexModel.SortOrder, skillsIndexModel.SelectedSortProperty);
 
             SkillsIndexViewModel skillsIndexViewModel = new SkillsIndexViewModel
             {
-                SearchString=searchString,
-                SortOrder=sortOrder,
-                SelectedSortProperty=selectedSortProperty,
+                SearchString=skillsIndexModel.SearchString,
+                SortOrder=skillsIndexModel.SortOrder,
+                SelectedSortProperty=skillsIndexModel.SelectedSortProperty,
                 Algorithms = new SelectList(Skill.algorithmDictionary.Select(algo => new { Algorithm = algo.Key.ToString(), AlgorithmNAme = algo.Value }), "Algorithm", "AlgorithmName"),
-                SelectedAlgorithmId =selectedAlgorithmId
+                SelectedAlgorithmId =skillsIndexModel.SelectedAlgorithmId
             };
 
-            skills = FilterSkills(skills, searchString, selectedAlgorithmId);
+            skills = FilterSkills(skills, skillsIndexModel.SearchString, skillsIndexModel.SelectedAlgorithmId);
 
             skillsIndexViewModel.PagedSkills = skills.ToPagedList(pageNumber, pageSize);
             return View(skillsIndexViewModel);

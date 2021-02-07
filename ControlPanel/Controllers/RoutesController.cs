@@ -34,30 +34,30 @@ namespace ControlPanel.Controllers
 
         //Get and Post
         [ErrorLogger]
-        public async Task<ActionResult> Index(/*string searchString, int? selectedSkillId, int? page, string selectedSortProperty = "Name", string sortOrder = "asc"*/ [Bind] RoutesIndexViewModel routesIndexView)
+        public async Task<ActionResult> Index([Bind] RoutesIndexViewModel routesIndexModel)
         {
-            logger.Info($"Action Start | Controller name: {nameof(RoutesController)} | Action name: {nameof(Index)}| Input params: {nameof(routesIndexView.SearchString)}={routesIndexView.SearchString}, " +
-                $"{nameof(routesIndexView.SelectedSkillId)}={routesIndexView.SelectedSkillId}, {nameof(routesIndexView.Page)}={routesIndexView.Page}, " +
-                $"{nameof(routesIndexView.SelectedSortProperty)}={routesIndexView.SelectedSortProperty}, " +
-                $"{nameof(routesIndexView.SortOrder)}={routesIndexView.SortOrder}");
+            logger.Info($"Action Start | Controller name: {nameof(RoutesController)} | Action name: {nameof(Index)}| Input params: {nameof(routesIndexModel.SearchString)}={routesIndexModel.SearchString}, " +
+                $"{nameof(routesIndexModel.SelectedSkillId)}={routesIndexModel.SelectedSkillId}, {nameof(routesIndexModel.Page)}={routesIndexModel.Page}, " +
+                $"{nameof(routesIndexModel.SelectedSortProperty)}={routesIndexModel.SelectedSortProperty}, " +
+                $"{nameof(routesIndexModel.SortOrder)}={routesIndexModel.SortOrder}");
 
             int pageSize = 5;
-            int pageNumber = routesIndexView.Page ?? 1;
+            int pageNumber = routesIndexModel.Page ?? 1;
             var routes = await repository.GetRoutesIncludeSkillsAsync();
 
-            routes = SortRoutes(routes, routesIndexView.SortOrder, routesIndexView.SelectedSortProperty);
+            routes = SortRoutes(routes, routesIndexModel.SortOrder, routesIndexModel.SelectedSortProperty);
 
             RoutesIndexViewModel routesIndexViewModel = new RoutesIndexViewModel
             {
-                SearchString= routesIndexView.SearchString,
-                Page= routesIndexView.Page,
-                SortOrder= routesIndexView.SortOrder,
-                SelectedSortProperty=routesIndexView.SelectedSortProperty,
-                Skills= new SelectList(await repository.GetSkillsAsync(), "Id", "Name", routesIndexView.SelectedSkillId),
-                SelectedSkillId= routesIndexView.SelectedSkillId
+                SearchString= routesIndexModel.SearchString,
+                Page= routesIndexModel.Page,
+                SortOrder= routesIndexModel.SortOrder,
+                SelectedSortProperty=routesIndexModel.SelectedSortProperty,
+                Skills= new SelectList(await repository.GetSkillsAsync(), "Id", "Name", routesIndexModel.SelectedSkillId),
+                SelectedSkillId= routesIndexModel.SelectedSkillId
             };
 
-            routes = FilterRoutes(routes, routesIndexView.SelectedSkillId, routesIndexView.SearchString);
+            routes = FilterRoutes(routes, routesIndexModel.SelectedSkillId, routesIndexModel.SearchString);
 
             routesIndexViewModel.PagedRoutes = routes.ToPagedList(pageNumber, pageSize);
             return View(routesIndexViewModel);

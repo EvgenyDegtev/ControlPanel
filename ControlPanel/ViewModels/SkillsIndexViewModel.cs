@@ -12,11 +12,13 @@ namespace ControlPanel.ViewModels
     {
         public IPagedList<Skill> PagedSkills { get; set; }
 
+        public int? Page { get; set; }
+
         public string SearchString { get; set; }
 
-        public string SortOrder { get; set; }
+        public string SortOrder { get; set; } = "asc";
 
-        public string SelectedSortProperty { get; set; }
+        public string SelectedSortProperty { get; set; } = "Name";
 
         public SelectList Algorithms { get; set; }
 

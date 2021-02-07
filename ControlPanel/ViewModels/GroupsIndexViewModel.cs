@@ -11,12 +11,14 @@ namespace ControlPanel.ViewModels
     {
         public IPagedList<Group> PagedGroups { get; set; }
 
+        public int? Page { get; set; }
+
         public string SearchString { get; set; }
 
-        public string SortOrder { get; set; }
+        public string SortOrder { get; set; } = "asc";
 
-        public string SelectedSortProperty { get; set; }
+        public string SelectedSortProperty { get; set; } = "Name";
 
-        public string Description { get; set; }
+        public string Description { get; set; } 
     }
 }
