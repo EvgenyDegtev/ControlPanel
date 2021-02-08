@@ -8,7 +8,7 @@ using ControlPanel.Filters;
 namespace ControlPanel.Controllers
 {
     [ErrorLogger]
-    [ActionEnd]
+    [ActionLogger]
     public class ErrorController : Controller
     {
         [HttpGet]

@@ -13,7 +13,7 @@ namespace ControlPanel.Controllers
 {
     [Authorize]
     [ErrorLogger]
-    [ActionEnd]
+    [ActionLogger]
     public class MonitoringController: Controller
     {
         private static Logger logger = LogManager.GetCurrentClassLogger();

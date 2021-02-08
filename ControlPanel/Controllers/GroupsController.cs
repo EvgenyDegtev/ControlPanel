@@ -20,7 +20,7 @@ namespace ControlPanel.Controllers
 {
     [Authorize]
     [SessionState(SessionStateBehavior.Disabled)]
-    [ActionEnd]
+    [ActionLogger]
     public class GroupsController : Controller
     {
         private static Logger logger = LogManager.GetCurrentClassLogger();

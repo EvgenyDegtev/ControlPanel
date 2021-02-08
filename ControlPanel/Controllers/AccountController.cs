@@ -9,7 +9,7 @@ using ControlPanel.Filters;
 
 namespace ControlPanel.Controllers
 {
-    [ActionEnd]
+    [ActionLogger]
     [ErrorLogger]
     public class AccountController : Controller
     {

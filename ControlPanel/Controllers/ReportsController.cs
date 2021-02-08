@@ -20,7 +20,7 @@ namespace ControlPanel.Controllers
 {
     [Authorize]
     [ErrorLogger]
-    [ActionEnd]
+    [ActionLogger]
     public class ReportsController : Controller
     {
         IAgentRepository agentRpository;

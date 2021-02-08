@@ -21,18 +21,11 @@ namespace ControlPanel.Controllers
 {
     [Authorize]
     [SessionState(SessionStateBehavior.Disabled)]
-    [ActionEnd]
+    [ActionLogger]
     public class AgentsController : Controller
     {
         private static Logger logger = LogManager.GetCurrentClassLogger();
         IAgentRepository repository;
-
-        public static void logWriter(Controller controller)
-        {
-            string controllerName = controller.RouteData.Values["controller"].ToString();
-            string actionName= controller.RouteData.Values["action"].ToString();
-            logger.Info($"Action Start | Controller name: {controllerName} | Action name: {actionName}| zzz");
-        }
 
         public AgentsController (IAgentRepository agentRepository)
         {
@@ -43,10 +36,9 @@ namespace ControlPanel.Controllers
         [ErrorLogger]
         public async Task<ActionResult> Index(string searchString, int? page, int? selectedGroupId,int? selectedAlgorithmId,string isServiceLevel,string selectedSortProperty="Name", string sortOrder="asc")
         {
-            //logWriter(this);
             logger.Info($"Action Start | Controller name: {nameof(AgentsController)} | Action name: {nameof(Index)}| Input params: {nameof(searchString)}={searchString}, {nameof(page)}={page}, " +
-                $"{nameof(selectedGroupId)}={selectedGroupId}, {nameof(selectedAlgorithmId)}={selectedAlgorithmId} ,{nameof(isServiceLevel)}={isServiceLevel}, " +
-                $",{nameof(selectedSortProperty)}={selectedSortProperty} ,{nameof(sortOrder)}={sortOrder}");
+                $"{nameof(selectedGroupId)}={selectedGroupId}, {nameof(selectedAlgorithmId)}={selectedAlgorithmId}, {nameof(isServiceLevel)}={isServiceLevel}, " +
+                $"{nameof(selectedSortProperty)}={selectedSortProperty} ,{nameof(sortOrder)}={sortOrder}");
 
             int pageSize = 5;
             int pageNumber = page ?? 1;

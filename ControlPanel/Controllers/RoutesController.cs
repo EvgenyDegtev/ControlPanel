@@ -20,7 +20,7 @@ namespace ControlPanel.Controllers
 {
     [Authorize]
     [SessionState(SessionStateBehavior.Disabled)]
-    [ActionEnd]
+    [ActionLogger]
     public class RoutesController : Controller
     {
         private static Logger logger = LogManager.GetCurrentClassLogger();
