@@ -34,38 +34,33 @@ namespace ControlPanel.Controllers
 
         //Get and Post
         [ErrorLogger]
-        public async Task<ActionResult> Index(string searchString, int? page, int? selectedGroupId,int? selectedAlgorithmId,string isServiceLevel,string selectedSortProperty="Name", string sortOrder="asc")
+        public async Task<ActionResult> Index(AgentsIndexViewModel agentsIndexModel)
         {
-            logger.Info($"Action Start | Controller name: {nameof(AgentsController)} | Action name: {nameof(Index)}| Input params: {nameof(searchString)}={searchString}, {nameof(page)}={page}, " +
-                $"{nameof(selectedGroupId)}={selectedGroupId}, {nameof(selectedAlgorithmId)}={selectedAlgorithmId}, {nameof(isServiceLevel)}={isServiceLevel}, " +
-                $"{nameof(selectedSortProperty)}={selectedSortProperty} ,{nameof(sortOrder)}={sortOrder}");
+            logger.Info($"Action Start | Controller name: {nameof(AgentsController)} | Action name: {nameof(Index)}| Input params: {nameof(agentsIndexModel.SearchString)}={agentsIndexModel.SearchString}, " +
+                $"{nameof(agentsIndexModel.Page)}={agentsIndexModel.Page}, {nameof(agentsIndexModel.SelectedGroupId)}={agentsIndexModel.SelectedGroupId}, " +
+                $"{nameof(agentsIndexModel.SelectedAlgorithmId)}={agentsIndexModel.SelectedAlgorithmId}, {nameof(agentsIndexModel.IsServiceLevel)}={agentsIndexModel.IsServiceLevel}, " +
+                $"{nameof(agentsIndexModel.SelectedSortProperty)}={agentsIndexModel.SelectedSortProperty} ,{nameof(agentsIndexModel.SortOrder)}={agentsIndexModel.SortOrder}");
 
             int pageSize = 5;
-            int pageNumber = page ?? 1;
+            int pageNumber = agentsIndexModel.Page ?? 1;
             var agents = await repository.GetAgentsIncludeGroupAsync();
 
-            agents = SortAgents(agents, sortOrder, selectedSortProperty);
-
-            bool? isServiceLevelBool = null;
-            if(!String.IsNullOrEmpty(isServiceLevel))
-            {
-                isServiceLevelBool = Convert.ToBoolean(isServiceLevel);
-            }
+            agents = SortAgents(agents, agentsIndexModel.SortOrder, agentsIndexModel.SelectedSortProperty);
                 
             AgentsIndexViewModel agentsIndexViewModel = new AgentsIndexViewModel
             {
-                SearchString = searchString,
-                SortOrder = sortOrder,
-                SelectedSortProperty = selectedSortProperty,
-                Groups = new SelectList(await repository.GetGroupsAsync(), "Id", "Name", selectedGroupId),
-                SelectedGroupId = selectedGroupId,
+                SearchString = agentsIndexModel.SearchString,
+                SortOrder = agentsIndexModel.SortOrder,
+                SelectedSortProperty = agentsIndexModel.SelectedSortProperty,
+                Groups = new SelectList(await repository.GetGroupsAsync(), "Id", "Name", agentsIndexModel.SelectedGroupId),
+                SelectedGroupId = agentsIndexModel.SelectedGroupId,
                 Algorithms = new SelectList(Agent.algorithmDictionary.Select(algo => new { Algorithm = algo.Key.ToString(), AlgorithmNAme = algo.Value }), "Algorithm", "AlgorithmName"),
-                SelectedAlgorithmId = selectedAlgorithmId,
+                SelectedAlgorithmId = agentsIndexModel.SelectedAlgorithmId,
                 IsServiceLevelList = new SelectList(AgentsIndexViewModel.IsServiceLevelListDictionary.Select(pair=>new {Flag=pair.Key.ToString(), Name=pair.Value }), "Flag", "Name"),
-                IsServiceLevel=isServiceLevelBool
+                IsServiceLevel= agentsIndexModel.IsServiceLevel
             };
 
-            agents = FilterAgents(agents, selectedGroupId, selectedAlgorithmId, isServiceLevelBool, searchString);
+            agents = FilterAgents(agents, agentsIndexModel.SelectedGroupId, agentsIndexModel.SelectedAlgorithmId, agentsIndexModel.IsServiceLevel, agentsIndexModel.SearchString);
             
             agentsIndexViewModel.PagedAgents = agents.ToPagedList(pageNumber, pageSize);
             return View(agentsIndexViewModel);

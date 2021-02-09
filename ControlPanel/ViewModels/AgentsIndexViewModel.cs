@@ -14,9 +14,11 @@ namespace ControlPanel.ViewModels
 
         public string SearchString { get; set; }
 
-        public string SortOrder { get; set; }
+        public int? Page { get; set; }
 
-        public string SelectedSortProperty { get; set; }
+        public string SortOrder { get; set; } = "asc";
+
+        public string SelectedSortProperty { get; set; } = "Name";
 
         public SelectList Groups { get; set; }
 
