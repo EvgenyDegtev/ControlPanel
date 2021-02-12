@@ -320,30 +320,30 @@ namespace ControlPanel.Controllers
         private static List<Agent> SortAgents(List<Agent> agents, string sortOrder, string selectedSortProperty)
         {
             List<Agent> sortedAgents = agents;
-            if (sortOrder == "desc" && selectedSortProperty == nameof(Agent.Name))
-                sortedAgents = sortedAgents.OrderByDescending(agent => agent.Name).ToList();
-            else if (sortOrder == "asc" && selectedSortProperty == nameof(Agent.Login))
-                sortedAgents = sortedAgents.OrderBy(agent => agent.Login).ToList();
-            else if (sortOrder == "desc" && selectedSortProperty == nameof(Agent.Login))
-                sortedAgents = sortedAgents.OrderByDescending(agent => agent.Login).ToList();
-            else if (sortOrder == "asc" && selectedSortProperty == nameof(Agent.Algorithm))
-                sortedAgents = sortedAgents.OrderBy(agent => agent.Algorithm).ToList();
-            else if (sortOrder == "desc" && selectedSortProperty == nameof(Agent.Algorithm))
-                sortedAgents = sortedAgents.OrderByDescending(agent => agent.Algorithm).ToList();
-            else if (sortOrder == "asc" && selectedSortProperty == nameof(Agent.WorkloadMaxContactsCount))
-                sortedAgents = sortedAgents.OrderBy(agent => agent.WorkloadMaxContactsCount).ToList();
-            else if (sortOrder == "desc" && selectedSortProperty == nameof(Agent.WorkloadMaxContactsCount))
-                sortedAgents = sortedAgents.OrderByDescending(agent => agent.WorkloadMaxContactsCount).ToList();
-            else if (sortOrder == "asc" && selectedSortProperty == nameof(Agent.IsAlgorithmAllowServiceLevel))
-                sortedAgents = sortedAgents.OrderBy(agents => agents.IsAlgorithmAllowServiceLevel).ToList();
-            else if (sortOrder == "desc" && selectedSortProperty == nameof(Agent.IsAlgorithmAllowServiceLevel))
-                sortedAgents = sortedAgents.OrderByDescending(agent => agent.IsAlgorithmAllowServiceLevel).ToList();
-            else if (sortOrder == "asc" && selectedSortProperty == nameof(Agent.Group))
-                sortedAgents = sortedAgents.OrderBy(agent => agent.Group?.Name).ToList();
-            else if (sortOrder == "desc" && selectedSortProperty == nameof(Agent.Group))
-                sortedAgents = sortedAgents.OrderByDescending(agent => agent.Group?.Name).ToList();
-            else
-                sortedAgents = sortedAgents.OrderBy(agent => agent.Name).ToList();
+            //if (sortOrder == "desc" && selectedSortProperty == nameof(Agent.Name))
+            //    sortedAgents = sortedAgents.OrderByDescending(agent => agent.Name).ToList();
+            //else if (sortOrder == "asc" && selectedSortProperty == nameof(Agent.Login))
+            //    sortedAgents = sortedAgents.OrderBy(agent => agent.Login).ToList();
+            //else if (sortOrder == "desc" && selectedSortProperty == nameof(Agent.Login))
+            //    sortedAgents = sortedAgents.OrderByDescending(agent => agent.Login).ToList();
+            //else if (sortOrder == "asc" && selectedSortProperty == nameof(Agent.Algorithm))
+            //    sortedAgents = sortedAgents.OrderBy(agent => agent.Algorithm).ToList();
+            //else if (sortOrder == "desc" && selectedSortProperty == nameof(Agent.Algorithm))
+            //    sortedAgents = sortedAgents.OrderByDescending(agent => agent.Algorithm).ToList();
+            //else if (sortOrder == "asc" && selectedSortProperty == nameof(Agent.WorkloadMaxContactsCount))
+            //    sortedAgents = sortedAgents.OrderBy(agent => agent.WorkloadMaxContactsCount).ToList();
+            //else if (sortOrder == "desc" && selectedSortProperty == nameof(Agent.WorkloadMaxContactsCount))
+            //    sortedAgents = sortedAgents.OrderByDescending(agent => agent.WorkloadMaxContactsCount).ToList();
+            //else if (sortOrder == "asc" && selectedSortProperty == nameof(Agent.IsAlgorithmAllowServiceLevel))
+            //    sortedAgents = sortedAgents.OrderBy(agents => agents.IsAlgorithmAllowServiceLevel).ToList();
+            //else if (sortOrder == "desc" && selectedSortProperty == nameof(Agent.IsAlgorithmAllowServiceLevel))
+            //    sortedAgents = sortedAgents.OrderByDescending(agent => agent.IsAlgorithmAllowServiceLevel).ToList();
+            //else if (sortOrder == "asc" && selectedSortProperty == nameof(Agent.Group))
+            //    sortedAgents = sortedAgents.OrderBy(agent => agent.Group?.Name).ToList();
+            //else if (sortOrder == "desc" && selectedSortProperty == nameof(Agent.Group))
+            //    sortedAgents = sortedAgents.OrderByDescending(agent => agent.Group?.Name).ToList();
+            //else
+            //    sortedAgents = sortedAgents.OrderBy(agent => agent.Name).ToList();
             return sortedAgents;
         }
 
