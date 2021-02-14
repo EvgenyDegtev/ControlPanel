@@ -12,6 +12,7 @@ using ControlPanel.ViewModels;
 using System.Web.Mvc;
 using System.Threading.Tasks;
 using PagedList;
+using System.Collections.Generic;
 
 namespace ControlPanel.UnitTests
 {
@@ -19,12 +20,12 @@ namespace ControlPanel.UnitTests
     public class AgentTests
     {
         [TestMethod]
-        public async Task Can_Paginate()
+        public async Task CanPaginate()
         {
             //Arrange
             Mock<IAgentRepository> mock = new Mock<IAgentRepository>();
 
-            mock.Setup(m => m.Agents).Returns(new Agent[]
+            mock.Setup(agentsRepo => agentsRepo.GetAgentsIncludeGroupAsync()).ReturnsAsync(new List<Agent>
                 {
                     new Agent {Id=1, Login="Login1", Name="Agent1" },
                     new Agent {Id=2, Login="Login2", Name="Agent2" },
@@ -33,25 +34,30 @@ namespace ControlPanel.UnitTests
                     new Agent {Id=5, Login="Login5", Name="Agent5" },
                     new Agent {Id=6, Login="Login6", Name="Agent6" },
                     new Agent {Id=7, Login="Login7", Name="Agent7" }
-                }.AsQueryable());
+                });
+
+            mock.Setup(agentsRepo => agentsRepo.GetGroupsAsync()).ReturnsAsync(new List<Group>
+                {
+                    new Group {Id=1, Name="Group1" },
+                    new Group {Id=2, Name="Group2" }
+                });
 
             AgentsController controller = new AgentsController(mock.Object);
 
             AgentsIndexViewModel agentsIndexModel = new AgentsIndexViewModel
             {
-                SelectedSortProperty = "Login",
-                SortOrder="asc",
                 Page = 2
             };
-            //Act
-            //AgentsIndexViewModel result = (AgentsIndexViewModel)(await controller.Index(agentsIndexModel)).Model;
 
-            var qq = await controller.Index(agentsIndexModel) as ViewResult;
-            AgentsIndexViewModel result = (AgentsIndexViewModel)qq.Model;
+
+            //Act
+            var resultView = await controller.Index(agentsIndexModel) as ViewResult;
+            AgentsIndexViewModel result = (AgentsIndexViewModel)resultView.Model;
 
             //Accert
-            int agentCount = result.PagedAgents.Count;
-            Assert.IsTrue(agentCount == 2);
+            Assert.IsTrue(result.PagedAgents.Count == 2);
+            Assert.AreEqual("Login6", result.PagedAgents.ToList()[0].Login);
+            Assert.AreEqual("Agent7", result.PagedAgents.ToList()[1].Name);
         }
     }
 }
