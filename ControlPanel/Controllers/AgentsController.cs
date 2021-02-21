@@ -120,7 +120,7 @@ namespace ControlPanel.Controllers
             {
                 return HttpNotFound();
             }
-            return View(agent);
+            return PartialView(agent);
 
         }
 

@@ -103,7 +103,7 @@
 			<td>
 				<a href=@Url.Action("Edit", new {id=agent.Id })><i class="fa fa-edit"></i></a>
 				|
-				<a href=@Url.Action("Delete", new {id=agent.Id })><i class="fa fa-close"></i></a>
+				<a href=@Url.Action("Delete", new {id=agent.Id }) class="deleteAgent"><i class="fa fa-close"></i></a>
 			</td>
 		</tr>
 	}
@@ -112,6 +112,10 @@
 	Страница @(Model.PagedAgents.PageCount < Model.PagedAgents.PageNumber ?0: Model.PagedAgents.PageNumber) из @Model.PagedAgents.PageCount
 	@Html.PagedListPager(Model.PagedAgents, currentPage => Url.Action("Index", new { page = currentPage, searchString = Model.SearchString, sortOrder=Model.SortOrder, selectedEntityName=Model.SelectedSortProperty, selectedGroupId=Model.SelectedGroupId.ToString(), selectedAlgorithmId=Model.SelectedAlgorithmId, isServiceLevel = Model.IsServiceLevel.ToString() }))
 
+<div id="modDialog" class="modal fade" tabindex="-1" role="dialog">
+	<div id="dialogContent" class="modal-dialog" role="document"></div>
+</div>
+
 <script type="text/javascript">
     $(function () {
         $("[data-autocomplete-source]").each(function () {
@@ -119,4 +123,19 @@
 			target.autocomplete({ source: target.attr("data-autocomplete-source"), minLength: 3, classes: { "class": "btn btn-primary"} });
         });
     });
+</script>
+
+<script>
+
+	$(function () {
+		$.ajaxSetup({ cache: false });
+		$(".deleteAgent").click(function (e) {
+
+			e.preventDefault();
+			$.get(this.href, function (data) {
+				$('#dialogContent').html(data);
+				$('#modDialog').modal('show');
+			});
+		});
+	})
 </script>
