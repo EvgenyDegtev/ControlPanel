@@ -215,7 +215,12 @@ namespace ControlPanel.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             }
             List<AgentToSkill> agentToSkills = await repository.FindAgentToSkillForAgentByIdAsync(id);
-            return View(agentToSkills);
+            AgentSkillsViewModel agentSkillsViewModel = new AgentSkillsViewModel
+            {
+                AgentId = id,
+                AgentToSkills = agentToSkills
+            };
+            return View(agentSkillsViewModel);
         }
 
         [HttpGet]

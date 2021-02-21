@@ -292,6 +292,7 @@
     <Compile Include="ViewModels\AgentAddSkillViewModel.cs" />
     <Compile Include="ViewModels\AgentCreateViewModel.cs" />
     <Compile Include="ViewModels\AgentsIndexViewModel.cs" />
+    <Compile Include="ViewModels\AgentSkillsViewModel.cs" />
     <Compile Include="ViewModels\GroupsIndexViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\NavViewModel.cs" />
