@@ -4,7 +4,7 @@
 <hr />
 
 <p>
-	@Html.ActionLink("Добавить навык", "AddSkill", new { id = Model.AgentId }, new {@class="btn btn-primary" })
+	@Html.ActionLink("Добавить навык", "AddSkill", new { id = Model.AgentId }, new { @class = "btn btn-primary" })
 </p>
 
 <table class="table table-hover">
@@ -52,11 +52,30 @@
 				@Html.DisplayFor(skill => item.Percent)
 			</td>
 			<td>
-				<a href=@Url.Action("EditSkill", new { agentId = Model.AgentId, skillId = item.SkillId })><i class="fa fa-edit"></i></a>
+				<a href=@Url.Action("EditSkill", new { agentId = Model.AgentId, skillId = item.SkillId }) class="editSkillModal"><i class="fa fa-edit"></i></a>
 				|
 				<a href=@Url.Action("RemoveSkill", new { agentId = Model.AgentId, skillId = item.SkillId })><i class="fa fa-close"></i></a>
 			</td>
 		</tr>
 	}
 </table>
+
+<div id="modDialog" class="modal fade" tabindex="-1" role="dialog">
+	<div id="dialogContent" class="modal-dialog" role="document"></div>
+</div>
+
+<script type="text/javascript">
+
+	$(function () {
+		$.ajaxSetup({ cache: false });
+		$(".editSkillModal").click(function (e) {
+
+			e.preventDefault();
+			$.get(this.href, function (data) {
+				$('#dialogContent').html(data);
+				$('#modDialog').modal('show');
+			});
+		});
+	})
+</script>
 

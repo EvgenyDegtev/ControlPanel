@@ -269,7 +269,7 @@ namespace ControlPanel.Controllers
 
         [HttpGet]
         [ErrorLogger]
-        public async Task<ViewResult> EditSkill (int agentId, int skillId)
+        public async Task<ActionResult> EditSkill (int agentId, int skillId)
         {
             logger.Info($"Action Start | Controller name: {nameof(AgentsController)} | Action name: {nameof(EditSkill)} | Input params: {nameof(agentId)}={agentId}, {nameof(skillId)}={skillId}");
             AgentToSkill agentToSkill = await repository.FindAgentToSkillAsync(agentId, skillId);
@@ -283,7 +283,7 @@ namespace ControlPanel.Controllers
                 Levels = new SelectList(AgentToSkill.levelDictionary.Select(level => new { Level = level.Key.ToString(), LevelName = level.Value }), "Level", "LevelName", agentToSkill.Level),
                 Modes = new SelectList(AgentToSkill.breakingModeDictionary.Select(mode => new { BreakingMode = mode.Key.ToString(), BreakingModeName = mode.Value }), "BreakingMode", "BreakingModeName", agentToSkill.BreakingMode)
             };
-            return View(agentAddSkillConfirmationViewModel);
+            return PartialView(agentAddSkillConfirmationViewModel);
         }
 
         [HttpPost]

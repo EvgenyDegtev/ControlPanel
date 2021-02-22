@@ -1,54 +1,67 @@
 ﻿@model ControlPanel.ViewModels.AgentAddSkillConfirmationViewModel
 
-<h2>EditSkill</h2>
+<div class="modal-content">
+	<div class="modal-header">
+		<button class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		<h4 class="modal-title">EditSkill</h4>
+	</div>
 
-@using (Html.BeginForm())
-{
-	<div class="form-horizontal">
-		@Html.HiddenFor(model => model.AgentToSkill.Id)
-		@Html.HiddenFor(model => model.AgentToSkill.AgentId)
-		@Html.HiddenFor(model => model.AgentToSkill.SkillId)
 
-		<div class="form-group">
-			@Html.Label("Навык", htmlAttributes: new { @class = "control-label col-md-2" })
-				<div class="col-md-10">
-					<span class="form-control">@Model.SkillName</span>
+	<div class="modal-body">
+		@using (Html.BeginForm())
+		{
+			<div class="form-horizontal">
+				@Html.HiddenFor(model => model.AgentToSkill.Id)
+				@Html.HiddenFor(model => model.AgentToSkill.AgentId)
+				@Html.HiddenFor(model => model.AgentToSkill.SkillId)
+
+				<div class="form-group">
+					@Html.Label("Навык", htmlAttributes: new { @class = "control-label col-md-4" })
+					<div class="col-md-8">
+						<span class="form-control">@Model.SkillName</span>
+					</div>
 				</div>
-		</div>
 
-		<div class="form-group">
-			@Html.LabelFor(model => model.AgentToSkill.Level, htmlAttributes: new { @class = "control-label col-md-2" })
-			<div class="col-md-10">
-				@Html.DropDownListFor(model => model.AgentToSkill.Level, Model.Levels as SelectList, new { @class = "form-control" })
-			</div>
-		</div>
+				<div class="form-group">
+					@Html.LabelFor(model => model.AgentToSkill.Level, htmlAttributes: new { @class = "control-label col-md-4" })
+					<div class="col-md-8">
+						@Html.DropDownListFor(model => model.AgentToSkill.Level, Model.Levels as SelectList, new { @class = "form-control" })
+					</div>
+				</div>
 
-		<div class="form-group">
-			@Html.LabelFor(model => model.AgentToSkill.OrderIndex, htmlAttributes: new { @class = "control-label col-md-2" })
-			<div class="col-md-10">
-				@Html.EditorFor(model => model.AgentToSkill.OrderIndex, new { htmlAttributes = new { @class = "form-control" } })
-			</div>
-		</div>
+				<div class="form-group">
+					@Html.LabelFor(model => model.AgentToSkill.OrderIndex, htmlAttributes: new { @class = "control-label col-md-4" })
+					<div class="col-md-8">
+						@Html.EditorFor(model => model.AgentToSkill.OrderIndex, new { htmlAttributes = new { @class = "form-control" } })
+					</div>
+				</div>
 
-		<div class="form-group">
-			@Html.LabelFor(model => model.AgentToSkill.BreakingMode, htmlAttributes: new { @class = "control-label col-md-2" })
-			<div class="col-md-10">
-				@Html.DropDownListFor(model => model.AgentToSkill.BreakingMode, Model.Modes as SelectList, new { @class = "form-control" })
-			</div>
-		</div>
+				<div class="form-group">
+					@Html.LabelFor(model => model.AgentToSkill.BreakingMode, htmlAttributes: new { @class = "control-label col-md-4" })
+					<div class="col-md-8">
+						@Html.DropDownListFor(model => model.AgentToSkill.BreakingMode, Model.Modes as SelectList, new { @class = "form-control" })
+					</div>
+				</div>
 
-		<div class="form-group">
-			@Html.LabelFor(model => model.AgentToSkill.Percent, htmlAttributes: new { @class = "control-label col-md-2" })
-			<div class="col-md-10">
-				@Html.EditorFor(model => model.AgentToSkill.Percent, new { htmlAttributes = new { @class = "form-control" } })
-			</div>
-		</div>
+				<div class="form-group">
+					@Html.LabelFor(model => model.AgentToSkill.Percent, htmlAttributes: new { @class = "control-label col-md-4" })
+					<div class="col-md-8">
+						@Html.EditorFor(model => model.AgentToSkill.Percent, new { htmlAttributes = new { @class = "form-control" } })
+					</div>
+				</div>
 
-		<div class="form-group">
-			<div class="col-md-offset-2 col-md-10">
-				<input type="submit" value="Save"  class="btn btn-default" />
+				<div class="form-group">
+					<div class="col-md-offset-4 col-md-8">
+						<input type="submit" value="Save" class="btn btn-default" />
+					</div>
+				</div>
+
 			</div>
-		</div>
+		}
 
 	</div>
-}
+</div>
+
+	
