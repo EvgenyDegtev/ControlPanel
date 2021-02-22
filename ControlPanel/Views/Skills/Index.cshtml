@@ -16,7 +16,6 @@
 		@using (Html.BeginForm("Index", "Skills"))
 		{
 		<div class="form-group">
-			@*<label class="control-label">ID навыка: </label>*@
 			<div class="input-group">
 				<span class="input-group-addon"><i class="fa fa-search"></i> </span>
 				<input type="text" name="searchString" value="@Model.SearchString" data-autocomplete-source='@Url.Action("AutocompleteSearch","Skills")' class="form-control" placeholder="Введите ID навыка" />
@@ -46,6 +45,9 @@
 			@Html.DisplayNameFor(model => model.PagedSkills.ToList().FirstOrDefault().Algorithm)
 			@Html.Sort(Model.SearchString, Model.PagedSkills.PageNumber.ToString(), nameof(Skill.Algorithm), Model.SelectedSortProperty, Model.SortOrder, (nameof(Model.SelectedAlgorithmId), Model.SelectedAlgorithmId.ToString()))
 		</th>
+		<th>
+			Маршруты
+		</th>
 		<th></th>
 	</tr>
 
@@ -53,7 +55,7 @@
 	{
 		<tr>
 			<td>
-				@Html.DisplayFor(model => skill.Name)
+				<a href=@Url.Action("Edit", new { id = skill.Id })>@Html.DisplayFor(model => skill.Name)</a>
 			</td>
 			<td>
 				@Html.DisplayFor(model => skill.Key)
@@ -62,10 +64,14 @@
 				@Html.DisplayFor(model => skill.AlgorithmName)
 			</td>
 			<td>
+				<a href=@Url.Action("SkillRoutes", new {id=skill.Id })><i class="fa fa-navicon"></i></a>
+			</td>
+			<td>
 				<a href=@Url.Action("Edit", new { id = skill.Id })><i class="fa fa-edit"></i></a>
 				|
 				<a href=@Url.Action("Delete", new { id = skill.Id })><i class="fa fa-close"></i></a>
 			</td>
+			
 		</tr>
 	}
 </table>

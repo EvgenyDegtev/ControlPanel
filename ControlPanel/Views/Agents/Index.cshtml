@@ -71,6 +71,7 @@
 			@Html.Sort(Model.SearchString, Model.PagedAgents.PageNumber.ToString(), nameof(Agent.IsAlgorithmAllowServiceLevel), Model.SelectedSortProperty, Model.SortOrder, (nameof(Model.SelectedGroupId), Model.SelectedGroupId.ToString()), (nameof(Model.SelectedAlgorithmId), Model.SelectedAlgorithmId.ToString()), (nameof(Model.IsServiceLevel), Model.IsServiceLevel.ToString()))
 		</th>
 		<th>
+			
 			@Html.DisplayNameFor(model => model.PagedAgents.ToList().FirstOrDefault().Group.Name)
 			@Html.Sort(Model.SearchString, Model.PagedAgents.PageNumber.ToString(),nameof(Agent.Group), Model.SelectedSortProperty, Model.SortOrder, (nameof(Model.SelectedGroupId), Model.SelectedGroupId.ToString()), (nameof(Model.SelectedAlgorithmId), Model.SelectedAlgorithmId.ToString()), (nameof(Model.IsServiceLevel), Model.IsServiceLevel.ToString()))
 		</th>
@@ -83,7 +84,7 @@
 	{
 		<tr>
 			<td>
-				@Html.DisplayFor(model => agent.Name)
+				<a href=@Url.Action("Edit", new {id=agent.Id })>@Html.DisplayFor(model => agent.Name)</a>
 			</td>
 			<td>
 				@Html.DisplayFor(model => agent.Login)
@@ -98,7 +99,7 @@
 				@Html.DisplayFor(model => agent.IsAlgorithmAllowServiceLevel)
 			</td>
 			<td>
-				@Html.DisplayFor(model => agent.Group.Name)
+				<a href=@Url.Action("Edit","Groups", new {id=agent.GroupId })>@Html.DisplayFor(model => agent.Group.Name)</a>
 			</td>
 			<td>
 				<a href=@Url.Action("Edit", new {id=agent.Id })><i class="fa fa-edit"></i></a>

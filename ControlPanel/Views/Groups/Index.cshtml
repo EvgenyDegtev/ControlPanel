@@ -17,7 +17,6 @@
 		@using (Html.BeginForm("Index", "Groups"))
 		{
 		<div class="form-group">
-			@*<label class="control-label">Группа: </label>*@
 			<div class="input-group">
 				<span class="input-group-addon"><i class="fa fa-search"></i></span>
 				<input type="text" name="searchString" value="@Model.SearchString" data-autocomplete-source='@Url.Action("AutocompleteSearch","Groups")' class="form-control" placeholder="Введите группу" id="searchId" />
@@ -40,6 +39,9 @@
 			@Html.Sort(Model.SearchString, Model.PagedGroups.PageNumber.ToString(), nameof(Group.Name), Model.SelectedSortProperty, Model.SortOrder,(nameof(Model.Description),Model.Description))
 		</th>
 		<th>
+			Агенты
+		</th>
+		<th>
 			@Html.DisplayNameFor(model => model.PagedGroups.ToList().FirstOrDefault().Description)
 			@Html.Sort(Model.SearchString, Model.PagedGroups.PageNumber.ToString(), nameof(Group.Description), Model.SelectedSortProperty, Model.SortOrder,(nameof(Model.Description), Model.Description))
 		</th>
@@ -50,7 +52,10 @@
 	{
 		<tr>
 			<td>
-				@Html.DisplayFor(model => group.Name)
+				<a href=@Url.Action("Edit", new { id = group.Id })>@Html.DisplayFor(model => group.Name)</a>
+			</td>
+			<td>
+				<a href=@Url.Action("GroupAgents", new {id=group.Id })><i class="fa fa-address-book"></i></a>
 			</td>
 			<td>
 				@Html.DisplayFor(model => group.Description)
