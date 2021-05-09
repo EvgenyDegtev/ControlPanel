@@ -57,16 +57,12 @@
 		<div class="form-group">
 			<div class="col-md-offset-2 col-md-10">
 				<input type="submit" value="Сохранить" class="btn btn-default" />
-				<a class="btn btn-primary">навыки</a>
+				@Html.ActionLink("Навыки", "AgentSkills", new { id = Model.Agent.Id }, new { @class = "btn btn-primary" })
 			</div>
 		</div>
 	</div>
 
 	<div>
-		@Html.ActionLink("Back to List", "Index")
+		<a href=@Url.Action("Index") class="btn btn-primary"><i class="fa fa-arrow-left"></i> К списку агентов</a>
 	</div>
-	<div>
-		@Html.ActionLink("Навыки", "AgentSkills", new { id = Model.Agent.Id })
-	</div>
-
 }

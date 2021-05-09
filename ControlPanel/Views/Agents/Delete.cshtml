@@ -49,7 +49,7 @@
 				</dd>
 			</dl>
 
-			@using (Html.BeginForm())
+			@using (Html.BeginForm(new {id=Model.Id }))
 			{
 				<div class="form-actions no-color">
 					<input type="submit" value="Удалить" class="btn btn-default" />

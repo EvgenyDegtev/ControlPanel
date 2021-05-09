@@ -16,7 +16,7 @@ namespace ControlPanel.Models
         [MaxLength(100,ErrorMessage = "Максимальная длина - 100 символов")]
         public string Name { get; set; }
 
-        [Display(Name ="Key")]
+        [Display(Name ="ID")]
         [Required(ErrorMessage = "Требуется поле ID")]
         [MaxLength(100,ErrorMessage = "Максимальная длина - 100 символов")]
         [Remote(action: "CheckKeyUnique", controller: "Routes", AdditionalFields = nameof(Id))]
