@@ -1,15 +1,12 @@
 ﻿@model ControlPanel.ViewModels.AgentCreateViewModel
 
-<h2>Edit</h2>
+<h2>Настройки агента: @Model.Agent.Name</h2>
 <hr />
 
 
 @using (Html.BeginForm())
 {
 	<div class="form-horizontal">
-		<h4>Agent</h4>
-		<hr />
-
 		@Html.HiddenFor(model => model.Agent.Id)
 
 		<div class="form-group">
@@ -60,6 +57,7 @@
 		<div class="form-group">
 			<div class="col-md-offset-2 col-md-10">
 				<input type="submit" value="Сохранить" class="btn btn-default" />
+				<a class="btn btn-primary">навыки</a>
 			</div>
 		</div>
 	</div>

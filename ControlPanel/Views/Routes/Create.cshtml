@@ -1,13 +1,11 @@
 ﻿@model ControlPanel.ViewModels.RouteCreateViewModel
 
-<h2>Create</h2>
+<h2>Добавить маршрут</h2>
 
 @using (Html.BeginForm())
 {
 	<div class="form-horizontal">
-		<h4>Route</h4>
 		<hr/>
-
 		<div class="form-group">
 			@Html.LabelFor(model=>model.Route.Name, htmlAttributes:new {@class=" control-label col-md-2" })
 			<div class="col-md-10">
@@ -33,7 +31,7 @@
 
 		<div class="form-group">
 			<div class="col-md-offset-2 col-md-10">
-				<input type="submit" value="Create" class="btn btn-default" />
+				<input type="submit" value="Сохранить" class="btn btn-default" />
 			</div>
 		</div>
 

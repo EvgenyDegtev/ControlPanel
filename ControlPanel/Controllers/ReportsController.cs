@@ -93,7 +93,7 @@ namespace ControlPanel.Controllers
 
         private string CreateCsvReport<T>(Report report, List<T> reportData)
         {
-            string pathCsvFile = $@"C:\Users\EDegtev\AppData\Roaming\ControlPanel\{report.Name}.csv";
+            string pathCsvFile = $@"C:\Users\Edegt\AppData\Roaming\ControlPanel\{report.Name}.csv";
 
             using (StreamWriter streamWriter = new StreamWriter(pathCsvFile))
             {

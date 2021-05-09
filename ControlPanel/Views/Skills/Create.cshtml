@@ -1,13 +1,11 @@
 ﻿@model ControlPanel.ViewModels.SkillCreateViewModel
 
-<h2>Create</h2>
+<h2>Добавить навык</h2>
 
 @using (Html.BeginForm())
 {
 <div class="form-horizontal">
-	<h4>Skill</h4>
 	<hr />
-
 	<div class="form-group">
 		@Html.LabelFor(model => model.Skill.Name, new { @class = "control-label col-md-2" })
 		<div class="col-md-10">
@@ -33,7 +31,7 @@
 
 	<div class="form-group col-md-offset-2">
 		<div class="col-md-offset-2 col-md-10">
-			<input value="Create" type="submit" class="btn btn-default" />
+			<input value="Сохранить" type="submit" class="btn btn-default" />
 		</div>
 
 	</div>

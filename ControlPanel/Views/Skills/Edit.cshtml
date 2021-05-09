@@ -1,13 +1,11 @@
 ﻿@model ControlPanel.ViewModels.SkillCreateViewModel
 
-<h2>Edit</h2>
+<h2>Настройки навыка: @Model.Skill.Name</h2>
+<hr />
 
 @using(Html.BeginForm())
 {
 	<div class="form-horizontal">
-		<h4>Skill</h4>
-		<hr />
-
 		@Html.HiddenFor(model=>model.Skill.Id)
 
 		<div class="form-group">
@@ -35,7 +33,7 @@
 
 		<div class="form-group">
 			<div class="col-md-10 col-md-offset-2">
-				<input type="submit" value="Save" class="btn btn-default" />
+				<input type="submit" value="Сохранить" class="btn btn-default" />
 			</div>
 		</div>
 	</div>

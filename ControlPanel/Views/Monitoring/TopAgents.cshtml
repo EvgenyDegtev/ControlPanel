@@ -1,4 +1,4 @@
-﻿<h2>Мониторинг агентов</h2>
+﻿<h2>Мониторинг агентов в системе</h2>
 <div id="time"></div>
 <br />
 
@@ -17,6 +17,12 @@
 
 <script>
 	"use strict";
+	//Action
+	console.log(new Date().toTimeString() + " Script started");
+	updateTime();
+	updateTable();
+	setInterval(updateTime, 10000);
+	setInterval(updateTable, 10000);
 
 	//Agent class
 	class Agent {
@@ -109,13 +115,5 @@
 	function updateTime() {
 		document.getElementById("time").innerHTML = new Date().toTimeString();
 		console.log(new Date().toTimeString() +" Func updateTime started");
-	}
-
-	//Action
-	console.log(new Date().toTimeString() + " Script started");
-	updateTime();
-	updateTable();
-	setInterval(updateTime, 10000);
-	setInterval(updateTable, 10000);
-	
+	}	
 </script>

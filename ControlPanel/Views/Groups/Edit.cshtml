@@ -1,14 +1,13 @@
 ﻿@model ControlPanel.Models.Group
 
-<h2>Edit</h2>
+<h2>Настройки группы: @Model.Name</h2>
+<hr />
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>Group</h4>
-        <hr />
         @Html.HiddenFor(model => model.Id)
 
         <div class="form-group">
@@ -29,7 +28,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Сохранить" class="btn btn-default" />
             </div>
         </div>
     </div>
