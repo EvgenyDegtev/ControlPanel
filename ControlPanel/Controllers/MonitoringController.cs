@@ -42,7 +42,7 @@ namespace ControlPanel.Controllers
         public async Task<ActionResult> GetTopAgents()
         {
             var agents = await agentRepository.GetAgentsIncludeGroupAsync();
-            var monitoringAgents = agents.Select(agent => new { name = agent.Name, login = agent.Login, algorithm = agent.Algorithm }).Take(10).ToList();
+            var monitoringAgents = agents.Select(agent => new { name = agent.Name, login = agent.Login, algorithm = agent.AlgorithmName }).Take(10).ToList();
             //Thread.Sleep(5000);
             return Json(monitoringAgents, JsonRequestBehavior.AllowGet);
         }
@@ -51,7 +51,7 @@ namespace ControlPanel.Controllers
         public async Task<ActionResult> GetTopSkills()
         {
             var skills = await skillRepository.GetSkillsAsync();
-            var monitoringSkills = skills.Select(skill=>new {name=skill.Name,key=skill.Key,algorithm=skill.Algorithm }).Take(10).ToList();
+            var monitoringSkills = skills.Select(skill=>new {name=skill.Name,key=skill.Key,algorithm=skill.AlgorithmName }).Take(10).ToList();
             return Json(monitoringSkills, JsonRequestBehavior.AllowGet);
         }
 
