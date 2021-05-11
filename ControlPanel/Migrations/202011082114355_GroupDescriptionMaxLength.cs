@@ -18,13 +18,13 @@ namespace ControlPanel.Migrations
                     })
                 .PrimaryKey(t => t.Id);
             
-            CreateIndex("dbo.Agents", "Name");
-            CreateIndex("dbo.Agents", "Login", unique: true);
-            CreateIndex("dbo.Skills", "Name");
-            CreateIndex("dbo.Skills", "Key", unique: true);
-            CreateIndex("dbo.Routes", "Name");
-            CreateIndex("dbo.Routes", "Key", unique: true);
-            CreateIndex("dbo.Groups", "Name", unique: true);
+            //CreateIndex("dbo.Agents", "Name");
+            //CreateIndex("dbo.Agents", "Login", unique: true);
+            //CreateIndex("dbo.Skills", "Name");
+            //CreateIndex("dbo.Skills", "Key", unique: true);
+            //CreateIndex("dbo.Routes", "Name");
+            //CreateIndex("dbo.Routes", "Key", unique: true);
+            //CreateIndex("dbo.Groups", "Name", unique: true);
         }
         
         public override void Down()
