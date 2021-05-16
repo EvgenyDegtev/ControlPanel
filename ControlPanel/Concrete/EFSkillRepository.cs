@@ -87,6 +87,7 @@ namespace ControlPanel.Concrete
             var skill = context.Skills.Find(id);
             if(skill!=null)
             {
+                var relatedRoutes = context.Routes.Where(route => route.SkillId == skill.Id);
                 context.Skills.Remove(skill);
             }
         }
@@ -96,6 +97,12 @@ namespace ControlPanel.Concrete
             var skill = await context.Skills.FindAsync(id);
             if (skill != null)
             {
+                var relatedRoutes = context.Routes.Where(route => route.SkillId == skill.Id);
+                foreach (var route in relatedRoutes)
+                {
+                    route.Skill = null;
+                    //route.SkillId = null;
+                }
                 context.Skills.Remove(skill);
             }
         }

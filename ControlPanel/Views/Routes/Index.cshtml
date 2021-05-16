@@ -78,7 +78,7 @@
 			<td>
 				<a href=@Url.Action("Edit", new { id = route.Id })><i class="fa fa-edit"></i></a>
 				|
-				<a href=@Url.Action("Delete", new { id = route.Id })><i class="fa fa-close"></i></a>
+				<a href=@Url.Action("Delete", new { id = route.Id }) class="deleteRoute"><i class="fa fa-close"></i></a>
 			</td>
 		</tr>
 	}
@@ -87,6 +87,10 @@
 Страница @(Model.PagedRoutes.PageCount<Model.PagedRoutes.PageNumber?0:Model.PagedRoutes.PageNumber) из @Model.PagedRoutes.PageCount
 @Html.PagedListPager(Model.PagedRoutes, currentPage => Url.Action("Index", new { page = currentPage, searchString = Model.SearchString, sortOrder = Model.SortOrder, selectedEntityName = Model.SelectedSortProperty, selectedSkillId=Model.SelectedSkillId.ToString() }))
 
+<div id="modDialog" class="modal fade" tabindex="-1" role="dialog">
+	<div id="dialogContent" class="modal-dialog" role="document"></div>
+</div>
+
 <script type="text/javascript">
     $(function () {
         $("[data-autocomplete-source]").each(function () {
@@ -94,4 +98,19 @@
 			target.autocomplete({ source: target.attr("data-autocomplete-source"), minLength: 1, classes: { "class": "btn btn-primary"} });
         });
     });
+</script>
+
+<script>
+
+	$(function () {
+		$.ajaxSetup({ cache: false });
+		$(".deleteRoute").click(function (e) {
+
+			e.preventDefault();
+			$.get(this.href, function (data) {
+				$('#dialogContent').html(data);
+				$('#modDialog').modal('show');
+			});
+		});
+	})
 </script>

@@ -63,7 +63,7 @@
 			<td>
 				<a href=@Url.Action("Edit", new { id = group.Id })><i class="fa fa-edit"></i></a>
 				|
-				<a href=@Url.Action("Delete", new { id = group.Id })><i class="fa fa-close"></i></a>
+				<a href=@Url.Action("Delete", new { id = group.Id }) class="deleteGroup"><i class="fa fa-close"></i></a>
 			</td>
 		</tr>
 	}
@@ -71,6 +71,10 @@
 
 Страница @(Model.PagedGroups.PageCount< Model.PagedGroups.PageNumber?0:Model.PagedGroups.PageNumber) из @Model.PagedGroups.PageCount
 @Html.PagedListPager(Model.PagedGroups, currentPage => Url.Action("Index", new { page = currentPage, searchString = Model.SearchString, description=Model.Description }))
+
+<div id="modDialog" class="modal fade" tabindex="-1" role="dialog">
+	<div id="dialogContent" class="modal-dialog" role="document"></div>
+</div>
 
 <script type="text/javascript">
     $(function () {
@@ -84,4 +88,19 @@
 			target.autocomplete({ source: target.attr("data-autocomplete-source"), minLength: 1, classes: { "ui-autocomplete": "highlight" } });
 		});
 	});
+</script>
+
+<script>
+
+	$(function () {
+		$.ajaxSetup({ cache: false });
+		$(".deleteGroup").click(function (e) {
+
+			e.preventDefault();
+			$.get(this.href, function (data) {
+				$('#dialogContent').html(data);
+				$('#modDialog').modal('show');
+			});
+		});
+	})
 </script>

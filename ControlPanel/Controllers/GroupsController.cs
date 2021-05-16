@@ -112,7 +112,7 @@ namespace ControlPanel.Controllers
             {
                 return HttpNotFound();
             }
-            return View(group);
+            return PartialView(group);
         }
 
         [HttpPost]

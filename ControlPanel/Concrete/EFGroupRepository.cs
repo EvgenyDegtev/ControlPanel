@@ -98,6 +98,11 @@ namespace ControlPanel.Concrete
             var group = await context.Groups.FindAsync(id);
             if (group != null)
             {
+                var relatedAgents = context.Agents.Where(agent => agent.GroupId == group.Id);
+                foreach(var agent in relatedAgents)
+                {
+                    agent.Group = null;
+                }
                 context.Groups.Remove(group);
             }
         }

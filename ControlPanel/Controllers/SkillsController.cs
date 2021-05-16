@@ -112,7 +112,7 @@ namespace ControlPanel.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
             }
-            return View(skill);
+            return PartialView(skill);
         }
 
         [HttpPost]
