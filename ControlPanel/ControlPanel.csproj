@@ -291,6 +291,7 @@
     <Compile Include="ViewModels\AgentAddSkillConfirmationViewModel.cs" />
     <Compile Include="ViewModels\AgentAddSkillViewModel.cs" />
     <Compile Include="ViewModels\AgentCreateViewModel.cs" />
+    <Compile Include="ViewModels\AgentReportViewModel.cs" />
     <Compile Include="ViewModels\AgentsIndexViewModel.cs" />
     <Compile Include="ViewModels\AgentSkillsViewModel.cs" />
     <Compile Include="ViewModels\GroupsIndexViewModel.cs" />
@@ -299,6 +300,7 @@
     <Compile Include="ViewModels\ReportsIndexViewModel.cs" />
     <Compile Include="ViewModels\RoutesIndexViewModel.cs" />
     <Compile Include="ViewModels\SkillCreateViewModel.cs" />
+    <Compile Include="ViewModels\SkillReportViewModel.cs" />
     <Compile Include="ViewModels\SkillsIndexViewModel.cs" />
     <Compile Include="ViewModels\RouteCreateViewModel.cs" />
   </ItemGroup>

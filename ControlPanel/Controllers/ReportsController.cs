@@ -11,6 +11,7 @@ using NLog;
 using System.Threading.Tasks;
 using System.Runtime.Serialization.Formatters.Binary;
 using CsvHelper;
+using CsvHelper.Configuration;
 using System.Globalization;
 using ControlPanel.ViewModels;
 using System.Net;
@@ -53,51 +54,75 @@ namespace ControlPanel.Controllers
         [HttpPost]
         public async Task<ActionResult> GetReport(string actionName, [Bind] Report report)
         {
-            if(actionName.ToLower()=="preview")
+            if(actionName.ToLower()=="preview"&& report.Name == "AgentReport")
             {
-                if(report.Name== "AgentReport")
-                {
-                    var agentsForReport = await agentRpository.GetAgentsIncludeGroupAsync();
-                    agentsForReport = agentsForReport.Take(10).OrderBy(agent => agent.Login).ToList();
-                    return View("GetAgentReport",agentsForReport);
-                }
-                else
-                {
-                    var skillsForReport = skillRepository.GetSkillsFromSqlQuery();
-                    skillsForReport = skillsForReport.Take(10).OrderBy(skill => skill.Key).ToList();
-                    return View("GetSkillReport", skillsForReport);
-                }
+                var agentsForReport = await agentRpository.GetAgentsIncludeGroupAsync();
+                agentsForReport = agentsForReport.Take(10).OrderBy(agent => agent.Login).ToList();
+                return View("GetAgentReport", agentsForReport);
             }
-                
-            string csvFilePath=null;
+            if(actionName.ToLower() == "preview" && report.Name =="SkillReport")
+            {
+                var skillsForReport = skillRepository.GetSkillsFromSqlQuery();
+                skillsForReport = skillsForReport.Take(10).OrderBy(skill => skill.Key).ToList();
+                return View("GetSkillReport", skillsForReport);
+            }
+
+            var csvFilePath=await GetCsvFilePath(report);
+            string fileType = "application/csv";
+            string fileName = $"{report.Name}_{report.DateFrom}_{report.DateTo}.csv";
+            return File(csvFilePath, fileType, fileName);
+        }
+
+        private async Task<string> GetCsvFilePath(Report report)
+        {
+            string csvFilePath = null;
             switch (report.Name)
             {
                 case "AgentReport":
-                    var agentsForReport = await agentRpository.GetAgentsAsync();
-                    csvFilePath=CreateCsvReport<Agent>(report, agentsForReport);
+                    var agents = await agentRpository.GetAgentsAsync();
+                    List<AgentReportViewModel> agentsForReport = agents
+                        .Select(agent => new AgentReportViewModel
+                        {
+                            Id = agent.Id,
+                            Name = agent.Name,
+                            Login = agent.Login,
+                            WorkloadMaxContactsCount = agent.WorkloadMaxContactsCount,
+                            IsAlgorithmAllowServiceLevel = agent.IsAlgorithmAllowServiceLevel,
+                            Algorithm = agent.Algorithm
+                        }
+                        ).ToList();
+
+                    csvFilePath = CreateCsvReport<AgentReportViewModel>(report, agentsForReport);
                     break;
 
                 case "SkillReport":
                     //var skillsForReport = await skillRepository.GetSkillsAsync();
-                    var skillsForReport = skillRepository.GetSkillsFromSqlQuery();
-                    csvFilePath = CreateCsvReport<Skill>(report, skillsForReport);
+                    var skills = skillRepository.GetSkillsFromSqlQuery();
+                    List<SkillReportViewModel> skillsForReport = skills
+                        .Select(skill => new SkillReportViewModel
+                        {
+                            Id = skill.Id,
+                            Key = skill.Key,
+                            Name = skill.Name,
+                            Algorithm = skill.Algorithm
+                        }
+                        ).ToList();
+                    csvFilePath = CreateCsvReport<SkillReportViewModel>(report, skillsForReport);
                     break;
                 default:
-                    break;
+                    break;                    
             }
-            string fileType = "application/csv";
-            string fileName = $"{report.Name}_{report.DateFrom}_{report.DateTo}.csv";
-
-            return File(csvFilePath, fileType, fileName);
+            return csvFilePath;
         }
 
         private string CreateCsvReport<T>(Report report, List<T> reportData)
         {
             string pathCsvFile = $@"C:\Users\Edegt\AppData\Roaming\ControlPanel\{report.Name}.csv";
-
+            CsvConfiguration configuration = new CsvConfiguration(CultureInfo.CurrentCulture);
+            configuration.Encoding = Encoding.GetEncoding(1251);
             using (StreamWriter streamWriter = new StreamWriter(pathCsvFile))
             {
-                using (CsvWriter csvWriter = new CsvWriter(streamWriter, CultureInfo.InvariantCulture))
+                using (CsvWriter csvWriter = new CsvWriter(streamWriter, configuration))
                 {
                     csvWriter.Configuration.Delimiter = ";";
                     csvWriter.WriteRecords(reportData);
