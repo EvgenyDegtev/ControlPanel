@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ControlPanel.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace ControlPanel.ViewModels
 {

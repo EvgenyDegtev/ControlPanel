@@ -169,8 +169,10 @@ namespace ControlPanel.Controllers
 
         [HttpGet]
         [ErrorLogger]
-        public async Task<JsonResult> CheckKeyUnique (string key, int? id)
+        public async Task<JsonResult> CheckKeyUnique ([Bind] Route route)
         {
+            string key = route.Key;
+            int? id = route.Id;
             logger.Info($"Action Start | Controller name: {nameof(RoutesController)} | Action name: {nameof(CheckKeyUnique)} | Input params: {nameof(key)}={key}, {nameof(id)}={id}");
             var routesAlreadyInDb = await repository.FindRoutesByKeyAsync(key);
 

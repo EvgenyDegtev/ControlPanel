@@ -164,8 +164,10 @@ namespace ControlPanel.Controllers
 
         [HttpGet]
         [ErrorLogger]
-        public async Task<JsonResult> CheckKeyUnique(string key, int? id)
+        public async Task<JsonResult> CheckKeyUnique([Bind] Skill skill/*string key, int? id*/)
         {
+            string key = skill.Key;
+            int? id = skill.Id;
             logger.Info($"Action Start | Controller name: {nameof(SkillsController)} | Action name: {nameof(CheckKeyUnique)} | Input params: {nameof(key)}={key}, {nameof(id)}={id}");
             var skillsAlreadyInDb=await repository.FindSkillsByKeyAsync(key);
 

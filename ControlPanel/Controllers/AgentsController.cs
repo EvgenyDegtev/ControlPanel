@@ -176,10 +176,12 @@ namespace ControlPanel.Controllers
 
         [HttpGet]
         [ErrorLogger]
-        public async Task<JsonResult> CheckLoginUnique (string login, int? id)
+        public async Task<JsonResult> CheckLoginUnique ([Bind] Agent agent)
         {
-            logger.Info($"Action Start | Controller name: {nameof(AgentsController)} | Action name: {nameof(CheckLoginUnique)} | Input params: {nameof(login)}={login}, {nameof(id)}={id}");
-            var agentsAlreadyInDb = await repository.FindAgentsByLoginAsync(login);
+            string Login = agent.Login;
+            int? id = agent.Id;
+            logger.Info($"Action Start | Controller name: {nameof(AgentsController)} | Action name: {nameof(CheckLoginUnique)} | Input params: {nameof(Login)}={Login}, {nameof(id)}={id}");
+            var agentsAlreadyInDb = await repository.FindAgentsByLoginAsync(Login);
 
             if(agentsAlreadyInDb.Count() <= 0)
             {
@@ -195,7 +197,7 @@ namespace ControlPanel.Controllers
                 }
                 else
                 {
-                    return Json($"Агент с логином {login} уже существует", JsonRequestBehavior.AllowGet);
+                    return Json($"Агент с логином {Login} уже существует", JsonRequestBehavior.AllowGet);
                 }
             }
         }
